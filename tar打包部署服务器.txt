@@ -1,6 +1,3 @@
-tar -czvf  ss_frp.tar.gz
-
-
 tar -czv -T filelist -f ss_frp.tar.gz
 -T 选项可以指定包含要备份的文件列表
 
@@ -26,3 +23,17 @@ tar -xzvf ss_frp.tar.gz -C /指定目录
 /usr/local/brook/brook.conf
 /usr/local/frps/frps
 /usr/local/frps/frps.ini
+
+
+更换新机器后
+====================
+apt-get update
+apt-get install gcc git nginx htop screen iperf3
+passwd root
+git clone https://github.com/hongwenjun/vps_setup.git
+
+tar -xzvf ss_frp.tar.gz -C /
+
+systemctl enable frps
+systemctl enable brook 
+systemctl enable shadowsocks-go
