@@ -1,10 +1,10 @@
 #!/bin/bash
 
-PASSWORD=srgb.xyz
+PASSWORD=xxx
 
 # 客户端配置参考(前两个可以路由运行,但是最后一个最好不要,路由性能有限,会让你觉得网络卡炸的.)
 #
-# udp2raw -c -r35.231.111.220:40002 -l0.0.0.0:40003 -kxxx --raw-mode faketcp -a --cipher-mode none --auth-mode simple
+# udp2raw -c -r 144.202.95.95:40002 -l 0.0.0.0:40003 -kxxx --raw-mode faketcp -a --cipher-mode none --auth-mode simple
 # kcp-client  -l :9527 -r 10.0.0.1:40003 -key "xxx" -crypt none -mode fast3
 # SS 客户端 => 混淆:aes-256-gcm,IP:127.0.0.1:9527,密码:刚才设置的密码.
 
@@ -59,7 +59,7 @@ cat <<EOF >/etc/rc.local
 
 ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
 kcp-server -t "127.0.0.1:40000" -l "127.0.0.1:40001" --mode fast3 --key "${PASSWORD}" --crypt "none"  >> /var/log/kcp-server.log &
-udp2raw -s -l0.0.0.0:40002 -r 127.0.0.1:40001 -kxxx --raw-mode faketcp -a --cipher-mode none --auth-mode simple  >> /var/log/udp2raw.log &
+udp2raw -s -l 0.0.0.0:40002 -r 127.0.0.1:40001 -k ${PASSWORD} --raw-mode faketcp -a --cipher-mode none --auth-mode simple  >> /var/log/udp2raw.log &
 
 exit 0
 EOF
