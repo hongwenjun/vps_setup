@@ -3,10 +3,21 @@
 PASSWORD=xxx
 
 # 客户端配置参考(前两个可以路由运行,但是最后一个最好不要,路由性能有限,会让你觉得网络卡炸的.)
-#
-# udp2raw -c -r 144.202.95.95:40002 -l 0.0.0.0:40003 -kxxx --raw-mode faketcp -a --cipher-mode none --auth-mode simple
-# kcp-client  -l :9527 -r 10.0.0.1:40003 -key "xxx" -crypt none -mode fast3
-# SS 客户端 => 混淆:aes-256-gcm,IP:127.0.0.1:9527,密码:刚才设置的密码.
+# 在本地windows 运行udp2raw 和 kcp-client，假设server ip是144.202.95.95：
+# ./udp2raw -c -r144.202.95.95:8855 -l0.0.0.0:4000 -k"passwd" --raw-mode faketcp
+# ./kcp-client -r "127.0.0.1:4000" -l ":3322" -mode fast2 -mtu 1300
+# SS 客户端 => 混淆:aes-256-gcm, IP:127.0.0.1:3322, 密码:刚才设置的密码.
+# 加速的 SSH登陆  # ssh -p 3322 root@127.0.0.1
+
+# 远程服务器参数参考 ss-server   udp2raw  kcp-server 参考
+# ss-server -s 127.0.0.1 -p 40000 -k xxx -m aes-256-gcm -t 300
+# udp2raw -s -l0.0.0.0:8855 -r 127.0.0.1:4000 -k "passwd" --raw-mode faketcp
+# kcp-server -t "127.0.0.1:40000" -l ":4000" -mode fast2 -mtu 1300
+
+# 加速SSH使用参数
+# kcp-server -t "127.0.0.1:22"  -l ":4000"  -mode fast2 -mtu 1300
+
+
 
 
 # 安装基本软件
@@ -58,8 +69,8 @@ cat <<EOF >/etc/rc.local
 # By default this script does nothing.
 
 ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
-kcp-server -t "127.0.0.1:40000" -l "127.0.0.1:40001" --mode fast3 --key "${PASSWORD}" --crypt "none"  >> /var/log/kcp-server.log &
-udp2raw -s -l 0.0.0.0:40002 -r 127.0.0.1:40001 -k ${PASSWORD} --raw-mode faketcp -a --cipher-mode none --auth-mode simple  >> /var/log/udp2raw.log &
+kcp-server -t "127.0.0.1:40000" -l ":4000" -mode fast2 -mtu 1300  >> /var/log/kcp-server.log &
+udp2raw -s -l0.0.0.0:8855 -r 127.0.0.1:4000 -k "passwd" --raw-mode faketcp  >> /var/log/udp2raw.log &
 
 exit 0
 EOF
