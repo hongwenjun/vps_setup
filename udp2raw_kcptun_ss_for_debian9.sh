@@ -35,7 +35,7 @@ rm client_linux_amd64
 rm server_linux_amd64
 
 #下载UDP2RAW
-wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20180225.0/udp2raw_binaries.tar.gz
+wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20180830.2/udp2raw_binaries.tar.gz
 tar xf udp2raw_binaries.tar.gz
 mv udp2raw_amd64 /usr/bin/udp2raw
 rm udp2raw* -rf
