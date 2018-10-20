@@ -107,5 +107,7 @@ systemctl enable shadowsocks-go
 udp2raw_kcptun_ss_for_debian9.sh
 ================================================
 ```
-wget --no-check-certificate -O vps_setup.sh   https://raw.githubusercontent.com/hongwenjun/vps_setup/master/udp2raw_kcptun_ss_for_debian9.sh  && chmod +x vps_setup.sh && ./vps_setup.sh
+wget --no-check-certificate -O vps_setup.sh   \
+https://raw.githubusercontent.com/hongwenjun/vps_setup/master/udp2raw_kcptun_ss_for_debian9.sh && \
+chmod +x vps_setup.sh && ./vps_setup.sh
 ```
