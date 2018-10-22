@@ -104,10 +104,9 @@ systemctl enable brook
 systemctl enable shadowsocks-go
 ```
 
-udp2raw_kcptun_ss_for_debian9.sh
+udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
 ================================================
 ```
-wget --no-check-certificate -O vps_setup.sh   \
-https://raw.githubusercontent.com/hongwenjun/vps_setup/master/udp2raw_kcptun_ss_for_debian9.sh && \
+wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
 chmod +x vps_setup.sh && ./vps_setup.sh
 ```
