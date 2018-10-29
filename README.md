@@ -90,7 +90,7 @@ tar -xzvf ss_frp.tar.gz -C /指定目录
 /usr/local/frps/frps.ini
 
 
-更换新机器后
+### 更换新机器后
 ====================
 apt-get update
 apt-get install gcc git nginx htop screen iperf3
@@ -103,8 +103,11 @@ systemctl enable frps
 systemctl enable brook 
 systemctl enable shadowsocks-go
 ```
+### 一键脚本
+	wget -qO- git.io/fxQug | bash
 
-udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
+
+### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
 ================================================
 ```
 wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
