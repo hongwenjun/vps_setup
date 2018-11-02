@@ -10,7 +10,7 @@ vnstat -m >> ${INDEX_HTML}
 vnstat -d >> ${INDEX_HTML}
 vnstat -h >> ${INDEX_HTML}
 
-top | head -5 >> ${INDEX_HTML}
+top -b  | head -5 >> ${INDEX_HTML}
 
 ######################################
 
