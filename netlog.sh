@@ -4,13 +4,14 @@ INDEX_HTML=/var/www/log/index.html
 
 echo '<pre>' > ${INDEX_HTML}
 
-vnstat -u
+top -b  | head -6 >> ${INDEX_HTML}
 
+vnstat -u
 vnstat -m >> ${INDEX_HTML}
 vnstat -d >> ${INDEX_HTML}
 vnstat -h >> ${INDEX_HTML}
 
-top -b  | head -5 >> ${INDEX_HTML}
+
 
 ######################################
 
