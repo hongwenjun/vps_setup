@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 INDEX_HTML=/var/www/log/index.html
+mkdir -p   /var/www/log/
 
 echo '<pre>' > ${INDEX_HTML}
 
