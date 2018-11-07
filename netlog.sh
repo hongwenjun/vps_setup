@@ -15,9 +15,9 @@ vnstat -h >> ${INDEX_HTML}
 
 ############# 安装使用 ################
 # apt-get install vnstat
-# crontab -e   修改定时任务, 添加两行 
+# crontab -e   修改定时任务, 添加运行脚本
 
-#  # netlog.sh  定时执行转html脚本
-#  8 *   *   *  *          wget -qO- git.io/fxxlb | bash
+#  # netlog.sh  定时执行转html脚本，每10分钟一次，为了修改方便和多台机器用，直接到github更新
+#  */10  *   *   *  *    wget -qO- git.io/fxxlb | bash
 
 ######################################
