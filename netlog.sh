@@ -12,6 +12,8 @@ vnstat -m >> ${INDEX_HTML}
 vnstat -d >> ${INDEX_HTML}
 vnstat -h >> ${INDEX_HTML}
 
+echo ' ' >> ${INDEX_HTML}
+echo ' netlog.sh 源码:  git.io/fxxlb' >> ${INDEX_HTML}
 
 ############# 安装使用 ################
 # apt-get install vnstat
