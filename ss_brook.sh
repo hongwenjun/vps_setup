@@ -2,7 +2,7 @@
 
 # 常用工具和配置
 apt-get update
-apt-get install htop tmux screen iperf3
+apt-get install -y htop tmux screen iperf3
 wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
 wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
 wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
