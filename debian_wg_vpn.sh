@@ -73,7 +73,7 @@ ListenPort = 9009
 DNS = 8.8.8.8
 
 # 保持默认
-MTU = 1420
+MTU = 1300
 
 [Peer]
 # 公匙，自动读取上面刚刚生成的密匙内容
@@ -96,14 +96,14 @@ Address = 10.0.0.2/24
 DNS = 8.8.8.8
 
 # 保持默认
-MTU = 1420
+MTU = 1300
 
 [Peer]
 # 公匙，自动读取上面刚刚生成的密匙内容
 PublicKey = $(cat spublickey)
 
 # 服务器地址和端口，下面的 X.X.X.X 记得更换为你的服务器公网IP，端口根据服务端配置时的监听端口填写
-Endpoint = sky.srgb.xyz:9009
+Endpoint = srgb.xyz:9009
 
 # 转发流量的IP范围，下面这个代表所有流量都走VPN
 AllowedIPs = 0.0.0.0/0, ::0/0
