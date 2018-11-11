@@ -103,9 +103,14 @@ systemctl enable frps
 systemctl enable brook 
 systemctl enable shadowsocks-go
 ```
-### 一键脚本
-	wget -qO- git.io/fxQug | bash
+### 一键脚本 ss_brook  和 wireguard
+```
+# ss_brook脚本
+wget -qO- git.io/fxQug | bash
+# wireguard 脚本
+wget -qO- git.io/fptwc | bash
 
+```
 
 ### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
 ================================================
@@ -113,3 +118,4 @@ systemctl enable shadowsocks-go
 wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
 chmod +x vps_setup.sh && ./vps_setup.sh
 ```
+
