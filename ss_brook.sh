@@ -21,3 +21,10 @@ systemctl enable shadowsocks-go
 /etc/init.d/frps start
 /etc/init.d/brook start
 /etc/init.d/shadowsocks-go start
+
+# 安装所需运行库
+apt update
+apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
+# 安装脚本 sku
+mkdir -p sku && cd sku && wget -O sku.tgz https://git.io/fxy7s && tar -xvf sku.tgz && ./sku.sh
+
