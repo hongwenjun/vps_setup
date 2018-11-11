@@ -22,6 +22,17 @@ systemctl enable shadowsocks-go
 /etc/init.d/brook start
 /etc/init.d/shadowsocks-go start
 
+# bbr 设置打开
+sysctl_config() {
+    sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
+    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    sysctl -p >/dev/null 2>&1
+}
+sysctl_config
+
+
 # 安装所需运行库
 apt update
 apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
