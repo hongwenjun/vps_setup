@@ -1,11 +1,14 @@
 #!/bin/bash
 
-# 高速新VPN协议WireGuard服务端手动教程
+# 高速新VPN协议WireGuard服务端一键脚本
+# GCP香港  和 Vutrl 测试可行，  gcp默认网卡eth0  ，Vutrl默认网卡 ens3，要修改服务端配置
+# OpenVZ不能用
 
 # Windows TunSafe版客户端
 # https://tunsafe.com/download
 
 # Debian9  安装 WireGuard 步骤
+# 详细参考逗比  https://doub.io/wg-jc1/
 
 # Debian 默认往往都没有 linux-headers 内核，而安装使用 WireGuard 必须要
 
