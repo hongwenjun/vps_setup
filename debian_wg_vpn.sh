@@ -98,6 +98,13 @@ DNS = 8.8.8.8
 # 保持默认
 MTU = 1300
 
+# Wireguard客户端配置文件加入PreUp,Postdown命令调用批处理文件
+PreUp = start   .\route\routes-up.bat
+PostDown = start  .\route\routes-down.bat
+
+#### 正常使用Tunsafe点击connect就会调用routes-up.bat将国内IP写进系统路由表，断开disconnect则会调用routes-down.bat删除路由表。
+#### 连接成功后可上 http://ip111.cn/ 测试自己的IP。
+
 [Peer]
 # 公匙，自动读取上面刚刚生成的密匙内容
 PublicKey = $(cat spublickey)
