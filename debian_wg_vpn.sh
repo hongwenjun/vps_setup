@@ -49,7 +49,10 @@ wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
 
-# 生成客户端配置文件
+# 获得服务器ip
+serverip=$(curl icanhazip.com)
+
+# 生成服务端配置文件
 
 echo "[Interface]
 # 私匙，自动读取上面刚刚生成的密匙内容
@@ -110,7 +113,7 @@ PostDown = start  .\route\routes-down.bat
 PublicKey = $(cat spublickey)
 
 # 服务器地址和端口，下面的 X.X.X.X 记得更换为你的服务器公网IP，端口根据服务端配置时的监听端口填写
-Endpoint = srgb.xyz:9009
+Endpoint = $serverip:9009
 
 # 转发流量的IP范围，下面这个代表所有流量都走VPN
 AllowedIPs = 0.0.0.0/0, ::0/0
