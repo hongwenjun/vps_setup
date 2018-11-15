@@ -50,7 +50,7 @@ wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
 
 # 获得服务器ip
-serverip=$(curl icanhazip.com)
+serverip=$(curl -4 icanhazip.com)
 
 # 生成服务端配置文件
 
@@ -121,6 +121,23 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 # 保持连接（具体我也不清楚）
 PersistentKeepalive = 25" > client.conf
 
+# 再次生成简洁的客户端配置
+echo "
+[Interface]
+PrivateKey = $(cat cprivatekey)
+Address = 10.0.0.2/24
+DNS = 8.8.8.8
+MTU = 1300
+PreUp = start   .\route\routes-up.bat
+PostDown = start  .\route\routes-down.bat
+
+[Peer]
+PublicKey = $(cat spublickey)
+Endpoint = $serverip:9009
+AllowedIPs = 0.0.0.0/0, ::0/0
+PersistentKeepalive = 25
+
+" > client.conf
 
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
