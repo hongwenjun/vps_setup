@@ -10,10 +10,12 @@ systemctl stop rc-local
 apt update
 apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
 
+# 脚本副本保存
+wget -O sku.sh  https://git.io/fpZIW   && chmod +x  sku.sh
+
 # 下载 ss-server
 wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
-cp ss-server  /usr/local/bin/ss-server
-
+chmod +x  ss-server  &&  mv ss-server /usr/local/bin/ss-server
 
 # 下载KCPTUN
 wget https://github.com/xtaci/kcptun/releases/download/v20181114/kcptun-linux-amd64-20181114.tar.gz
