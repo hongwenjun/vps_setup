@@ -33,9 +33,14 @@ sysctl_config() {
 sysctl_config
 
 
+# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
+wget -qO- git.io/fpZIW | bash
+
 # 安装所需运行库
-apt update
-apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
+# apt update
+# apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
 # 安装脚本 sku
-mkdir -p sku && cd sku && wget -O sku.tgz https://git.io/fxy7s && tar -xvf sku.tgz && ./sku.sh
+# mkdir -p sku && cd sku && wget -O sku.tgz https://git.io/fxy7s && tar -xvf sku.tgz && ./sku.sh
+
+
 
