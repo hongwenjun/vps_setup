@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PASSWORD=xxx
+PASSWORD=srgb.xyz
 
 # 客户端配置参考(前两个可以路由运行,但是最后一个最好不要,路由性能有限,会让你觉得网络卡炸的.)
 # 在本地windows 运行udp2raw 和 kcp-client，假设server ip是144.202.95.95：
@@ -38,7 +38,7 @@ cd ..
 rm shadowsocks-libev -rf
 
 #下载KCPTUN
-wget https://github.com/xtaci/kcptun/releases/download/v20181002/kcptun-linux-amd64-20181002.tar.gz
+https://github.com/xtaci/kcptun/releases/download/v20181114/kcptun-linux-amd64-20181114.tar.gz
 tar xf kcptun-linux-amd64-20181002.tar.gz 
 mv server_linux_amd64 /usr/bin/kcp-server
 rm kcptun-linux-amd64-20181002.tar.gz 
@@ -46,7 +46,7 @@ rm client_linux_amd64
 rm server_linux_amd64
 
 #下载UDP2RAW
-wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20180830.2/udp2raw_binaries.tar.gz
+wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20181113.0/udp2raw_binaries.tar.gz
 tar xf udp2raw_binaries.tar.gz
 mv udp2raw_amd64 /usr/bin/udp2raw
 rm udp2raw* -rf
@@ -68,9 +68,13 @@ cat <<EOF >/etc/rc.local
 #
 # By default this script does nothing.
 
+#  SS+KCP+UDP2RAW 加速  端口  8855
 ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
 kcp-server -t "127.0.0.1:40000" -l ":4000" -mode fast2 -mtu 1300  >> /var/log/kcp-server.log &
 udp2raw -s -l0.0.0.0:8855 -r 127.0.0.1:4000 -k "passwd" --raw-mode faketcp  >> /var/log/udp2raw.log &
+
+# WireGuard + UDP2RAW 伪装 TCP  预留端口  8866
+udp2raw -s -l0.0.0.0:8866 -r 127.0.0.1:9009 -k "passwd" --raw-mode faketcp  >> /var/log/wg_udp2raw.log &
 
 exit 0
 EOF
