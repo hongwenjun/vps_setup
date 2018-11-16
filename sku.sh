@@ -11,7 +11,7 @@ apt update
 apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
 
 # 下载 ss-server
-# wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
+wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
 cp ss-server  /usr/local/bin/ss-server
 
 
