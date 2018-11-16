@@ -6,12 +6,18 @@
 
 K2_BROOK="https://github.com/txthinking/brook/releases/download/v20180909/brook_linux_mipsle"
 
+
+# 修改成 brook 服务器实际的 IP 端口 和密码
+SERVER_IP=1.2.3.4
+PORT=1234
+PASSWORD=1234
+
 cd /tmp  &&  wget --no-check-certificate -O brook   ${K2_BROOK}
-chmod +x  brook  &&  ./brook client -l 0.0.0.0:2080 -i 127.0.0.1 -s  1.2.3.4:1234  -p  password  &
+chmod +x  brook  &&  ./brook client -l 0.0.0.0:2080 -i 127.0.0.1 -s  ${SERVER_IP}:${PORT}  -p  ${PASSWORD}  &
 top -b -n 1 | grep brook
 
 
-###-------------------------------------------------------------###
+###-------------------- brook 使用示例 ----------------------------------###
 # https://github.com/txthinking/brook
 
 # Run as a brook server
