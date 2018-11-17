@@ -13,20 +13,6 @@ https://www.vultr.com/?ref=7591742
 ## Wireguard 手机和PC客户端设置技巧
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
-## Shadowsocks + Kcp+Udp2Raw加速 和 Udp2Raw服务TCP伪装 WireGuard Windows Kcp+Udp2Raw 启动器 
-使用视频链接.1   https://youtu.be/A4edsGXQdIc
-
-使用视频链接.2   https://youtu.be/BvF6jQo_ZAo
-
-### 使用说明:
-1. 需要先安装 WinPcap_4_1_3.exe (已经包含和其他windows客户端)
-2. 修改 Windows_KCP.cmd 里的服务器IP参数，双击启动调试
-3. 双击 WinKcp_Launcher 管理 Windows_KCP.cmd 启动关闭 
-4. 电脑$$客户端设置  127.0.0.1:3322     密码:xxx   加密 aes-256-gcm
-5. 手机$$填PC电脑IP  192.168.1.188:3322 密码:xxx   加密 aes-256-gcm
-
-![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/windows_kcp.gif)
-
 ### 参数参考  udp2raw+kcptun 加速tcp流量 Step by Step 教程
 https://github.com/wangyu-/udp2raw-tunnel/blob/master/doc/kcptun_step_by_step.md
 
@@ -88,7 +74,7 @@ wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBest
 ```
 
 
-蘭雅sRGB 龙芯小本服务器 [http://sRGB.vicp.net](http://srgb.vicp.net)
+----------------------------------------------------
 
 
 ### 获取自己所需服务软件的信息
@@ -194,8 +180,6 @@ wget -qO- git.io/fxQug | bash
 # wireguard 脚本
 wget -qO- git.io/fptwc | bash
 
-
-
 ```
 
 ### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
@@ -203,9 +187,4 @@ wget -qO- git.io/fptwc | bash
 ```
 wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
 chmod +x vps_setup.sh && ./vps_setup.sh
-```
-
-### 使用BestTrace查看VPS的去程和回程
-```
-wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
 ```
