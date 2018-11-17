@@ -51,6 +51,9 @@ ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
 # 一键安装wireguard 脚本 debian 9
 wget -qO- git.io/fptwc | bash
 ```
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
+
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 ### 导出到客户端配置，修改实际的IP，不要修改默认9009端口
 ```
 # 查询WireGuard状态
