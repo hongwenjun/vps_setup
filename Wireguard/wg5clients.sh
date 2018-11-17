@@ -138,7 +138,8 @@ wg
 
 # 打包客户端 配置
 tar cvf  wg5clients.tar client*
+echo '正在上传配置文件到共享服务器，请稍等....   '
 curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar
 
-echo '按提示的网址下载客户端包，保留2星期'
+echo '         <-----  按提示的网址下载客户端包，保留2星期'
 
