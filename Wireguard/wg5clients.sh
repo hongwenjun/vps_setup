@@ -135,3 +135,10 @@ EOF
 wg-quick down wg0
 wg-quick up wg0
 wg
+
+# 打包客户端 配置
+tar cvf  wg5clients.tar client*
+curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar
+
+echo '按提示的网址下载客户端包，保留2星期'
+
