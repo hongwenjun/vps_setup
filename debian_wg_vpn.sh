@@ -21,6 +21,8 @@ apt install linux-headers-$(uname -r) -y
 # Debian9 安装后内核列表
 dpkg -l|grep linux-headers
 
+# 安装二维码插件
+apt -y install qrencode
 
 # 安装WireGuard
 
@@ -143,5 +145,7 @@ systemctl enable wg-quick@wg0
 wg
 
 # 显示配置文件，可以修改里面的实际IP
+cat /etc/wireguard/client.conf | qrencode -o - -t ansi
 cat /etc/wireguard/client.conf
+
 
