@@ -149,7 +149,13 @@ PersistentKeepalive = 25
 
 EOF
 
-
+# 安装二维码插件
+apt -y install qrencode
+cat /etc/wireguard/client.conf | qrencode -o client.png -t UTF8
+cat /etc/wireguard/client_2.conf | qrencode -o client_2.png -t UTF8
+cat /etc/wireguard/client_3.conf | qrencode -o client_3.png -t UTF8
+cat /etc/wireguard/client_4.conf | qrencode -o client_4.png -t UTF8
+cat /etc/wireguard/client_5.conf | qrencode -o client_5.png -t UTF8
 
 # 重启wg服务器
 wg-quick down wg0
