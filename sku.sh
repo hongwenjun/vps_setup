@@ -10,8 +10,8 @@ systemctl stop rc-local
 apt update
 apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
 
-# 脚本副本保存
-wget -O sku.sh  https://git.io/fpZIW   && chmod +x  sku.sh
+# 下载 ss_wg_udp2raw.sh 用来改密码 和开放 ss 远程链接
+wget -O ss_wg_udp2raw.sh  https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/wg_udp2raw.sh  &&  chmod +x ss_wg_udp2raw.sh
 
 # 下载 ss-server
 wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
