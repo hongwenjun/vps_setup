@@ -118,26 +118,12 @@ Endpoint = $serverip:9009
 # 转发流量的IP范围，下面这个代表所有流量都走VPN
 AllowedIPs = 0.0.0.0/0, ::0/0
 
-# 保持连接（具体我也不清楚）
-PersistentKeepalive = 25" > client.conf
+# 保持连接，如果客户端或服务端是 NAT 网络(比如国内大多数家庭宽带没有公网IP，都是NAT)，
+# 那么就需要添加这个参数定时链接服务端(单位：秒)，如果你的服务器和你本地都不是 NAT 网络，
+# 那么建议不使用该参数（设置为0，或客户端配置文件中删除这行）
+PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
 
-# 再次生成简洁的客户端配置
-echo "
-[Interface]
-PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.2/24
-DNS = 8.8.8.8
-MTU = 1300
-PreUp = start   .\route\routes-up.bat
-PostDown = start  .\route\routes-down.bat
 
-[Peer]
-PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
-AllowedIPs = 0.0.0.0/0, ::0/0
-PersistentKeepalive = 25
-
-" > client.conf
 
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
