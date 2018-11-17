@@ -1,9 +1,33 @@
 #!/bin/bash
 
-# 配置步骤 WireGuard服务端
+#    WireGuard VPN多用户服务端  自动配置脚本
+
+#    本脚本(WireGuard 多用户配置)一键安装短网址
+#    wget -qO- https://git.io/fpnQt | bash
 
 
+#    本脚本适合已经安装 WireGuard VPN 的vps
+#    如果你的vps没有安装 WireGuard ，可以用下行命令先安装
+
+#    一键安装wireguard 脚本 debian 9
+#    wget -qO- git.io/fptwc | bash
+
+#   vultr 服务商的主机默认网卡是 ens3，脚本执行完成，还要替换网卡名
+#   sed -i "s/eth0/ens3/g"  /etc/wireguard/wg0.conf
+
+#############################################################
+
+# 定义修改端口号，适合已经安装WireGuard而不想改端口
+port=9009
+
+# 获得服务器ip，自动获取
+serverip=$(curl -4 icanhazip.com)
+
+#############################################################
+
+# 转到wg配置文件目录
 cd /etc/wireguard
+
 # 然后开始生成 密匙对(公匙+私匙)。
 wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey1 | wg pubkey > cpublickey1
@@ -13,10 +37,6 @@ wg genkey | tee cprivatekey4 | wg pubkey > cpublickey4
 wg genkey | tee cprivatekey5 | wg pubkey > cpublickey5
 
 
-# 获得服务器ip
-serverip=$(curl -4 icanhazip.com)
-
-
 # 生成服务端 多用户配置文件
 cat <<EOF >wg0.conf
 [Interface]
@@ -24,7 +44,7 @@ PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/24 
 PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-ListenPort = 9009
+ListenPort = $port
 DNS = 8.8.8.8
 MTU = 1300
 
@@ -61,7 +81,7 @@ MTU = 1300
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
+Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
@@ -76,7 +96,7 @@ MTU = 1300
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
+Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
@@ -91,7 +111,7 @@ MTU = 1300
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
+Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
@@ -107,7 +127,7 @@ MTU = 1300
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
+Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
@@ -123,7 +143,7 @@ MTU = 1300
 
 [Peer]
 PublicKey = $(cat spublickey)
-Endpoint = $serverip:9009
+Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
@@ -138,7 +158,7 @@ wg
 
 # 打包客户端 配置
 tar cvf  wg5clients.tar client*
-echo '正在上传配置文件到共享服务器，请稍等....   '
+echo '正在上传配置文件到共享服务器，请稍等......   '
 curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar
 
 echo '         <-----  按提示的网址下载客户端包，保留2星期'
