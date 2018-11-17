@@ -10,8 +10,10 @@ https://www.vultr.com/?ref=7591742
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
 
-## Shadowsocks + Kcp+Udp2Raw加速 和 Udp2Raw服务TCP伪装 WireGuard Windows Kcp+Udp2Raw 启动器 
+## Wireguard 手机和PC客户端设置技巧
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
+## Shadowsocks + Kcp+Udp2Raw加速 和 Udp2Raw服务TCP伪装 WireGuard Windows Kcp+Udp2Raw 启动器 
 使用视频链接.1   https://youtu.be/A4edsGXQdIc
 
 使用视频链接.2   https://youtu.be/BvF6jQo_ZAo
@@ -53,7 +55,6 @@ wget -qO- git.io/fptwc | bash
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
 
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 ### 导出到客户端配置，修改实际的IP，不要修改默认9009端口
 ```
 # 查询WireGuard状态
