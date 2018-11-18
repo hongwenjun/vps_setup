@@ -130,6 +130,18 @@ PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
  
+sysctl_config() {
+    sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
+    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    sysctl -p >/dev/null 2>&1
+}
+
+# 开启 BBR
+sysctl_config
+lsmod | grep bbr
+ 
 # 打开防火墙转发功能
 echo 1 > /proc/sys/net/ipv4/ip_forward
 echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
