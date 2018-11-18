@@ -10,6 +10,9 @@ https://www.vultr.com/?ref=7591742
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
 
+## Wireguard 手机和PC客户端设置技巧
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
+
 ### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
 ```
 # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
