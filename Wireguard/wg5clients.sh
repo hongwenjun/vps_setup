@@ -172,11 +172,12 @@ cat <<EOF >wg5
 cd  /etc/wireguard/
 tar cvf  wg5clients.tar client*
 cat /etc/wireguard/client_2.conf | qrencode -o - -t ansi256
-echo "手机扫描二维码2号配置，PC使用1号配置请复制下面文本"
+echo "# 手机扫描二维码2号配置，PC使用1号配置请复制下面文本"
 cat /etc/wireguard/client.conf
 echo "#  你有2种方式获得5个配置，可以使用下面2种命令行，再次显示本文本使用 bash wg5"
 echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 echo "#  curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar"
 
 EOF
+cp wg5 ~/wg5
 bash wg5
