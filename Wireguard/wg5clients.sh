@@ -20,6 +20,8 @@
 # 定义修改端口号，适合已经安装WireGuard而不想改端口
 port=9009
 
+
+
 # 获得服务器ip，自动获取
 serverip=$(curl -4 icanhazip.com)
 
@@ -46,7 +48,7 @@ PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j A
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $port
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
 
 [Peer]
 PublicKey = $(cat cpublickey1)
@@ -77,7 +79,9 @@ cat <<EOF >client.conf
 PrivateKey = $(cat cprivatekey1)
 Address = 10.0.0.2/24
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
+PreUp =  start   .\route\routes-up.bat
+PostDown = start  .\route\routes-down.bat
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -92,7 +96,7 @@ cat <<EOF >client_2.conf
 PrivateKey = $(cat cprivatekey2)
 Address = 10.0.0.8/24
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -107,7 +111,7 @@ cat <<EOF >client_3.conf
 PrivateKey = $(cat cprivatekey3)
 Address = 10.0.0.18/24
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -123,7 +127,7 @@ cat <<EOF >client_4.conf
 PrivateKey = $(cat cprivatekey4)
 Address = 10.0.0.88/24
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -139,7 +143,7 @@ cat <<EOF >client_5.conf
 PrivateKey = $(cat cprivatekey5)
 Address = 10.0.0.188/24
 DNS = 8.8.8.8
-MTU = 1300
+MTU = 1200
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -162,10 +166,12 @@ wg-quick down wg0
 wg-quick up wg0
 wg
 
+
 # 打包客户端 配置
 tar cvf  wg5clients.tar client*
 echo '正在上传配置文件到共享服务器，请稍等......   '
 curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar
 
-echo '         <-----  按提示的网址下载客户端包，保留2星期'
+echo "         <-----  按提示的网址下载客户端包，保留2星期"
 
+cat /etc/wireguard/client.conf
