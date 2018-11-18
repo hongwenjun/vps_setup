@@ -10,9 +10,9 @@ https://www.vultr.com/?ref=7591742
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
 
-### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9
+### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
 ```
-# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
+# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9  Ubuntu
 wget -qO- git.io/fpZIW | bash
 
 # 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装，速度慢一些
