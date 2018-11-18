@@ -167,11 +167,16 @@ wg-quick up wg0
 wg
 
 
-# 打包客户端 配置
+cat <<EOF >wg5
+# 打包5个客户端配置，手机扫描二维码2号配置，PC使用1号配置
+cd  /etc/wireguard/
 tar cvf  wg5clients.tar client*
-echo '正在上传配置文件到共享服务器，请稍等......   '
-curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar
-
-echo "         <-----  按提示的网址下载客户端包，保留2星期"
-
+cat /etc/wireguard/client_2.conf | qrencode -o - -t ansi256
+echo "手机扫描二维码2号配置，PC使用1号配置请复制下面文本"
 cat /etc/wireguard/client.conf
+echo "#  你有2种方式获得5个配置，可以使用下面2种命令行，再次显示本文本使用 bash wg5"
+echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
+echo "#  curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar"
+
+EOF
+bash wg5
