@@ -52,6 +52,20 @@ mv udp2raw_amd64 /usr/bin/udp2raw
 rm udp2raw* -rf
 rm version.txt
 
+
+sysctl_config() {
+    sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
+    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    sysctl -p >/dev/null 2>&1
+}
+
+# 开启 BBR
+sysctl_config
+lsmod | grep bbr
+
+
 #安装到启动项
 
 cat <<EOF >/etc/rc.local
