@@ -34,10 +34,16 @@ wget -qO- git.io/fx6UQ | bash
 ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
 ```
 
-### 一键安装wireguard 脚本 debian 9
+### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ```
-# 一键安装wireguard 脚本 debian 9
+# 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
+
+# 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
+wget -qO- git.io/fpcnL | bash
+
+# CentOS7一键脚本安装WireGuard   (https://atrandys.com/2018/886.html)
+yum install -y wget && wget https://raw.githubusercontent.com/yobabyshark/wireguard/master/wireguard_install.sh && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
 
