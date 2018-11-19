@@ -161,6 +161,12 @@ cat /etc/wireguard/client_3.conf | qrencode -o client_3.png
 cat /etc/wireguard/client_4.conf | qrencode -o client_4.png
 cat /etc/wireguard/client_5.conf | qrencode -o client_5.png
 
+#  vultr 服务商的主机默认网卡是 ens3，使用下面命令修改配置
+host=$(hostname -s)
+if [ $host == "vultr" ]; then
+    sed -i "s/eth0/ens3/g"  /etc/wireguard/wg0.conf
+fi
+
 # 重启wg服务器
 wg-quick down wg0
 wg-quick up wg0
