@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# apt -y install unzip
-
 
 #  IPv4 免费地址库 & 客户端工具
 #  包括IPv4 免费数据库及相关、IP库解析代码第三方版、BestTrace 软件下载、浏览器扩展
@@ -10,6 +8,7 @@
 
 # install besttrace
 if [ ! -f "besttrace" ]; then
+    apt -y install unzip
     wget https://cdn.ipip.net/17mon/besttrace4linux.zip
     unzip besttrace4linux.zip
     chmod +x besttrace
