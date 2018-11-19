@@ -136,12 +136,13 @@ cat /etc/wireguard/wg_${host}_2.conf   && next
 cat /etc/wireguard/wg_${host}_3.conf   && next
 cat /etc/wireguard/wg_${host}_4.conf   && next
 
+file=$(cat cpublickey)
+file=${file:0:6}.tar
 echo "#  wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
 echo "#  再次显示本文本使用 bash wg5 命令，通过下面2种方式获得其他的配置文件，IP也可以用服务器IP"
-file=$(md5sum /etc/wireguard/client.conf)  && file=${file:0:6}.tar
-echo "#  请浏览器访问   http://10.0.0.1:8000/$file  下载配置文件，需要先连上WG服务器"
+echo "#  请浏览器访问   http://10.0.0.1:8000/${file}  下载配置文件，需要先连上WG服务器"
 echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
-cp /etc/wireguard/wg5clients.tar  ~/$file
+cp /etc/wireguard/wg5clients.tar  ~/${file}
 cd ~  && python -m SimpleHTTPServer 8000 
 
 EOF
