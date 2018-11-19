@@ -87,7 +87,7 @@ AllowedIPs = $ip/32
 
 EOF
 
-    cat <<EOF >wg_$host_$i.conf
+    cat <<EOF >wg_${host}_$i.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
 Address = $ip/24
@@ -102,7 +102,7 @@ PersistentKeepalive = 25
 
 EOF
 
-    cat /etc/wireguard/wg_$host_$i.conf | qrencode -o wg_$host_$i.png
+    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_$host_$i.png
 
 done
 
@@ -129,15 +129,15 @@ next() {
 host=$(hostname -s)
 
 cd  /etc/wireguard/
-tar cvf  wg5clients.tar  client*  wg_$host*
-cat /etc/wireguard/wg_$host_1.conf | qrencode -o - -t ansi256
+tar cvf  wg5clients.tar  client*  wg_*
+cat /etc/wireguard/wg_${host}_1.conf | qrencode -o - -t ansi256
 echo "# 手机扫描二维码2号配置，PC使用配置复制下面文本"
 
 cat /etc/wireguard/client.conf       && next
-cat /etc/wireguard/wg_$host_1.conf   && next
-cat /etc/wireguard/wg_$host_2.conf   && next
-cat /etc/wireguard/wg_$host_3.conf   && next
-cat /etc/wireguard/wg_$host_4.conf   && next
+cat /etc/wireguard/wg_${host}_1.conf   && next
+cat /etc/wireguard/wg_${host}_2.conf   && next
+cat /etc/wireguard/wg_${host}_3.conf   && next
+cat /etc/wireguard/wg_${host}_4.conf   && next
 
 echo "#  有2种方式获得其他的配置，可以使用下面2种命令行，再次显示本文本使用 bash wg5"
 echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
