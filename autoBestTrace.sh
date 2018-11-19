@@ -13,6 +13,9 @@ if [ ! -f "besttrace" ]; then
     unzip besttrace4linux.zip
     chmod +x besttrace
     
+    mv besttrace /usr/bin/besttrace
+    rm besttrace* -rf
+    
 fi
 
 ## start to use besttrace
@@ -31,6 +34,6 @@ ip_addr=(广州电信 上海电信 厦门电信 重庆联通 四川联通 上海
 for i in {0..7}
 do
 	echo ${ip_addr[$i]}
-	./besttrace -q 1 ${ip_list[$i]}
+	besttrace -q 1 ${ip_list[$i]}
 	next
 done
