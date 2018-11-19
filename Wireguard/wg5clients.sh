@@ -80,7 +80,6 @@ do
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
     
     cat <<EOF >>wg0.conf
-
 [Peer]
 PublicKey = $(cat cpublickey)
 AllowedIPs = $ip/32
@@ -101,9 +100,7 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
 EOF
-
-    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_$host_$i.png
-
+    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
 done
 
 
@@ -142,7 +139,7 @@ cat /etc/wireguard/wg_${host}_4.conf   && next
 echo "#  有2种方式获得其他的配置，可以使用下面2种命令行，再次显示本文本使用 bash wg5"
 echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 echo "#  curl --upload-file ./wg5clients.tar  https://transfer.sh/wg5clients.tar"
-
+echo "#  wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
 EOF
 cp wg5 ~/wg5
 bash wg5
