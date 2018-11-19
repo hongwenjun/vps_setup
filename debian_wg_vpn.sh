@@ -156,8 +156,7 @@ systemctl enable wg-quick@wg0
 # 查询WireGuard状态
 wg
 
-# 显示配置文件，可以修改里面的实际IP
-cat /etc/wireguard/client.conf | qrencode -o - -t ansi
-cat /etc/wireguard/client.conf
+# 一键 WireGuard 多用户配置共享脚本 
+wget -qO- https://git.io/fpnQt | bash
 
 
