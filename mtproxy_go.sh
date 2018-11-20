@@ -5,12 +5,12 @@ export PATH
 #=================================================
 #	System Required: CentOS/Debian/Ubuntu
 #	Description: MTProxy Golang
-#	Version: 1.0.0
+#	Version: 1.0.1
 #	Author: Toyo
 #	Blog: https://doub.io/shell-jc9/
 #=================================================
 
-sh_ver="1.0.0"
+sh_ver="1.0.1"
 filepath=$(cd "$(dirname "$0")"; pwd)
 file_1=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
 file="/usr/local/mtproxy-go"
@@ -18,6 +18,7 @@ mtproxy_file="/usr/local/mtproxy-go/mtg"
 mtproxy_conf="/usr/local/mtproxy-go/mtproxy.conf"
 mtproxy_log="/usr/local/mtproxy-go/mtproxy.log"
 Now_ver_File="/usr/local/mtproxy-go/ver.txt"
+Crontab_file="/usr/bin/crontab"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -49,8 +50,23 @@ check_sys(){
 check_installed_status(){
 	[[ ! -e ${mtproxy_file} ]] && echo -e "${Error} MTProxy 没有安装，请检查 !" && exit 1
 }
+check_crontab_installed_status(){
+	if [[ ! -e ${Crontab_file} ]]; then
+		echo -e "${Error} Crontab 没有安装，开始安装..."
+		if [[ ${release} == "centos" ]]; then
+			yum install crond -y
+		else
+			apt-get install cron -y
+		fi
+		if [[ ! -e ${Crontab_file} ]]; then
+			echo -e "${Error} Crontab 安装失败，请检查！" && exit 1
+		else
+			echo -e "${Info} Crontab 安装成功！"
+		fi
+	fi
+}
 check_pid(){
-	PID=`ps -ef| grep "./mtg "| grep -v "grep" | grep -v "init.d" |grep -v "service" |awk '{print $2}'`
+	PID=$(ps -ef| grep "./mtg "| grep -v "grep" | grep -v "init.d" |grep -v "service" |awk '{print $2}')
 }
 check_new_ver(){
 	new_ver=$(wget -qO- https://api.github.com/repos/9seconds/mtg/releases| grep "tag_name"| head -n 1| awk -F ":" '{print $2}'| sed 's/\"//g;s/,//g;s/ //g')
@@ -99,7 +115,7 @@ Download(){
 }
 Service(){
 	if [[ ${release} = "centos" ]]; then
-		if ! wget --no-check-certificate "https://raw.githubusercontent.com/Ache1123/doubi/master/service/mtproxy_go_centos" -O /etc/init.d/mtproxy-go; then
+		if ! wget --no-check-certificate "https://raw.githubusercontent.com/P3TERX/doubi_backup/master/service/mtproxy_go_centos" -O /etc/init.d/mtproxy-go; then
 			echo -e "${Error} MTProxy服务 管理脚本下载失败 !"
 			rm -rf "${file}"
 			exit 1
@@ -108,7 +124,7 @@ Service(){
 		chkconfig --add mtproxy-go
 		chkconfig mtproxy-go on
 	else
-		if ! wget --no-check-certificate "https://raw.githubusercontent.com/Ache1123/doubi/master/service/mtproxy_go_debian" -O /etc/init.d/mtproxy-go; then
+		if ! wget --no-check-certificate "https://raw.githubusercontent.com/P3TERX/doubi_backup/master/service/mtproxy_go_debian" -O /etc/init.d/mtproxy-go; then
 			echo -e "${Error} MTProxy服务 管理脚本下载失败 !"
 			rm -rf "${file}"
 			exit 1
@@ -240,7 +256,8 @@ Set(){
  ${Green_font_prefix}5.${Font_color_suffix}  修改 强制安全模式 配置
  ${Green_font_prefix}6.${Font_color_suffix}  修改 全部配置
 ————————————————
- ${Green_font_prefix}7.${Font_color_suffix}  监控 运行状态" && echo
+ ${Green_font_prefix}7.${Font_color_suffix}  监控 运行状态
+ ${Green_font_prefix}8.${Font_color_suffix}  监控 外网IP变更" && echo
 	read -e -p "(默认: 取消):" mtp_modify
 	[[ -z "${mtp_modify}" ]] && echo "已取消..." && exit 1
 	if [[ "${mtp_modify}" == "1" ]]; then
@@ -305,8 +322,10 @@ Set(){
 		Restart
 	elif [[ "${mtp_modify}" == "7" ]]; then
 		Set_crontab_monitor
+	elif [[ "${mtp_modify}" == "8" ]]; then
+		Set_crontab_monitorip
 	else
-		echo -e "${Error} 请输入正确的数字(1-7)" && exit 1
+		echo -e "${Error} 请输入正确的数字(1-8)" && exit 1
 	fi
 }
 Install(){
@@ -440,16 +459,6 @@ View_Log(){
 	echo && echo -e "${Tip} 按 ${Red_font_prefix}Ctrl+C${Font_color_suffix} 终止查看日志" && echo -e "如果需要查看完整日志内容，请用 ${Red_font_prefix}cat ${mtproxy_log}${Font_color_suffix} 命令。" && echo
 	tail -f ${mtproxy_log}
 }
-Update_secret(){
-	rm -rf "${mtproxy_secret}"
-	Download_secret
-	Restart
-}
-Update_multi(){
-	rm -rf "${mtproxy_multi}"
-	Download_multi
-	Restart
-}
 # 显示 连接信息
 debian_View_user_connection_info(){
 	format_1=$1
@@ -467,26 +476,6 @@ debian_View_user_connection_info(){
 		else
 			user_IP=$(echo -e "\n${user_IP}")
 			echo -e "端口: ${Green_font_prefix}"${user_port}"${Font_color_suffix}\t 链接IP总数: ${Green_font_prefix}"${user_IP_total}"${Font_color_suffix}\t 当前链接IP: ${Green_font_prefix}${user_IP}${Font_color_suffix}\n"
-		fi
-	fi
-	user_IP=""
-}
-centos_View_user_connection_info(){
-	format_1=$1
-	Read_config
-	user_IP=$(ss state connected sport = :${port} -tn|sed '1d'|awk '{print $NF}'|awk -F ':' '{print $(NF-1)}'|sort -u)
-	if [[ -z ${user_IP} ]]; then
-		user_IP_total="0"
-		echo -e "端口: ${Green_font_prefix}"${port}"${Font_color_suffix}\t 链接IP总数: ${Green_font_prefix}"${user_IP_total}"${Font_color_suffix}\t 当前链接IP: "
-	else
-		user_IP_total=$(echo -e "${user_IP}"|wc -l)
-		if [[ ${format_1} == "IP_address" ]]; then
-			echo -e "端口: ${Green_font_prefix}"${port}"${Font_color_suffix}\t 链接IP总数: ${Green_font_prefix}"${user_IP_total}"${Font_color_suffix}\t 当前链接IP: "
-			get_IP_address
-			echo
-		else
-			user_IP=$(echo -e "\n${user_IP}")
-			echo -e "端口: ${Green_font_prefix}"${port}"${Font_color_suffix}\t 链接IP总数: ${Green_font_prefix}"${user_IP_total}"${Font_color_suffix}\t 当前链接IP: ${Green_font_prefix}${user_IP}${Font_color_suffix}\n"
 		fi
 	fi
 	user_IP=""
@@ -526,7 +515,7 @@ Set_crontab_monitor(){
 	check_crontab_installed_status
 	crontab_monitor_status=$(crontab -l|grep "mtproxy_go.sh monitor")
 	if [[ -z "${crontab_monitor_status}" ]]; then
-		echo && echo -e "当前监控模式: ${Red_font_prefix}未开启${Font_color_suffix}" && echo
+		echo && echo -e "当前监控运行状态模式: ${Red_font_prefix}未开启${Font_color_suffix}" && echo
 		echo -e "确定要开启 ${Green_font_prefix}MTProxy 服务端运行状态监控${Font_color_suffix} 功能吗？(当进程关闭则自动启动 MTProxy 服务端)[Y/n]"
 		read -e -p "(默认: y):" crontab_monitor_status_ny
 		[[ -z "${crontab_monitor_status_ny}" ]] && crontab_monitor_status_ny="y"
@@ -536,7 +525,7 @@ Set_crontab_monitor(){
 			echo && echo "	已取消..." && echo
 		fi
 	else
-		echo && echo -e "当前监控模式: ${Green_font_prefix}已开启${Font_color_suffix}" && echo
+		echo && echo -e "当前监控运行状态模式: ${Green_font_prefix}已开启${Font_color_suffix}" && echo
 		echo -e "确定要关闭 ${Red_font_prefix}MTProxy 服务端运行状态监控${Font_color_suffix} 功能吗？(当进程关闭则自动启动 MTProxy 服务端)[y/N]"
 		read -e -p "(默认: n):" crontab_monitor_status_ny
 		[[ -z "${crontab_monitor_status_ny}" ]] && crontab_monitor_status_ny="n"
@@ -590,63 +579,90 @@ crontab_monitor(){
 		echo -e "${Info} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] MTProxy服务端 进程运行正常..." | tee -a ${mtproxy_log}
 	fi
 }
-Set_crontab_update_multi(){
+Set_crontab_monitorip(){
 	check_crontab_installed_status
-	crontab_update_status=$(crontab -l|grep "mtproxy_go.sh update")
-	if [[ -z "${crontab_update_status}" ]]; then
-		echo && echo -e "当前自动更新 Telegram IP段功能: ${Red_font_prefix}未开启${Font_color_suffix}" && echo
-		echo -e "确定要开启 ${Green_font_prefix}MTProxy 自动更新 Telegram IP段${Font_color_suffix} 功能吗？[Y/n]"
-		read -e -p "(默认: y):" crontab_update_status_ny
-		[[ -z "${crontab_update_status_ny}" ]] && crontab_update_status_ny="y"
-		if [[ ${crontab_update_status_ny} == [Yy] ]]; then
-			crontab_update_cron_start
+	crontab_monitor_status=$(crontab -l|grep "mtproxy_go.sh monitorip")
+	if [[ -z "${crontab_monitor_status}" ]]; then
+		echo && echo -e "当前监控外网IP模式: ${Red_font_prefix}未开启${Font_color_suffix}" && echo
+		echo -e "确定要开启 ${Green_font_prefix}服务器外网IP变更监控${Font_color_suffix} 功能吗？(当服务器外网IP变化后，自动重新配置并重启服务端)[Y/n]"
+		read -e -p "(默认: y):" crontab_monitor_status_ny
+		[[ -z "${crontab_monitor_status_ny}" ]] && crontab_monitor_status_ny="y"
+		if [[ ${crontab_monitor_status_ny} == [Yy] ]]; then
+			crontab_monitor_cron_start2
 		else
 			echo && echo "	已取消..." && echo
 		fi
 	else
-		echo && echo -e "当前自动更新 Telegram IP段功能: ${Green_font_prefix}已开启${Font_color_suffix}" && echo
-		echo -e "确定要关闭 ${Red_font_prefix}MTProxy 自动更新 Telegram IP段${Font_color_suffix} 功能吗？[y/N]"
-		read -e -p "(默认: n):" crontab_update_status_ny
-		[[ -z "${crontab_update_status_ny}" ]] && crontab_update_status_ny="n"
-		if [[ ${crontab_update_status_ny} == [Yy] ]]; then
-			crontab_update_cron_stop
+		echo && echo -e "当前监控外网IP模式: ${Green_font_prefix}已开启${Font_color_suffix}" && echo
+		echo -e "确定要关闭 ${Red_font_prefix}服务器外网IP变更监控${Font_color_suffix} 功能吗？(当服务器外网IP变化后，自动重新配置并重启服务端)[Y/n]"
+		read -e -p "(默认: n):" crontab_monitor_status_ny
+		[[ -z "${crontab_monitor_status_ny}" ]] && crontab_monitor_status_ny="n"
+		if [[ ${crontab_monitor_status_ny} == [Yy] ]]; then
+			crontab_monitor_cron_stop2
 		else
 			echo && echo "	已取消..." && echo
 		fi
 	fi
 }
-crontab_update_cron_start(){
+crontab_monitor_cron_start2(){
 	crontab -l > "$file_1/crontab.bak"
-	sed -i "/mtproxy_go.sh update/d" "$file_1/crontab.bak"
-	echo -e "\n10 3 * * * /bin/bash $file_1/mtproxy_go.sh update" >> "$file_1/crontab.bak"
+	sed -i "/mtproxy_go.sh monitorip/d" "$file_1/crontab.bak"
+	echo -e "\n* * * * * /bin/bash $file_1/mtproxy_go.sh monitorip" >> "$file_1/crontab.bak"
 	crontab "$file_1/crontab.bak"
 	rm -r "$file_1/crontab.bak"
-	cron_config=$(crontab -l | grep "mtproxy_go.sh update")
+	cron_config=$(crontab -l | grep "mtproxy_go.sh monitorip")
 	if [[ -z ${cron_config} ]]; then
-		echo -e "${Error} MTProxy 自动更新 Telegram IP段功能 启动失败 !" && exit 1
+		echo -e "${Error} 服务器外网IP变更监控功能 启动失败 !" && exit 1
 	else
-		echo -e "${Info} MTProxy 自动更新 Telegram IP段功能 启动成功 !"
+		echo -e "${Info} 服务器外网IP变更监控功能 启动成功 !"
 	fi
 }
-crontab_update_cron_stop(){
+crontab_monitor_cron_stop2(){
 	crontab -l > "$file_1/crontab.bak"
-	sed -i "/mtproxy_go.sh update/d" "$file_1/crontab.bak"
+	sed -i "/mtproxy_go.sh monitorip/d" "$file_1/crontab.bak"
 	crontab "$file_1/crontab.bak"
 	rm -r "$file_1/crontab.bak"
-	cron_config=$(crontab -l | grep "mtproxy_go.sh update")
+	cron_config=$(crontab -l | grep "mtproxy_go.sh monitorip")
 	if [[ ! -z ${cron_config} ]]; then
-		echo -e "${Error} MTProxy 自动更新 Telegram IP段功能 停止失败 !" && exit 1
+		echo -e "${Error} 服务器外网IP变更监控功能 停止失败 !" && exit 1
 	else
-		echo -e "${Info} MTProxy 自动更新 Telegram IP段功能 停止成功 !"
+		echo -e "${Info} 服务器外网IP变更监控功能 停止成功 !"
 	fi
 }
-crontab_update(){
+crontab_monitorip(){
 	check_installed_status
-	check_pid
-	rm -rf "${mtproxy_multi}"
-	Download_multi
-	echo -e "${Info} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] Telegram IP段自动更新完成..." | tee -a ${mtproxy_log}
-	/etc/init.d/mtproxy-go restart
+	Read_config
+	getipv4
+	getipv6
+	monitorip_yn="NO"
+	if [[ "${ipv4}" != "IPv4_Error" ]]; then
+		if [[ "${ipv4}" != "${nat_ipv4}" ]]; then
+			echo -e "${Info} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] 检测到 服务器外网IPv4变更[旧: ${nat_ipv4}，新: ${ipv4}], 开始重新配置并准备重启服务端..." | tee -a ${mtproxy_log}
+			monitorip_yn="YES"
+			mtp_nat_ipv4=${ipv4}
+		fi
+	else
+		echo -e "${Error} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] 服务器外网IPv4获取失败..." | tee -a ${mtproxy_log}
+		mtp_nat_ipv4=${nat_ipv4}
+	fi
+	if [[ "${ipv6}" != "IPv6_Error" ]]; then
+		if [[ "${ipv6}" != "${nat_ipv6}" ]]; then
+			echo -e "${Info} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] 检测到 服务器外网IPv6变更[旧: ${nat_ipv6}，新: ${ipv6}], 开始重新配置并准备重启服务端..." | tee -a ${mtproxy_log}
+			monitorip_yn="YES"
+			mtp_nat_ipv6=${ipv6}
+		fi
+	else
+		echo -e "${Error} [$(date "+%Y-%m-%d %H:%M:%S %u %Z")] 服务器外网IPv6获取失败..." | tee -a ${mtproxy_log}
+		mtp_nat_ipv6=${nat_ipv6}
+	fi
+	if [[ ${monitorip_yn} == "YES" ]]; then
+		mtp_port=${port}
+		mtp_passwd=${passwd}
+		mtp_tag=${tag}
+		mtp_secure=${secure}
+		Write_config
+		Restart
+	fi
 }
 Add_iptables(){
 	iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport ${mtp_port} -j ACCEPT
@@ -679,19 +695,21 @@ Set_iptables(){
 	fi
 }
 Update_Shell(){
-	sh_new_ver=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/Ache1123/doubi/master/mtproxy_go.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
+	sh_new_ver=$(wget --no-check-certificate -qO- -t1 -T3 "https://raw.githubusercontent.com/P3TERX/doubi_backup/master/mtproxy_go.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1) && sh_new_type="github"
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 无法链接到 Github !" && exit 0
 	if [[ -e "/etc/init.d/mtproxy-go" ]]; then
 		rm -rf /etc/init.d/mtproxy-go
 		Service
 	fi
-	wget -N --no-check-certificate "https://raw.githubusercontent.com/Ache1123/doubi/master/mtproxy_go.sh" && chmod +x mtproxy_go.sh
+	wget -N --no-check-certificate "https://raw.githubusercontent.com/P3TERX/doubi_backup/master/mtproxy_go.sh" && chmod +x mtproxy_go.sh
 	echo -e "脚本已更新为最新版本[ ${sh_new_ver} ] !(注意：因为更新方式为直接覆盖当前运行的脚本，所以可能下面会提示一些报错，无视即可)" && exit 0
 }
 check_sys
 action=$1
 if [[ "${action}" == "monitor" ]]; then
 	crontab_monitor
+elif [[ "${action}" == "monitorip" ]]; then
+	crontab_monitorip
 else
 	echo && echo -e "  MTProxy-Go 一键管理脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
   ---- Toyo | doub.io/shell-jc9 ----
