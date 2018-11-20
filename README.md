@@ -65,7 +65,7 @@ wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBest
 ```
 
 # -------------------------------------------------------------------
-#   以下为 Linux 命令学习笔记，适合提供朋友学习
+#   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
 # -------------------------------------------------------------------
 #  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
 蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
