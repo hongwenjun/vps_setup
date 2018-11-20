@@ -48,8 +48,14 @@ wg
 cat /etc/wireguard/client.conf
 ```
 ```
+#  一键脚本已经检查出vultr主机，自动修改配置，不用再手工运行
 #  vultr 服务商的主机默认网卡是 ens3，使用下面命令修改配置
 sed -i "s/eth0/ens3/g"  /etc/wireguard/wg0.conf
+reboot
+
+#  GCP香港 Ubuntu系统 默认网卡是 ens4，使用下面命令修改配置
+#  GCP香港 Debian系统 默认网卡是 eth0，不用修改
+sed -i "s/eth0/ens4/g"  /etc/wireguard/wg0.conf
 reboot
 ```
 ### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
