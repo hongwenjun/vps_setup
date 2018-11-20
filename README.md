@@ -58,7 +58,11 @@ wget https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/wg_udp2
 chmod +x wg_udp2raw.sh  && ./wg_udp2raw.sh
 
 ```
-
+### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
+```
+# Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
+wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
+```
 ### 使用BestTrace查看VPS的去程和回程
 ```
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
