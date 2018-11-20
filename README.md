@@ -1,31 +1,5 @@
-#  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
-蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
-
-下载程序地址:  https://github.com/hongwenjun/WinKcp_Launcher
-
-### ♦ 最新资讯 ♦Vultr 限时优惠，充值10美元送10美元，3.5美元/月，IP被墙免费换，支持微信、支付宝。
-- 点击这个链接注册，也算是对本项目作者的支持鼓励
-
-https://www.vultr.com/?ref=7591742
-
-![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
-
 ## Wireguard 手机和PC客户端设置技巧
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
-
-### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
-```
-# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
-wget -qO- git.io/fpZIW | bash
-
-# 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装速度慢  for debian 9  Ubuntu
-wget -qO- git.io/fx6UQ | bash
-```
-
-###  本地电脑端 SS 导入配置 
-```
-ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
-```
 
 ### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ```
@@ -48,6 +22,22 @@ wget https://raw.githubusercontent.com/yobabyshark/wireguard/master/wireguard_in
 wget -qO- https://git.io/fpnQt | bash
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
+
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
+
+### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
+```
+# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
+wget -qO- git.io/fpZIW | bash
+
+# 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装速度慢  for debian 9  Ubuntu
+wget -qO- git.io/fx6UQ | bash
+```
+
+###  本地电脑端 SS 导入配置 
+```
+ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
+```
 
 ### 导出到客户端配置，修改实际的IP，不要修改默认9009端口
 ```
@@ -74,9 +64,20 @@ chmod +x wg_udp2raw.sh  && ./wg_udp2raw.sh
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
 ```
 
+### ---------------------------------------------------------------
+###   以下为 Linux 命令学习笔记，适合提供朋友学习
+### ---------------------------------------------------------------
+#  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
+蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
 
-----------------------------------------------------
+下载程序地址:  https://github.com/hongwenjun/WinKcp_Launcher
 
+### ♦ 最新资讯 ♦Vultr 限时优惠，充值10美元送10美元，3.5美元/月，IP被墙免费换，支持微信、支付宝。
+- 点击这个链接注册，也算是对本项目作者的支持鼓励
+
+https://www.vultr.com/?ref=7591742
+
+![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
 
 ### 获取自己所需服务软件的信息
 	ps aux
@@ -178,8 +179,6 @@ systemctl enable shadowsocks-go
 ```
 # ss_brook脚本
 wget -qO- git.io/fxQug | bash
-# wireguard 脚本
-wget -qO- git.io/fptwc | bash
 
 ```
 
