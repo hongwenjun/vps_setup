@@ -21,7 +21,15 @@ host=$(hostname -s)
 
 ip_list=(2 8 18 88 188 118 158 198 168 186)
 
+
 # 获得服务器ip，自动获取
+if [ $host == "debian" ]; then
+    apt update && apt install -y curl 
+fi
+
+# 安装二维码插件
+apt -y install qrencode
+
 serverip=$(curl -4 icanhazip.com)
 
 #############################################################
@@ -68,10 +76,6 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
 EOF
-
-# 安装二维码插件
-apt -y install qrencode
-
 
 # 添加 1-9 多用户配置子程序
 for i in {1..9}
