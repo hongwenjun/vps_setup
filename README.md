@@ -64,9 +64,9 @@ chmod +x wg_udp2raw.sh  && ./wg_udp2raw.sh
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
 ```
 
-### ---------------------------------------------------------------
-###   以下为 Linux 命令学习笔记，适合提供朋友学习
-### ---------------------------------------------------------------
+# -------------------------------------------------------------------
+#   以下为 Linux 命令学习笔记，适合提供朋友学习
+# -------------------------------------------------------------------
 #  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
 蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
 
@@ -177,8 +177,11 @@ systemctl enable shadowsocks-go
 ```
 ### 一键脚本 ss_brook  和 wireguard
 ```
-# ss_brook脚本
+# ss_brook脚本 (私人备份恢复脚本)
 wget -qO- git.io/fxQug | bash
+
+# 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
+wget -qO- git.io/fptwc | bash
 
 ```
 
