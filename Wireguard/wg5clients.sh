@@ -1,37 +1,31 @@
 #!/bin/bash
-
 #    WireGuard VPN多用户服务端  自动配置脚本
 
 #    本脚本(WireGuard 多用户配置)一键安装短网址
 #    wget -qO- https://git.io/fpnQt | bash
-
 
 #    本脚本适合已经安装 WireGuard VPN 的vps
 #    如果你的vps没有安装 WireGuard ，可以用下行命令先安装
 
 #    一键安装wireguard 脚本 debian 9
 #    wget -qO- git.io/fptwc | bash
-
 #############################################################
-
 # 定义修改端口号，适合已经安装WireGuard而不想改端口
+
 port=9009
 mtu=1200
 host=$(hostname -s)
 
 ip_list=(2 8 18 88 188 118 158 198 168 186)
 
-
 # 获得服务器ip，自动获取
 if [ $host == "debian" ]; then
     apt update && apt install -y curl 
 fi
+serverip=$(curl -4 icanhazip.com)
 
 # 安装二维码插件
 apt -y install qrencode
-
-serverip=$(curl -4 icanhazip.com)
-
 #############################################################
 
 # 转到wg配置文件目录
@@ -57,7 +51,6 @@ PublicKey = $(cat cpublickey)
 AllowedIPs = 10.0.0.2/32
 
 EOF
-
 
 # 生成简洁的客户端配置
 cat <<EOF >client.conf
@@ -107,26 +100,22 @@ EOF
     cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
 done
 
-
-#  vultr 服务商的主机默认网卡是 ens3，使用下面命令修改配置
-if [ $host == "vultr" ]; then
-    sed -i "s/eth0/ens3/g"  /etc/wireguard/wg0.conf
+#  vps网卡如果不是eth0，修改成实际网卡
+ni=$(ls /sys/class/net | awk {print} | head -n 1)
+if [ $ni != "eth0" ]; then
+    sed -i "s/eth0/${ni}/g"  /etc/wireguard/wg0.conf
 fi
-
 
 # 重启wg服务器
 wg-quick down wg0
 wg-quick up wg0
 wg
 
-
 cat <<EOF >wg5
 # 打包10个客户端配置，手机扫描二维码2号配置，PC使用1号配置
-
 next() {
     printf "# %-70s\n" "-" | sed 's/\s/-/g'
 }
-
 host=$(hostname -s)
 
 cd  /etc/wireguard/
