@@ -1,8 +1,7 @@
 #!/bin/bash
-
 # 高速新VPN协议WireGuard服务端一键脚本
-# GCP香港  和 Vutrl 测试可行，  gcp默认网卡eth0  ，Vutrl默认网卡 ens3，要修改服务端配置
-# OpenVZ不能用
+# GCP香港  和 Vutrl  搬瓦工 测试可用，已经添加自动判断网卡名
+# OpenVZ  PVE 不能用
 
 # Windows TunSafe版客户端
 # https://tunsafe.com/download
@@ -17,22 +16,15 @@ apt install software-properties-common -y
 # 通过 PPA 工具添加 WireGuard 源，自动确认
 echo .read | add-apt-repository ppa:wireguard/wireguard
 
-
 # 开始安装 WireGuard ，resolvconf 是用来指定DNS的，旧一些的系统可能没装
 apt update
 apt install wireguard resolvconf -y
 
-
-# 安装二维码插件
-apt -y install qrencode
-
-# 验证是否安装成功
-modprobe wireguard && lsmod | grep wireguard
-
+# 安装二维码插件 和 python
+apt -y install qrencode  python
 
 # 验证是否安装成功
 modprobe wireguard && lsmod | grep wireguard
-
 
 # 配置步骤 WireGuard服务端
 
@@ -44,12 +36,10 @@ cd /etc/wireguard
 wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-
 # 获得服务器ip
 serverip=$(curl -4 icanhazip.com)
 
 # 生成服务端配置文件
-
 echo "[Interface]
 # 私匙，自动读取上面刚刚生成的密匙内容
 PrivateKey = $(cat sprivatekey)
@@ -75,7 +65,6 @@ AllowedIPs = 10.0.0.2/32" > wg0.conf
 
 
 # 生成客户端配置文件
-
 echo "[Interface]
 # 私匙，自动读取上面刚刚生成的密匙内容
 PrivateKey = $(cat cprivatekey)
@@ -102,8 +91,6 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 # 那么建议不使用该参数（设置为0，或客户端配置文件中删除这行）
 PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
 
-
-
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
  
@@ -117,7 +104,6 @@ sysctl_config() {
 # 开启 BBR
 sysctl_config
 lsmod | grep bbr
-
 
 # 打开防火墙转发功能
 echo 1 > /proc/sys/net/ipv4/ip_forward
