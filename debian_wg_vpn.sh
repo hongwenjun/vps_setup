@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # 高速新VPN协议WireGuard服务端一键脚本
-# GCP香港  和 Vutrl 测试可行，  gcp默认网卡eth0  ，Vutrl默认网卡 ens3，要修改服务端配置
-# OpenVZ不能用
+# GCP香港  和 Vutrl  搬瓦工 测试可用，已经添加自动判断网卡名
+# OpenVZ  PVE 不能用
 
 # Windows TunSafe版客户端
 # https://tunsafe.com/download
@@ -25,7 +25,6 @@ dpkg -l|grep linux-headers
 apt -y install qrencode
 
 # 安装WireGuard
-
 # 添加 unstable 软件包源，以确保安装版本是最新的
 echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
 echo -e 'Package: *\nPin: release a=unstable\nPin-Priority: 150' > /etc/apt/preferences.d/limit-unstable
@@ -39,7 +38,6 @@ apt install wireguard resolvconf -y
 # 验证是否安装成功
 modprobe wireguard && lsmod | grep wireguard
 
-
 # 配置步骤 WireGuard服务端
 
 # 首先进入配置文件目录
@@ -50,12 +48,10 @@ cd /etc/wireguard
 wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-
 # 获得服务器ip
 serverip=$(curl -4 icanhazip.com)
 
 # 生成服务端配置文件
-
 echo "[Interface]
 # 私匙，自动读取上面刚刚生成的密匙内容
 PrivateKey = $(cat sprivatekey)
@@ -87,9 +83,7 @@ PublicKey = $(cat cpublickey)
 # VPN内网IP范围，一般默认即可，除非和你服务器或客户端设备本地网段冲突
 AllowedIPs = 10.0.0.2/32" > wg0.conf
 
-
 # 生成客户端配置文件
-
 echo "[Interface]
 # 私匙，自动读取上面刚刚生成的密匙内容
 PrivateKey = $(cat cprivatekey)
@@ -124,8 +118,6 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 # 那么就需要添加这个参数定时链接服务端(单位：秒)，如果你的服务器和你本地都不是 NAT 网络，
 # 那么建议不使用该参数（设置为0，或客户端配置文件中删除这行）
 PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
-
-
 
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
