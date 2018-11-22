@@ -91,6 +91,14 @@ https://www.vultr.com/?ref=7591742
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/gui.png)
 
+### linux下golang环境搭建自动脚本
+
+```
+# linux下golang环境搭建自动脚本  by 蘭雅sRGB
+wget -qO- https://git.io/fp4jf | bash
+
+```
+
 ### 获取自己所需服务软件的信息
 	ps aux
 可以得到软件的安装目录和配置文件目录
