@@ -9,8 +9,8 @@ K2_BROOK="https://github.com/txthinking/brook/releases/download/v20180909/brook_
 
 # 修改成 brook 服务器实际的 IP 端口 和密码
 SERVER_IP=1.2.3.4
-PORT=1234
-PASSWORD=1234
+PORT=9999
+PASSWORD=brook9999
 
 cd /tmp  &&  wget --no-check-certificate -O brook   ${K2_BROOK}
 chmod +x  brook  &&  ./brook client -l 0.0.0.0:2080 -i 127.0.0.1 -s  ${SERVER_IP}:${PORT}  -p  ${PASSWORD}  &
@@ -19,6 +19,10 @@ top -b -n 1 | grep brook
 
 ###-------------------- brook 使用示例 ----------------------------------###
 # https://github.com/txthinking/brook
+
+# wget  -qO  /usr/local/bin/brook https://github.com/txthinking/brook/releases/download/v20180909/brook
+# chmod +x   /usr/local/bin/brook
+# brook server -l :9999 -p brook9999  &
 
 # Run as a brook server
 # brook server -l :9999 -p password
