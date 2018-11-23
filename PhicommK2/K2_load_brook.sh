@@ -4,8 +4,10 @@
 # 主机型号	Phicomm K2
 # 固件版本	PandoraBox 16.11 Mod By LEAN 2016-11-05-git-45c5b40 / LuCI Master (git-16.274.06460-a91d7ee)
 
-K2_BROOK="https://github.com/txthinking/brook/releases/download/v20180909/brook_linux_mipsle"
+#  K2_BROOK="https://github.com/txthinking/brook/releases/download/v20180909/brook_linux_mipsle"
 
+#  改成下载upx压缩过的文件，速度快点，占用内存小点
+K2_BROOK="https://github.com/hongwenjun/vps_setup/raw/master/PhicommK2/brook_linux_mipsle"
 
 # 修改成 brook 服务器实际的 IP 端口 和密码
 SERVER_IP=1.2.3.4
