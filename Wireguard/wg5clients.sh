@@ -120,7 +120,7 @@ host=$(hostname -s)
 
 cd  /etc/wireguard/
 tar cvf  wg5clients.tar  client*  wg_*
-cat /etc/wireguard/wg_${host}_1.conf | qrencode -o - -t ansi256
+cat /etc/wireguard/wg_${host}_1.conf | qrencode -o - -t UTF8
 echo "# 手机扫描二维码2号配置，PC使用配置复制下面文本"
 
 cat /etc/wireguard/client.conf       && next
