@@ -118,6 +118,10 @@ next() {
 }
 host=$(hostname -s)
 
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Info="${Green_font_prefix}[信息]${Font_color_suffix}"
+Tip="${Red_font_prefix}[注意]${Font_color_suffix}"
+
 cd  /etc/wireguard/
 tar cvf  wg5clients.tar  client*  wg_*
 cat /etc/wireguard/wg_${host}_1.conf | qrencode -o - -t UTF8
@@ -129,13 +133,17 @@ cat /etc/wireguard/wg_${host}_2.conf   && next
 cat /etc/wireguard/wg_${host}_3.conf   && next
 cat /etc/wireguard/wg_${host}_4.conf   && next
 
-echo "#  wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
-echo "#  再次显示本文本使用 bash wg5 命令，通过下面2种方式获得其他的配置文件"
-echo "#  请浏览器访问   http://${serverip}:8000  下载配置文件 wg5clients.tar ，完成后请重启vps"
-echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 
+Http_Url="${Green_font_prefix}[ http://${serverip}:8000 ]${Font_color_suffix}"
+wg5_cmd="${Red_font_prefix}bash wg5${Font_color_suffix}"
+
+echo "#  wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
+echo "#  再次显示本文本使用 ${wg5_cmd} 命令，通过下面2种方式获得其他的配置文件"
+echo "#  请网页打开  ${Http_Url} 下载配置文件 wg5clients.tar ， ${Tip}: 完成后请重启vps"
+# echo "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 # 简单的web服务器，使用后，请重启vps
-python -m SimpleHTTPServer 8000
+python -m SimpleHTTPServer 8000 &
+echo " ${Tip}: 访问 ${Http_Url} 有惊喜，${Red_font_prefix} 手机扫描二维码后请立即重启VPS，因为现在临时网页服务，别人也可以下载。"    
 
 EOF
 cp wg5 ~/wg5
