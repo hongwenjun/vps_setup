@@ -111,17 +111,19 @@ wg-quick down wg0
 wg-quick up wg0
 wg
 
-cat <<EOF >wg5
- # 打包10个客户端配置，手机扫描二维码2号配置，PC使用1号配置
-next() {
-    printf "# %-70s\n" "-" | sed 's/\s/-/g'
-}
 #定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
 #定义提示信息
 Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[错误]${Font}"
 
+conf_url=http://${serverip}:8000
+
+cat  <<EOF >wg5
+ # 打包10个客户端配置，手机扫描二维码2号配置，PC使用1号配置
+next() {
+    printf "# %-70s\n" "-" | sed 's/\s/-/g'
+}
 
 host=$(hostname -s)
 
@@ -136,7 +138,6 @@ cat /etc/wireguard/wg_${host}_2.conf   && next
 cat /etc/wireguard/wg_${host}_3.conf   && next
 cat /etc/wireguard/wg_${host}_4.conf   && next
 
-conf_url=http://${serverip}:8000
 echo -e "# ${Info} wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
 echo -e "# ${Info} 再次显示本文本使用${GreenBG} bash wg5 ${Font} 命令，通过下面2种方式获得其他的配置文件"
 echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
@@ -144,8 +145,9 @@ echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文�
 # 简单的web服务器，使用后，请重启vps
 python -m SimpleHTTPServer 8000 &
 echo ""
-echo-e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 有惊喜， 手机扫描二维码后请立即重启VPS。"    
+echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 有惊喜， 手机扫描二维码后请立即重启VPS。"
 
 EOF
 cp wg5 ~/wg5
 bash wg5
+
