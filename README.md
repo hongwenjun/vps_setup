@@ -11,7 +11,7 @@ wget -qO- git.io/fpcnL | bash
 
 # CentOS7一键脚本安装WireGuard   (https://atrandys.com/2018/886.html)
 yum install -y wget && \
-wget https://raw.githubusercontent.com/yobabyshark/wireguard/master/wireguard_install.sh \
+wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
 && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
