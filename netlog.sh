@@ -3,7 +3,7 @@
 INDEX_HTML=/var/www/log/index.html
 mkdir -p   /var/www/log/
 
-echo '<pre>' > ${INDEX_HTML}
+echo '<!DOCTYPE html><meta charset=utf-8><pre>' > ${INDEX_HTML}
 
 top -b  | head -5 >> ${INDEX_HTML}
 
