@@ -13,7 +13,7 @@
 # 定义修改端口号，适合已经安装WireGuard而不想改端口
 
 port=9009
-mtu=1200
+mtu=1420
 host=$(hostname -s)
 
 ip_list=(2 8 18 88 188 118 158 198 168 186)
