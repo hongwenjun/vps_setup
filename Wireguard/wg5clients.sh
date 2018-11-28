@@ -88,7 +88,6 @@ EOF
 PrivateKey = $(cat cprivatekey)
 Address = $ip/24
 DNS = 8.8.8.8
-MTU = $mtu
 
 [Peer]
 PublicKey = $(cat spublickey)
