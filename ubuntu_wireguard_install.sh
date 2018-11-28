@@ -56,7 +56,7 @@ ListenPort = 9009
 # 服务端请求域名解析 DNS
 DNS = 8.8.8.8
 # 保持默认
-MTU = 1300
+MTU = 1420
 [Peer]
 # 公匙，自动读取上面刚刚生成的密匙内容
 PublicKey = $(cat cpublickey)
