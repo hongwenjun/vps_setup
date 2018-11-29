@@ -26,6 +26,8 @@ serverip=$(curl -4 icanhazip.com)
 
 # 安装二维码插件
 apt -y install qrencode
+
+wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
 #############################################################
 
 # 转到wg配置文件目录
@@ -153,4 +155,4 @@ bash  ~/wg5
 # 用户选择下载配置和修改mtu
 sed -i "s/# python -m/python -m/g"  ~/wg5
 sed -i "s/# echo -e/echo -e/g"  ~/wg5
-wget -O wgmtu https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
+
