@@ -21,8 +21,8 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash
 
-# WireGuar修改MTU数值脚本，修复多用户脚本改低MTU，导致速度降低的问题
-https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
+# WireGuar 服务端修改MTU数值脚本，
+wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh | bash
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
