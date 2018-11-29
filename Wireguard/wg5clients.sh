@@ -12,7 +12,16 @@
 #############################################################
 # 定义修改端口号，适合已经安装WireGuard而不想改端口
 
-port=9009
+#生成随机端口
+rand(){
+    min=$1
+    max=$(($2-$min+1))
+    num=$(cat /dev/urandom | head -n 10 | cksum | awk -F ' ' '{print $1}')
+    echo $(($num%$max+$min))  
+}
+
+port=$(rand 10000 60000)
+
 mtu=1420
 host=$(hostname -s)
 
