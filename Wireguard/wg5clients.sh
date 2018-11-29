@@ -58,7 +58,7 @@ cat <<EOF >client.conf
 PrivateKey = $(cat cprivatekey)
 Address = 10.0.0.2/24
 DNS = 8.8.8.8
-MTU = $mtu
+#  MTU = $mtu
 #  PreUp =  start   .\route\routes-up.bat
 #  PostDown = start  .\route\routes-down.bat
 
