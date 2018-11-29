@@ -2,6 +2,7 @@
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
 ### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
+# 由于脚本默认使用 9009 端口，上了黑名单，现在改成随机端口
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
@@ -21,8 +22,8 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash
 
-# WireGuar 服务端修改MTU数值脚本，
-wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh  && bash wgmtu.sh
+# WireGuar 服务端修改MTU数值脚本
+wget -O wgmtu https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh  && bash wgmtu
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
