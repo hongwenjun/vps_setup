@@ -22,7 +22,7 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 wget -qO- https://git.io/fpnQt | bash
 
 # WireGuar 服务端修改MTU数值脚本，
-wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh | bash
+wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh  && bash wgmtu.sh
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
