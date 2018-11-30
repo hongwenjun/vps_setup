@@ -1,8 +1,6 @@
-## Wireguard 手机和PC客户端设置技巧
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
-
 ### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
-# 由于脚本默认使用 9009 端口，上了黑名单，现在改成随机端口
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
+# 由于脚本默认使用 9009 端口，上了黑名单，现在改成随机端口，参考上图演示修改端口号
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
@@ -27,10 +25,11 @@ wget -O wgmtu https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wire
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
+## Wireguard 手机和PC客户端设置技巧
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
 
-### 导出到客户端配置，修改实际的IP，不要修改默认9009端口
+### 导出到客户端配置，修改实际的IP，修改成实际端口号
 ```
 # 查询WireGuard状态
 wg
