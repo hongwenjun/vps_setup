@@ -20,7 +20,7 @@ rand(){
     echo $(($num%$max+$min))  
 }
 
-port=$(rand 10000 60000)
+port=$(rand 1000 60000)
 
 mtu=1420
 host=$(hostname -s)
@@ -111,7 +111,7 @@ EOF
 done
 
 #  vps网卡如果不是eth0，修改成实际网卡
-ni=$(ls /sys/class/net | awk {print} | head -n 1)
+ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
 if [ $ni != "eth0" ]; then
     sed -i "s/eth0/${ni}/g"  /etc/wireguard/wg0.conf
 fi

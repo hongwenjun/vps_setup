@@ -52,7 +52,7 @@ PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j A
 # 如果你的服务器主网卡名称不是 eth0 ，那么请修改下面防火墙规则中最后的 eth0 为你的主网卡名称。
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 # 服务端监听端口，可以自行修改
-ListenPort = 9009
+ListenPort = 9999
 # 服务端请求域名解析 DNS
 DNS = 8.8.8.8
 # 保持默认
@@ -119,5 +119,6 @@ systemctl enable wg-quick@wg0
 # 查询WireGuard状态
 wg
 
+# 以上配置文本只是参考文档使用，实际调用另一脚本生成配置
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash

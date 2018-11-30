@@ -21,9 +21,6 @@ apt install linux-headers-$(uname -r) -y
 # Debian9 安装后内核列表
 dpkg -l|grep linux-headers
 
-# 安装二维码插件
-apt -y install qrencode
-
 # 安装WireGuard
 # 添加 unstable 软件包源，以确保安装版本是最新的
 echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
@@ -32,7 +29,7 @@ echo -e 'Package: *\nPin: release a=unstable\nPin-Priority: 150' > /etc/apt/pref
 # 更新一下软件包源
 apt update
  
-# 开始安装 WireGuard ，至于 resolvconf 我也不清楚这货具体是干嘛的，但是没有安装这个的系统会报错，但是具体会影响哪里使用我也不清楚，为了保险点不出错还是安装吧。一般 Debian9 都自带了。
+# 开始安装 WireGuard ，和辅助库 resolvconf
 apt install wireguard resolvconf -y
 
 # 验证是否安装成功
@@ -68,7 +65,7 @@ PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j A
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
 # 服务端监听端口，可以自行修改
-ListenPort = 9009
+ListenPort = 9999
 
 # 服务端请求域名解析 DNS
 DNS = 8.8.8.8
@@ -148,6 +145,8 @@ systemctl enable wg-quick@wg0
 # 查询WireGuard状态
 wg
 
+# 以上生成的配置只作为说明文档，实际去调用另一个脚本生成配置
+#
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash
 
