@@ -28,9 +28,9 @@ setmtu(){
 # 修改端口号
 setport(){
     echo -e "${GreenBG}修改 WireGuard 服务器端端口号，客户端要自行修改${Font}"
-    read -p "请输入数字(1000--60000): " num
+    read -p "请输入数字(100--60000): " num
     
-    if [[ ${num} -ge 1000 ]] && [[ ${num} -le 60000 ]]; then
+    if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        port=$num
        wg-quick down wg0
        sed -i "s/ListenPort = .*$/ListenPort = ${port}/g"  /etc/wireguard/wg0.conf  
@@ -48,13 +48,12 @@ bash wg5
 
 # 设置菜单
 start_menu(){
-    clear
     echo -e "${Green}1. 显示客户端配置文本，临时网页下载客户端"
     echo -e "2. 修改 WireGuard 服务器端 MTU 值"
     echo -e "3. 修改 WireGuard 端口号"
     echo -e "4. 退出设置${Font}"
     echo
-    read -p "请输入数字:" num
+    read -p "请输入数字(1-4):" num
     case "$num" in
         1)
 	wgconf
