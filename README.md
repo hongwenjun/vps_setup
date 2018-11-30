@@ -156,6 +156,7 @@ systemctl disable frps #禁止的脚本
 
 ### 更换新机器后
 ====================
+```
 apt-get update
 apt-get install gcc git nginx htop screen iperf3
 passwd root
@@ -167,10 +168,6 @@ systemctl enable frps
 systemctl enable brook 
 systemctl enable shadowsocks-go
 ```
-### 一键脚本 ss_brook 和 个人配置
-```
-# ss_brook脚本 (私人备份恢复脚本)
-wget -qO- git.io/fxQug | bash
 
 # Debian远程SSH汉字utf-8乱码解决
 apt-get  install locales
@@ -181,11 +178,13 @@ $ vim /etc/default/locale
 LANG=en_US.UTF-8
 
 # vim和bash高亮,tmux 配置
+```
 wget -O .vimrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
 wget -O .bashrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
 wget -O .tmux.conf --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
-
+```
 # 修改默认主页地址 和 目录索引显示
+```
 $ vim /etc/nginx/sites-enabled/default
 root /var/www;
 autoindex on;
