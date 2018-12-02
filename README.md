@@ -15,6 +15,10 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
 
+### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
+```
+wget -qO- https://git.io/fpKnF | bash
+```
 ###  一键 WireGuard 多用户配置共享脚本
 ```
 # 一键 WireGuard 多用户配置共享脚本 
@@ -63,10 +67,6 @@ wget -qO- git.io/fx6UQ | bash
 ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
 ```
 
-### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
-```
-预置端口已经玩坏，请修改端口后再测试
-```
 ### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
 ```
 # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
