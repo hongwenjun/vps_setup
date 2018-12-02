@@ -10,9 +10,6 @@ systemctl stop rc-local
 apt update
 apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
 
-# 下载 ss_wg_udp2raw.sh 用来改密码 和开放 ss 远程链接
-wget -O ss_wg_udp2raw.sh  https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/wg_udp2raw.sh  &&  chmod +x ss_wg_udp2raw.sh
-
 # 下载 ss-server
 wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
 chmod +x  ss-server  &&  mv ss-server /usr/local/bin/ss-server
@@ -55,9 +52,6 @@ cat <<EOF >/etc/rc.local
 ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
 kcp-server -t "127.0.0.1:40000" -l ":4000" -mode fast2 -mtu 1300  >> /var/log/kcp-server.log &
 udp2raw -s -l0.0.0.0:8855 -r 127.0.0.1:4000 -k "passwd" --raw-mode faketcp  >> /var/log/udp2raw.log &
-
-# WireGuard + UDP2RAW 伪装 TCP  预留端口  8866
-udp2raw -s -l0.0.0.0:8866 -r 127.0.0.1:9999 -k "passwd" --raw-mode faketcp  >> /var/log/wg_udp2raw.log &
 
 exit 0
 EOF
