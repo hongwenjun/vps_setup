@@ -148,7 +148,9 @@ cat /etc/wireguard/wg_${host}_2.conf   && next
 cat /etc/wireguard/wg_${host}_3.conf   && next
 cat /etc/wireguard/wg_${host}_4.conf   && next
 
-echo -e "# ${Info} wg 查看有效的客户端；删除客户端使用  wg set wg0 peer xxxx_填对应IP的公钥_xxxx remove"
+echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
+echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+echo
 echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
 echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
 
