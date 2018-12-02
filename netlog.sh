@@ -43,11 +43,15 @@ output_html(){
 # 安装 vnstat 添加定期运行
 vnstat_install(){
 
-    # 判断系统 安装
+    # 判断系统 安装软件
     if [ ! -e '/etc/redhat-release' ]; then
+    	# debian 系安装
         apt -y install vnstat nginx
     else
-        yum -y install vnstat nginx wget
+        # centos 系安装 vnstat nginx，如果web没法访问，需要关防火墙
+        yum -y install vnstat nginx
+	systemctl enable  nginx
+        systemctl restart nginx
     fi
 
 
