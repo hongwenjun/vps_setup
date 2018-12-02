@@ -17,8 +17,15 @@
 
 # 输出网络流量日志到html
 output_html(){
-    INDEX_HTML=/var/www/html/index.html
-    mkdir -p   /var/www/html/
+
+
+    # html 写文件位置
+    if [ ! -e '/etc/redhat-release' ]; then
+		INDEX_HTML=/var/www/html/index.html
+		mkdir -p   /var/www/html/
+	else
+        INDEX_HTML=/usr/share/nginx/html/index.html
+	fi
 
     echo '<!DOCTYPE html><meta charset=utf-8><pre>' > ${INDEX_HTML}
 
@@ -36,14 +43,13 @@ output_html(){
 # 安装 vnstat 添加定期运行
 vnstat_install(){
 
-    # 判断系统 选择 apt
+    # 判断系统 安装
     if [ ! -e '/etc/redhat-release' ]; then
-        alias apt='apt'
+        apt -y install vnstat nginx
     else
-        alias apt='yum'
+        yum -y install vnstat nginx wget
     fi
 
-    apt -y install vnstat nginx
 
     #  vps网卡如果不是eth0，修改成实际网卡
     ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
@@ -58,7 +64,7 @@ vnstat_install(){
 	echo "*/10  *   *   *  *    wget -qO- git.io/fxxlb | bash" >> crontab.txt
 	crontab crontab.txt
 	sleep 2
-	if [! -e '/etc/redhat-release' ];then
+	if [ ! -e '/etc/redhat-release' ]; then
 		systemctl restart cron
 	else
 		systemctl restart crond
@@ -68,11 +74,10 @@ vnstat_install(){
 }
 
 # 首次运行脚本需要安装
-if [ ! -f '/etc/vnstat.conf' ]; then
+if [ ! -f '/usr/bin/vnstat' ]; then
     vnstat_install
 fi
 
 # 输出网络流量信息到html文件
 output_html
-
 
