@@ -65,9 +65,7 @@ ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
 
 ### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
 ```
-wget https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/wg_udp2raw.sh 
-chmod +x wg_udp2raw.sh  && ./wg_udp2raw.sh
-
+预置端口已经玩坏，请修改端口后再测试
 ```
 ### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
 ```
