@@ -24,8 +24,8 @@ wget -qO- https://git.io/fpKnF | bash
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash
 
-# WireGuar 服务端修改MTU数值脚本
-wget -O wgmtu https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh  && bash wgmtu
+# WireGuar 服务端修改MTU数值，修改服务器端口脚本，Udp2Raw服务TCP伪装设置
+# 自动下载，使用命令  bash wgmtu  设置   
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
