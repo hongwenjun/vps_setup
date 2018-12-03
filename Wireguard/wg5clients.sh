@@ -28,14 +28,17 @@ host=$(hostname -s)
 ip_list=(2 8 18 88 188 118 158 198 168 186)
 
 # 获得服务器ip，自动获取
-if [ $host == "debian" ]; then
+if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl 
 fi
 serverip=$(curl -4 icanhazip.com)
 
 # 安装二维码插件
-apt -y install qrencode
+if [ ! -f '/usr/bin/qrencode' ]; then
+    apt -y install qrencode
+fi
 
+# 安装 bash wgmtu 脚本用来设置服务器
 wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
 #############################################################
 
@@ -161,7 +164,9 @@ echo ""
 # echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 有惊喜， 手机扫描二维码后请立即重启VPS。"
 
 EOF
-bash  ~/wg5
+
+# 显示服务器配置信息
+bash ~/wg5
 
 # 用户选择下载配置和修改mtu
 sed -i "s/# python -m/python -m/g"  ~/wg5
