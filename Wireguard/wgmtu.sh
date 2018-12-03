@@ -49,7 +49,8 @@ wgconf()
 
 wg_clients()
 {
-    wget -qO- https://git.io/fp6r0 | bash
+    wget -O ~/wg100  https://git.io/fp6r0
+    bash ~/wg100
 }
 
 udp2raw()
