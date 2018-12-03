@@ -1,84 +1,100 @@
 #!/bin/bash
 
-# 服务器 IP 和 端口
-port=$(wg | grep 'listening port:' | awk '{print $3}')
-serverip=$(curl -4 icanhazip.com)
-host=$(hostname -s)
-
-#定义文字颜色
+# 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-#定义提示信息
-Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[错误]${Font}"
+# 修改mtu数值
+setmtu(){
+    echo -e "${GreenBG}WireGuard 修改服务器端MTU值，最大效率加大网速，默认值 MTU = 1420 "
+    echo -e "WireGuard 客户端可以MTU参数自动，请修改电脑客户端TunSafe配置把MTU行注释掉。${Font}"
+    read -p "请输入数字(1200--1500): " num
 
-# 转到wg配置文件目录
-cd /etc/wireguard
-cp wg0.conf  conf.wg0.bak
-
-echo -e   "${RedBG}                设置 WireGuard 客户端数量脚本            ${Font}"
-echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-echo
-echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
-echo
-echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
-read -p "请输入数字(5--200): " num
-
-if [[ ${num} -ge 5 ]] && [[ ${num} -le 200 ]]; then
- wg_num=OK
-else
-  num=10
-fi
-
-# 删除原1号配置，让IP和配置号对应; 保留原来服务器的端口等配置
-rm  /etc/wireguard/wg_${host}_1.*
-head -n 13  conf.wg0.bak > wg0.conf
-
-# 修改用户配置数量
-for i in `seq 2 250`
-do
-    if [ $i -ge $num ]; then
-        break
+    if [[ ${num} -ge 1200 ]] && [[ ${num} -le 1500 ]]; then
+       mtu=$num
+    else
+       mtu=1420
     fi
 
-    ip=10.0.0.${i}
-    wg genkey | tee cprivatekey | wg pubkey > cpublickey
+    wg-quick down wg0
+    sed -i "s/MTU = .*$/MTU = ${mtu}/g"  /etc/wireguard/wg0.conf
 
-    cat <<EOF >>wg0.conf
-[Peer]
-PublicKey = $(cat cpublickey)
-AllowedIPs = $ip/32
+    wg-quick up wg0
 
-EOF
+    echo -e "${RedBG}服务器端MTU值已经修改!${Font}"
 
-    cat <<EOF >wg_${host}_$i.conf
-[Interface]
-PrivateKey = $(cat cprivatekey)
-Address = $ip/24
-DNS = 8.8.8.8
+}
 
-[Peer]
-PublicKey = $(cat spublickey)
-Endpoint = $serverip:$port
-AllowedIPs = 0.0.0.0/0, ::0/0
-PersistentKeepalive = 25
 
-EOF
-    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
+# 修改端口号
+setport(){
+    echo -e "${GreenBG}修改 WireGuard 服务器端端口号，客户端要自行修改${Font}"
+    read -p "请输入数字(100--60000): " num
 
-done
+    if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
+       port=$num
+       wg-quick down wg0
+       sed -i "s/ListenPort = .*$/ListenPort = ${port}/g"  /etc/wireguard/wg0.conf
+       wg-quick up wg0
+       echo -e "${RedBG}端口号已经修改!${Font}"
+    else
+       echo -e "${RedBG}没有修改端口号!${Font}"
+    fi
 
-# 重启wg服务器
-wg-quick down wg0
-wg-quick up wg0
-wg
+}
 
-cat /etc/wireguard/client.conf
-cat /etc/wireguard/wg_${host}_2.conf
-cat /etc/wireguard/wg_${host}_3.conf
-cat /etc/wireguard/wg_${host}_4.conf
-echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-echo
-echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
+wgconf()
+{
+    bash wg5
+}
+
+wg_clients()
+{
+    wget -qO- https://git.io/fp6r0 | bash
+}
+
+udp2raw()
+{
+    wget -qO- https://git.io/fpKnF | bash
+    echo -e "${RedBG}:: WireGuard 使用 Udp2Raw 需要把 MTU 设置成1200-1300  ${Font}"
+    echo -e "${GreenBG}:: 您可以在本脚本基础上，修改成加速脚本！... 你懂的！${Font}"
+}
+
+# 设置菜单
+start_menu(){
+    echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
+    echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+    echo -e "${Green}>  1. 显示客户端配置文本，临时网页下载客户端"
+    echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
+    echo -e ">  3. 修改 WireGuard 端口号"
+    echo -e ">  4. 安装Udp2Raw服务TCP伪装 WireGuard 服务端设置"
+    echo -e ">  5. 重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬"
+    echo -e ">  6. 退出设置${Font}"
+    echo
+    read -p "请输入数字(1-5):" num
+    case "$num" in
+        1)
+        wgconf
+        ;;
+        2)
+        setmtu
+        ;;
+        3)
+        setport
+        ;;
+        4)
+        udp2raw
+        ;;
+        5)
+        wg_clients
+        ;;
+        6)
+        exit 1
+        ;;
+        *)
+        echo
+        echo "请输入正确数字"
+        ;;
+        esac
+}
+
+start_menu
