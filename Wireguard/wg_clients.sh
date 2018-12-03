@@ -22,12 +22,12 @@ echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页
 echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
 echo
 echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
-read -p "请输入数字(5--200): " num
+read -p "请输入数字(5--200): " num_x
 
 if [[ ${num} -ge 5 ]] && [[ ${num} -le 200 ]]; then
  wg_num=OK
 else
-  num=10
+  num_x=10
 fi
 
 # 删除原1号配置，让IP和配置号对应; 保留原来服务器的端口等配置
@@ -37,7 +37,7 @@ head -n 13  conf.wg0.bak > wg0.conf
 # 修改用户配置数量
 for i in `seq 2 250`
 do
-    if [ $i -ge $num ]; then
+    if [ $i -ge $num_x ]; then
         break
     fi
 
