@@ -47,6 +47,11 @@ wgconf()
     bash wg5
 }
 
+wg_clients()
+{
+    wget -qO- https://git.io/fp6r0 | bash
+}
+
 udp2raw()
 {
     wget -qO- https://git.io/fpKnF | bash
@@ -62,7 +67,8 @@ start_menu(){
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号"
     echo -e ">  4. 安装Udp2Raw服务TCP伪装 WireGuard 服务端设置"
-    echo -e ">  5. 退出设置${Font}"
+    echo -e ">  5. 重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬"
+    echo -e ">  6. 退出设置${Font}"
     echo
     read -p "请输入数字(1-5):" num
     case "$num" in
@@ -79,6 +85,9 @@ start_menu(){
         udp2raw
         ;;
         5)
+        wg_clients
+        ;;
+        6)
         exit 1
         ;;
         *)
