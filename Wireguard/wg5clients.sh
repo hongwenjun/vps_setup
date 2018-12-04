@@ -62,7 +62,7 @@ MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.2/32
+AllowedIPs = 10.0.0.218/32
 
 EOF
 
@@ -70,7 +70,7 @@ EOF
 cat <<EOF >client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.2/24
+Address = 10.0.0.218/24
 DNS = 8.8.8.8
 #  MTU = $mtu
 #  PreUp =  start   .\route\routes-up.bat
@@ -155,7 +155,7 @@ echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7  
 echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
+echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，重置客户端数量，设置服务器端MTU数值或服务端口号 "
 
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
 # echo -e "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
