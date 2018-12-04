@@ -15,32 +15,28 @@ Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[
 cd /etc/wireguard
 cp wg0.conf  conf.wg0.bak
 
-echo -e   "${RedBG}                设置 WireGuard 客户端数量脚本            ${Font}"
+echo -e   "${RedBG}重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬${Font}"
 echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
 echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
 echo
 echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
-read -p "请输入数字(5--200): " num_x
+read -p "请输入数字(3--218): " num_x
 
-if [[ ${num} -ge 5 ]] && [[ ${num} -le 200 ]]; then
+if [[ ${num_x} -ge 3 ]] && [[ ${num_x} -le 218 ]]; then
  wg_num=OK
 else
-  num_x=10
+  num_x=5
 fi
 
 # 删除原1号配置，让IP和配置号对应; 保留原来服务器的端口等配置
-rm  /etc/wireguard/wg_${host}_1.*
+rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
 head -n 13  conf.wg0.bak > wg0.conf
 
 # 修改用户配置数量
 for i in `seq 2 250`
 do
-    if [ $i -ge $num_x ]; then
-        break
-    fi
-
     ip=10.0.0.${i}
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
@@ -48,6 +44,7 @@ do
 [Peer]
 PublicKey = $(cat cpublickey)
 AllowedIPs = $ip/32
+
 EOF
 
     cat <<EOF >wg_${host}_$i.conf
@@ -55,27 +52,31 @@ EOF
 PrivateKey = $(cat cprivatekey)
 Address = $ip/24
 DNS = 8.8.8.8
+
 [Peer]
 PublicKey = $(cat spublickey)
 Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
+
 EOF
     cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
 
+    if [ $i -ge $num_x ]; then
+        break
+    fi
 done
 
 # 重启wg服务器
-wg-quick down wg0
-wg-quick up wg0
+wg-quick down wg0  >/dev/null 2>&1
+wg-quick up wg0    >/dev/null 2>&1
 wg
 
 cat /etc/wireguard/client.conf
 cat /etc/wireguard/wg_${host}_2.conf
 cat /etc/wireguard/wg_${host}_3.conf
-cat /etc/wireguard/wg_${host}_4.conf
 echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
 echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，设置服务器端MTU数值或服务端口号"
+echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，重置客户端数量，设置服务器端MTU数值或服务端口号 "
