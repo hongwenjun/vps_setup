@@ -49,7 +49,9 @@ wgconf()
 
 wg_clients()
 {
-    wget -O ~/wg100  https://git.io/fp6r0
+    echo -e "${RedBG}:: 注意原来的客户端配置都会删除，按 Ctrl+ C 可以紧急撤销  ${Font}"
+    read -p "请任意键继续:" xx
+    wget -O ~/wg100  https://git.io/fp6r0    >/dev/null 2>&1
     bash ~/wg100
 }
 
