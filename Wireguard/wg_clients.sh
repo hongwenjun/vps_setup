@@ -1,28 +1,9 @@
 #!/bin/bash
-#    WireGuard VPN多用户服务端  自动配置脚本
 
-#    本脚本(WireGuard 多用户配置)一键安装短网址
-#    wget -qO- https://git.io/fpnQt | bash
-
-#############################################################
-help_info()
-{
-cat  <<EOF
-
-# 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
-wget -qO- git.io/fptwc | bash
-
-# 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
-wget -qO- git.io/fpcnL | bash
-
-# CentOS7一键脚本安装WireGuard   (https://atrandys.com/2018/886.html)
-yum install -y wget && \
-wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
-&& chmod +x wireguard_install.sh && ./wireguard_install.sh
-
-EOF
-}
-#############################################################
+# 服务器 IP 和 端口
+port=$(wg | grep 'listening port:' | awk '{print $3}')
+serverip=$(curl -4 icanhazip.com)
+host=$(hostname -s)
 
 #定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
@@ -30,96 +11,31 @@ Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;3
 #定义提示信息
 Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[错误]${Font}"
 
-# 检查是否安装 WireGuard
-if [ ! -f '/usr/bin/wg' ]; then
-    clear
-    echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-    echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-    help_info
-    echo -e "${RedBG}   检测到你的vps没有正确选择脚本，请使用对应系统的脚本安装   ${Font}"
-    exit 1
-fi
-#############################################################
-
-# 定义修改端口号，适合已经安装WireGuard而不想改端口
-
-#生成随机端口
-rand(){
-    min=$1
-    max=$(($2-$min+1))
-    num=$(cat /dev/urandom | head -n 10 | cksum | awk -F ' ' '{print $1}')
-    echo $(($num%$max+$min))
-}
-
-port=$(rand 1000 60000)
-
-mtu=1420
-host=$(hostname -s)
-
-ip_list=(2 5 8 18 88 188 118 158 198 168 186 )
-
-# 获得服务器ip，自动获取
-if [ ! -f '/usr/bin/curl' ]; then
-    apt update && apt install -y curl
-fi
-serverip=$(curl -4 icanhazip.com)
-
-# 安装二维码插件
-if [ ! -f '/usr/bin/qrencode' ]; then
-    apt -y install qrencode
-fi
-
-# 安装 bash wgmtu 脚本用来设置服务器
-wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
-
-#############################################################
-
 # 转到wg配置文件目录
 cd /etc/wireguard
+cp wg0.conf  conf.wg0.bak
 
-# 然后开始生成 密匙对(公匙+私匙)。
-wg genkey | tee sprivatekey | wg pubkey > spublickey
-wg genkey | tee cprivatekey | wg pubkey > cpublickey
+echo -e   "${RedBG}重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬${Font}"
+echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+echo
 
-# 生成服务端配置文件
-cat <<EOF >wg0.conf
-[Interface]
-PrivateKey = $(cat sprivatekey)
-Address = 10.0.0.1/24
-PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-ListenPort = $port
-DNS = 8.8.8.8
-MTU = $mtu
+echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
+read -p "请输入数字(3--218): " num_x
 
-[Peer]
-PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.218/32
+if [[ ${num_x} -ge 3 ]] && [[ ${num_x} -le 218 ]]; then
+ wg_num=OK
+else
+  num_x=5
+fi
 
-EOF
+# 删除原1号配置，让IP和配置号对应; 保留原来服务器的端口等配置
+rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
+head -n 13  conf.wg0.bak > wg0.conf
 
-# 生成简洁的客户端配置
-cat <<EOF >client.conf
-[Interface]
-PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.218/24
-DNS = 8.8.8.8
-#  MTU = $mtu
-#  PreUp =  start   .\route\routes-up.bat
-#  PostDown = start  .\route\routes-down.bat
-
-[Peer]
-PublicKey = $(cat spublickey)
-Endpoint = $serverip:$port
-AllowedIPs = 0.0.0.0/0, ::0/0
-PersistentKeepalive = 25
-
-EOF
-
-# 添加 2-9 号多用户配置
-for i in {2..9}
+# 修改用户配置数量
+for i in `seq 2 250`
 do
-    ip=10.0.0.${ip_list[$i]}
+    ip=10.0.0.${i}
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
     cat <<EOF >>wg0.conf
@@ -143,57 +59,22 @@ PersistentKeepalive = 25
 
 EOF
     cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
+
+    if [ $i -ge $num_x ]; then
+        break
+    fi
 done
 
-#  vps网卡如果不是eth0，修改成实际网卡
-ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
-if [ $ni != "eth0" ]; then
-    sed -i "s/eth0/${ni}/g"  /etc/wireguard/wg0.conf
-fi
-
 # 重启wg服务器
-wg-quick down wg0
-wg-quick up wg0
+wg-quick down wg0  >/dev/null 2>&1
+wg-quick up wg0    >/dev/null 2>&1
 wg
 
-conf_url=http://${serverip}:8000
-
-cat  <<EOF > ~/wg5
- # 打包10个客户端配置，手机扫描二维码2号配置，PC使用1号配置
-next() {
-    printf "# %-70s\n" "-" | sed 's/\s/-/g'
-}
-
-host=$(hostname -s)
-
-cd  /etc/wireguard/
-tar cvf  wg5clients.tar  client*  wg*
-cat /etc/wireguard/wg_${host}_2.conf | qrencode -o - -t UTF8
-echo -e  "${GreenBG}#   手机扫描二维码2号配置，Windows 用配置请复制合适文本 ${Font}"
-
-cat /etc/wireguard/client.conf       && next
-cat /etc/wireguard/wg_${host}_2.conf   && next
-cat /etc/wireguard/wg_${host}_3.conf   && next
-cat /etc/wireguard/wg_${host}_4.conf   && next
-
+cat /etc/wireguard/client.conf
+cat /etc/wireguard/wg_${host}_2.conf
+cat /etc/wireguard/wg_${host}_3.conf
 echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
 echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
 echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，重置客户端数量，设置服务器端MTU数值或服务端口号 "
-
-# echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
-# echo -e "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
-# python -m SimpleHTTPServer 8000 &
-echo ""
-# echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 有惊喜， 手机扫描二维码后请立即重启VPS。"
-
-EOF
-
-# 显示服务器配置信息
-bash ~/wg5
-
-# 用户选择下载配置和修改mtu
-sed -i "s/# python -m/python -m/g"  ~/wg5
-sed -i "s/# echo -e/echo -e/g"  ~/wg5
-
