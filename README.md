@@ -1,7 +1,8 @@
-### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
-# 由于脚本默认使用 9009 端口，上了黑名单，现在改成随机端口，参考上图演示修改端口号
+# 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
 ```
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c)
+### 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
 
