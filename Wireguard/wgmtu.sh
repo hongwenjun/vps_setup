@@ -20,7 +20,7 @@ setmtu(){
 
     wg-quick up wg0
 
-    echo -e "${RedBG}服务器端MTU值已经修改!${Font}"
+    echo -e "${RedBG}    服务器端MTU值已经修改!    ${Font}"
 
 }
 
@@ -35,16 +35,16 @@ setport(){
        wg-quick down wg0
        sed -i "s/ListenPort = .*$/ListenPort = ${port}/g"  /etc/wireguard/wg0.conf
        wg-quick up wg0
-       echo -e "${RedBG}端口号已经修改!${Font}"
+       echo -e "${RedBG}    端口号已经修改!    ${Font}"
     else
-       echo -e "${RedBG}没有修改端口号!${Font}"
+       echo -e "${RedBG}    没有修改端口号!    ${Font}"
     fi
 
 }
 
 wgconf()
 {
-    bash wg5
+    bash  ~/wg5
 }
 
 wg_clients()
@@ -73,7 +73,7 @@ start_menu(){
     echo -e ">  5. 重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬"
     echo -e ">  6. 退出设置${Font}"
     echo
-    read -p "请输入数字(1-5):" num
+    read -p "请输入数字(1-6):" num
     case "$num" in
         1)
         wgconf
