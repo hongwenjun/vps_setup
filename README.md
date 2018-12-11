@@ -81,6 +81,23 @@ wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
 ```
 
+### Google Cloud Platform  GCP实例开启密码与root用户登陆
+```
+#  GCP一键启用root帐号命令
+#  wget -qO- git.io/fpQWf | bash
+```
+
+### 使用 vnstat 检测VPS流量使用
+```
+# 一键安装 vnstat 流量检测
+wget -qO- git.io/fxxlb | bash
+```
+### linux下golang环境搭建自动脚本
+```
+# linux下golang环境搭建自动脚本  by 蘭雅sRGB
+wget -qO- https://git.io/fp4jf | bash
+```
+
 # -------------------------------------------------------------------
 #   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
 # -------------------------------------------------------------------
@@ -90,14 +107,6 @@ wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBest
 下载程序地址:  https://github.com/hongwenjun/WinKcp_Launcher
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/WinKcp_Launcher.webp)
-
-### linux下golang环境搭建自动脚本
-
-```
-# linux下golang环境搭建自动脚本  by 蘭雅sRGB
-wget -qO- https://git.io/fp4jf | bash
-
-```
 
 # Debian远程SSH汉字utf-8乱码解决
 ```
