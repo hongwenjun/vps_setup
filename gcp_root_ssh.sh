@@ -13,4 +13,4 @@ sed -i "s/PasswordAuthentication.*/PasswordAuthentication yes/g"   /etc/ssh/sshd
 systemctl restart ssh
 
 # 修改root 密码
-passwd
+echo "请输入 passwd  命令修改root用户的密码"
