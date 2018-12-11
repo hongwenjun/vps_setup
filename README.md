@@ -45,6 +45,16 @@ wg
 # 显示配置文件
 cat /etc/wireguard/client.conf
 ```
+### 使用命令行显示配置和生成二维码
+![](https://raw.githubusercontent.com/hongwenjun/img/master/qrencode.png)
+```
+# 文本显示一个配置文件
+cat wg_vultr_5.conf
+
+# 把配置文件使用通道传到二维码软件
+# -o- 表示显示在屏幕 -t utf8 文本格式
+cat wg_vultr_5.conf  | qrencode -o- -t utf8
+```
 ### 遇到wg连接主机而没有流量，使用 Ip addr 命令检查vps网卡是否是ensx，参考下面修改配置重启
 ```
 #  一键脚本已经检查出vultr主机，自动修改配置，不用再手工运行
