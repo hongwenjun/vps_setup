@@ -17,10 +17,6 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
 
-### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
-```
-wget -qO- https://git.io/fpKnF | bash
-```
 ###  一键 WireGuard 多用户配置共享脚本
 ```
 # 一键 WireGuard 多用户配置共享脚本 
@@ -31,17 +27,33 @@ wget -qO- https://git.io/fpnQt | bash
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
-## Wireguard 手机和PC客户端设置技巧
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
+### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
+```
+wget -qO- https://git.io/fpKnF | bash
+```
+### 使用Udp2Raw 调试好脚本，可以使用工具方便使用
+![](https://raw.githubusercontent.com/hongwenjun/img/master/wg_udp2raw.gif)
 
+## Wireguard 手机和PC客户端设置技巧，现在可以直接扫描二维码，更加方便
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
 ### 导出到客户端配置，修改实际的IP，修改成实际端口号
 ```
 # 查询WireGuard状态
 wg
 
-# 显示配置文件，修改实际的IP，不要修改默认9009端口
+# 显示配置文件
 cat /etc/wireguard/client.conf
+```
+### 使用命令行显示配置和生成二维码
+![](https://raw.githubusercontent.com/hongwenjun/img/master/qrencode.png)
+```
+# 文本显示一个配置文件
+cat wg_vultr_5.conf
+
+# 把配置文件使用通道传到二维码软件
+# -o- 表示显示在屏幕 -t utf8 文本格式
+cat wg_vultr_5.conf  | qrencode -o- -t utf8
 ```
 ### 遇到wg连接主机而没有流量，使用 Ip addr 命令检查vps网卡是否是ensx，参考下面修改配置重启
 ```
@@ -79,6 +91,23 @@ wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
 ```
 
+### Google Cloud Platform  GCP实例开启密码与root用户登陆
+```
+#  GCP一键启用root帐号命令
+#  wget -qO- git.io/fpQWf | bash
+```
+
+### 使用 vnstat 检测VPS流量使用
+```
+# 一键安装 vnstat 流量检测
+wget -qO- git.io/fxxlb | bash
+```
+### linux下golang环境搭建自动脚本
+```
+# linux下golang环境搭建自动脚本  by 蘭雅sRGB
+wget -qO- https://git.io/fp4jf | bash
+```
+
 # -------------------------------------------------------------------
 #   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
 # -------------------------------------------------------------------
@@ -89,13 +118,39 @@ wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBest
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/WinKcp_Launcher.webp)
 
-### linux下golang环境搭建自动脚本
+# Debian远程SSH汉字utf-8乱码解决
+```
+apt-get  install locales
+dpkg-reconfigure locales
+```
+# 查看默认字符集是否是en_US.UTF-8
+```
+$ vim /etc/default/locale
+LANG=en_US.UTF-8
+```
+
+# vim和bash高亮,tmux 配置
+```
+wget -O .vimrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
+wget -O .bashrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
+wget -O .tmux.conf --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
+```
+# 修改默认主页地址 和 目录索引显示
+```
+$ vim /etc/nginx/sites-enabled/default
+root /var/www;
+autoindex on;
 
 ```
-# linux下golang环境搭建自动脚本  by 蘭雅sRGB
-wget -qO- https://git.io/fp4jf | bash
 
+### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
+================================================
 ```
+wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
+chmod +x vps_setup.sh && ./vps_setup.sh
+```
+
+
 
 ### 获取自己所需服务软件的信息
 ```
@@ -152,48 +207,4 @@ systemctl enable brook
 systemctl enable shadowsocks-go
 
 systemctl disable frps #禁止的脚本
-```
-
-### 更换新机器后
-====================
-```
-apt-get update
-apt-get install gcc git nginx htop screen iperf3
-passwd root
-git clone https://github.com/hongwenjun/vps_setup.git
-
-tar -xzvf ss_frp.tar.gz -C /
-
-systemctl enable frps
-systemctl enable brook 
-systemctl enable shadowsocks-go
-```
-
-# Debian远程SSH汉字utf-8乱码解决
-apt-get  install locales
-dpkg-reconfigure locales
-
-# 查看默认字符集是否是en_US.UTF-8
-$ vim /etc/default/locale
-LANG=en_US.UTF-8
-
-# vim和bash高亮,tmux 配置
-```
-wget -O .vimrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
-wget -O .bashrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
-wget -O .tmux.conf --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
-```
-# 修改默认主页地址 和 目录索引显示
-```
-$ vim /etc/nginx/sites-enabled/default
-root /var/www;
-autoindex on;
-
-```
-
-### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
-================================================
-```
-wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
-chmod +x vps_setup.sh && ./vps_setup.sh
 ```
