@@ -10,20 +10,20 @@ go_url="https://dl.google.com/go/${go_tar_gz}"
 
 wget --no-check-certificate -O ${go_tar_gz}  ${go_url}
 tar -xvf  ${go_tar_gz}
-mv go   /usr/local/.
 rm  ${go_tar_gz}
 
 
 # go语言 添加环境变量
 
-cat <<EOF >> /etc/profile
-
-export PATH="$PATH:/usr/local/go/bin"
+cat <<EOF >> ~/.profile
+export GOROOT=/root/go
+export GOPATH=/root/go/work
+export PATH=$PATH:/root/go/bin
 
 EOF
 
-source /etc/profile
-
+source ~/.profile
+mkdir -p /root/go/work
 
 # 测试go语言安装
 
