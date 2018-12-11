@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #  Google Cloud Platform  GCP实例开启密码与root用户登陆
-#  
+
+#  GCP一键启用root帐号命令
+#  wget -qO- git.io/fpQWf | bash
 
 # 修改root 密码
 passwd
