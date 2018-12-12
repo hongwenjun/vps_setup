@@ -159,17 +159,15 @@ wg
 conf_url=http://${serverip}:8000
 
 cat  <<EOF > ~/wg5
- # 打包10个客户端配置，手机扫描二维码2号配置，PC使用1号配置
+ # 打包客户端配置，开启临时WEB服务下载
 next() {
     printf "# %-70s\n" "-" | sed 's/\s/-/g'
 }
 
 host=$(hostname -s)
-
 cd  /etc/wireguard/
 tar cvf  wg5clients.tar  client*  wg*
-cat /etc/wireguard/wg_${host}_2.conf | qrencode -o - -t UTF8
-echo -e  "${GreenBG}#   手机扫描二维码2号配置，Windows 用配置请复制合适文本 ${Font}"
+echo -e  "${GreenBG}#  Windows 客户端配置，请复制配置文本 ${Font}"
 
 cat /etc/wireguard/client.conf       && next
 cat /etc/wireguard/wg_${host}_2.conf   && next
@@ -179,14 +177,14 @@ cat /etc/wireguard/wg_${host}_4.conf   && next
 echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
 echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
-echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，重置客户端数量，设置服务器端MTU数值或服务端口号 "
+echo -e "# ${Info} 新手使用${GreenBG} bash wg5 ${Font} 命令，使用临时网页下载配置和手机客户端二维码配置"
+echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，服务端高级配置; (至少能vim wgmtu会看脚本爱折腾玩家)"
 
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
 # echo -e "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 # python -m SimpleHTTPServer 8000 &
 echo ""
-# echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 有惊喜， 手机扫描二维码后请立即重启VPS。"
+# echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
 
 EOF
 
