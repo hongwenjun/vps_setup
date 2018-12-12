@@ -44,7 +44,21 @@ setport(){
 
 wgconf()
 {
-    bash  ~/wg5
+    echo -e "${RedBG}:: 显示手机客户端二维码  (如改端口,请先菜单5重置客户端配置)  ${Font}"
+    read -p "请输入数字(2-9)，默认2号: " x
+
+    if [[ ${x} -ge 2 ]] && [[ ${x} -le 9 ]]; then
+       i=$x
+    else
+       i=2
+    fi
+
+    host=$(hostname -s)
+
+    cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
+
+    echo -e "${GreenBG}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用 ${Font}"
+
 }
 
 wg_clients()
@@ -62,15 +76,30 @@ udp2raw()
     echo -e "${GreenBG}:: 您可以在本脚本基础上，修改成加速脚本！... 你懂的！${Font}"
 }
 
+# 隐藏功能:从源VPS克隆服务端配置，共用客户端配置
+scp_conf()
+{
+    echo -e "${RedBG}:: 警告: 警告: 警告: VPS服务器已经被GFW防火墙关照，按 Ctrl+ C 可以紧急逃离！  ${Font}"
+    echo  "隐藏功能:从源VPS克隆服务端配置，共用客户端配置"
+    read -p "请输入源VPS的IP地址(域名):"  vps_ip
+    cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
+    echo -e "${RedBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，原vps的root密码"
+    ${cmd}
+
+    wg-quick down wg0   >/dev/null 2>&1
+    wg-quick up wg0     >/dev/null 2>&1
+    echo -e "${RedBG}    WG服务器端，已经使用源vps的配置启动!    ${Font}"
+}
+
 # 设置菜单
 start_menu(){
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
     echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-    echo -e "${Green}>  1. 显示客户端配置文本，临时网页下载客户端"
+    echo -e "${Green}>  1. 显示手机客户端二维码"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
-    echo -e ">  3. 修改 WireGuard 端口号"
+    echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
     echo -e ">  4. 安装Udp2Raw服务TCP伪装 WireGuard 服务端设置"
-    echo -e ">  5. 重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬"
+    echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
     echo -e ">  6. 退出设置${Font}"
     echo
     read -p "请输入数字(1-6):" num
@@ -92,6 +121,9 @@ start_menu(){
         ;;
         6)
         exit 1
+        ;;
+        88)
+        scp_conf
         ;;
         *)
         echo
