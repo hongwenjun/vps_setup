@@ -100,35 +100,39 @@ onekey_plus()
 {
     echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
     cat  <<EOF
-    #  Google Cloud Platform GCP实例开启密码与root用户登陆
-    wget -qO- git.io/fpQWf | bash
+  #  Google Cloud Platform GCP实例开启密码与root用户登陆
+  wget -qO- git.io/fpQWf | bash
 
-    # 一键安装 vnstat 流量检测   by 蘭雅sRGB
-    wget -qO- git.io/fxxlb | bash
+  # 一键安装 vnstat 流量检测   by 蘭雅sRGB
+  wget -qO- git.io/fxxlb | bash
 
-    # 一键安装wireguard 脚本 Debian 9  (源:逗比网安装笔记)
-    wget -qO- git.io/fptwc | bash
+  # 一键安装wireguard 脚本 Debian 9  (源:逗比网安装笔记)
+  wget -qO- git.io/fptwc | bash
 
-    # 一键 WireGuard 多用户配置共享脚本   by 蘭雅sRGB
-    wget -qO- https://git.io/fpnQt | bash
+  # 一键 WireGuard 多用户配置共享脚本   by 蘭雅sRGB
+  wget -qO- https://git.io/fpnQt | bash
 
-    # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9
-    wget -qO- git.io/fpZIW | bash
+  # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9
+  wget -qO- git.io/fpZIW | bash
 
-    # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)
-    wget -qO- git.io/fx6UQ | bash
+  # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)
+  wget -qO- git.io/fx6UQ | bash
 
-    # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
-    wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
+  # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
+  wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
 
-    # linux下golang环境搭建自动脚本  by 蘭雅sRGB
-    wget -qO- https://git.io/fp4jf | bash
+  # linux下golang环境搭建自动脚本  by 蘭雅sRGB
+  wget -qO- https://git.io/fp4jf | bash
 
-    # SuperBench.sh 一键测试服务器的基本参数
-    wget -qO- git.io/superbench.sh | bash
+  # SuperBench.sh 一键测试服务器的基本参数
+  wget -qO- git.io/superbench.sh | bash
 
-    # 使用BestTrace查看VPS的去程和回程
-    wget -qO- git.io/fp5lf | bash
+  # 使用BestTrace查看VPS的去程和回程
+  wget -qO- git.io/fp5lf | bash
+
+  # qrencode 生成二维码 -o- 参数显示在屏幕 -t utf8 文本格式
+  cat wg_vultr_5.conf  | qrencode -o- -t utf8
+  
 EOF
     echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 }
@@ -143,7 +147,7 @@ update()
 # 设置菜单
 start_menu(){
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-    echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+    echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
     echo -e "${Green}>  1. 显示手机客户端二维码"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
