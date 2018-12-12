@@ -32,7 +32,7 @@ update_kernel(){
     read -p "需要重启VPS，再次执行脚本选择安装wireguard，是否现在重启 ? [Y/n] :" yn
 	[ -z "${yn}" ] && yn="y"
 	if [[ $yn == [Yy] ]]; then
-		echo -e "${Info} VPS 重启中..."
+		echo -e "VPS 重启中..."
 		reboot
 	fi
 }
@@ -139,6 +139,7 @@ start_menu(){
     echo "2. 安装wireguard"
     echo "3. 升级wireguard"
     echo "4. 卸载wireguard"
+    echo "5. 显示客户端二维码"
     echo "0. 退出脚本"
     echo
     read -p "请输入数字:" num
@@ -155,6 +156,10 @@ start_menu(){
 	4)
 	wireguard_remove
 	;;
+	5)
+	content=$(cat /etc/wireguard/client.conf)
+    	echo "${content}" | qrencode -o - -t UTF8
+	;;
 	0)
 	exit 1
 	;;
@@ -168,3 +173,5 @@ start_menu(){
 }
 
 start_menu
+
+
