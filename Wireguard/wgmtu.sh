@@ -58,8 +58,8 @@ wgconf()
 
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
 
-    echo -e "${GreenBG}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用${Font}"
-    echo -e "${RedBG}:: SSH工具Git for Windows 2.20; GCP_SSH(浏览器)字体Courier New 测试二维码正常; ${Font}"
+    echo -e "${GreenBG}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用  ${Font}"
+    echo -e "${RedBG}SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码正常${Font}"
 }
 
 # 重置 WireGuard 客户端配置和数量
