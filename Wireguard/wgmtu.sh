@@ -42,6 +42,7 @@ setport(){
 
 }
 
+# 显示手机客户端二维码
 wgconf()
 {
     echo -e "${RedBG}:: 显示手机客户端二维码  (如改端口,请先菜单5重置客户端配置)  ${Font}"
@@ -61,6 +62,7 @@ wgconf()
 
 }
 
+# 重置 WireGuard 客户端配置和数量
 wg_clients()
 {
     echo -e "${RedBG}:: 注意原来的客户端配置都会删除，按 Ctrl+ C 可以紧急撤销  ${Font}"
@@ -69,6 +71,7 @@ wg_clients()
     bash ~/wg100
 }
 
+# 安装Udp2Raw服务TCP伪装，高级的加速伪装脚本以后看情况开源
 udp2raw()
 {
     wget -qO- https://git.io/fpKnF | bash
@@ -76,6 +79,7 @@ udp2raw()
     echo -e "${GreenBG}:: 您可以在本脚本基础上，修改成加速脚本！... 你懂的！${Font}"
 }
 
+# 主菜单输入数字 88
 # 隐藏功能:从源VPS克隆服务端配置，共用客户端配置
 scp_conf()
 {
@@ -83,12 +87,57 @@ scp_conf()
     echo  "隐藏功能:从源VPS克隆服务端配置，共用客户端配置"
     read -p "请输入源VPS的IP地址(域名):"  vps_ip
     cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
-    echo -e "${RedBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，原vps的root密码"
+    echo -e "${GreenBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，源vps的root密码"
     ${cmd}
 
     wg-quick down wg0   >/dev/null 2>&1
     wg-quick up wg0     >/dev/null 2>&1
-    echo -e "${RedBG}    WG服务器端，已经使用源vps的配置启动!    ${Font}"
+    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
+}
+
+# 主菜单输入数字 188   隐藏功能: 一键全家桶
+onekey_plus()
+{
+    echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
+    cat  <<EOF
+    #  Google Cloud Platform GCP实例开启密码与root用户登陆
+    wget -qO- git.io/fpQWf | bash
+
+    # 一键安装 vnstat 流量检测   by 蘭雅sRGB
+    wget -qO- git.io/fxxlb | bash
+
+    # 一键安装wireguard 脚本 Debian 9  (源:逗比网安装笔记)
+    wget -qO- git.io/fptwc | bash
+
+    # 一键 WireGuard 多用户配置共享脚本   by 蘭雅sRGB
+    wget -qO- https://git.io/fpnQt | bash
+
+    # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9
+    wget -qO- git.io/fpZIW | bash
+
+    # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)
+    wget -qO- git.io/fx6UQ | bash
+
+    # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
+    wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
+
+    # linux下golang环境搭建自动脚本  by 蘭雅sRGB
+    wget -qO- https://git.io/fp4jf | bash
+
+    # SuperBench.sh 一键测试服务器的基本参数
+    wget -qO- git.io/superbench.sh | bash
+
+    # 使用BestTrace查看VPS的去程和回程
+    wget -qO- git.io/fp5lf | bash
+EOF
+    echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+}
+
+# 更新wgmtu脚本
+update()
+{
+    # 安装 bash wgmtu 脚本用来设置服务器
+    wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh >/dev/null 2>&1
 }
 
 # 设置菜单
@@ -120,10 +169,14 @@ start_menu(){
         wg_clients
         ;;
         6)
+        update
         exit 1
         ;;
         88)
         scp_conf
+        ;;
+        188)
+        onekey_plus
         ;;
         *)
         echo
