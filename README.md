@@ -1,7 +1,7 @@
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
-# 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c)
+### 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
 
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w)
 # 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
@@ -15,7 +15,8 @@ yum install -y wget && \
 wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
 && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
+
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c)
 
 ###  一键 WireGuard 多用户配置共享脚本
 ```
@@ -67,6 +68,8 @@ reboot
 sed -i "s/eth0/ens4/g"  /etc/wireguard/wg0.conf
 reboot
 ```
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
+
 ### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
 ```
 # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
