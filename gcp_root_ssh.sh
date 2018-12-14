@@ -16,5 +16,5 @@ systemctl restart ssh
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
 # 修改root 密码: bash脚本不能直接运行passwd，用户手工使用命令
-echo -e "${Red}请手工输入命令${GreenBG} passwd  ${Green}修改root用户的密码! ${Font}"
+echo -e "${Red}如果需要修改root密码，请输入命令${GreenBG} passwd ${Font}${Green} 修改用户密码! ${Font}"
 echo
