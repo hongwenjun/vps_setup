@@ -12,5 +12,9 @@ sed -i "s/PasswordAuthentication.*/PasswordAuthentication yes/g"   /etc/ssh/sshd
 # 重启ssh服务
 systemctl restart ssh
 
-# 修改root 密码
-echo "请输入 passwd  命令修改root用户的密码"
+#定义文字颜色
+Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
+
+# 修改root 密码: bash脚本不能直接运行passwd，用户手工使用命令
+echo -e "${Red}请手工输入命令${GreenBG} passwd  ${Green}修改root用户的密码! ${Font}"
+echo
