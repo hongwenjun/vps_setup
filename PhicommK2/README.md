@@ -110,7 +110,8 @@ https://www.atrandys.com/2018/1255.html
 
 ### 编译好的 udpspeedr和udp2raw for K2 打包下载
 
-udp2raw_udpspeeder_mipsel_24kc.tar
+[udp2raw_udpspeeder_mipsel_24kc.tar](https://github.com/hongwenjun/vps_setup/raw/master/PhicommK2/udp2raw_udpspeeder_mipsel_24kc.tar
+)
 
 ###  K2_OpenWrt_安装udpspeedr和udp2raw日志
 
@@ -156,4 +157,15 @@ root@OpenWrt:/tmp/tmp# opkg install udp2raw-tunnel_20181113.0-1_mipsel_24kc.ipk
 Installing udp2raw-tunnel (20181113.0-1) to root...
 Configuring udp2raw-tunnel.
 
+```
+
+### K2_OpenWrt 固件带wget是mini版，不支持https下载，可以另外安装完整的wget
+### K2_OpenWrt 已经有 Tmux 这个强大的工具了
+```
+opkg update
+opkg install wget
+opkg install tmux
+
+# 搜索需要下载的工具
+opkg list | grep -e wireguard
 ```
