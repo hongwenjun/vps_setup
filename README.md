@@ -121,6 +121,9 @@ wget -qO- https://git.io/fp4jf | bash
 
 ![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/WinKcp_Launcher.webp)
 
+### Debian或Ubuntun mini版 wget下载证书无法验证
+apt-get install -y ca-certificates
+
 # Debian远程SSH汉字utf-8乱码解决
 ```
 apt-get  install locales
