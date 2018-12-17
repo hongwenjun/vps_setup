@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# 一键Debian安装Gnome脚本
+#  wget -qO- git.io/fpATt | bash
+
 # Debian安装Gnome桌面脚本
 apt update
 apt install x-window-system-core
