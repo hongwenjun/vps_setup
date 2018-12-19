@@ -72,11 +72,13 @@ wg_clients()
 }
 
 # 安装Udp2Raw服务TCP伪装，高级的加速伪装脚本以后看情况开源
-udp2raw()
+ss_kcp_udp2raw_wg_speed()
 {
+    # 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装速度慢  for debian 9  Ubuntu
+    wget -qO- git.io/fx6UQ | bash
+    
+    # 设置 WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本
     wget -qO- https://git.io/fpKnF | bash
-    echo -e "${RedBG}:: WireGuard 使用 Udp2Raw 需要把 MTU 设置成1200-1300  ${Font}"
-    echo -e "${GreenBG}:: 您可以在本脚本基础上，修改成加速脚本！... 你懂的！${Font}"
 }
 
 # 主菜单输入数字 88
@@ -151,7 +153,7 @@ start_menu(){
     echo -e "${Green}>  1. 显示手机客户端二维码"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
-    echo -e ">  4. 安装Udp2Raw服务TCP伪装 WireGuard 服务端设置"
+    echo -e ">  4. 安装WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
     echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
     echo -e ">  6. 退出设置${Font}"
     echo
@@ -167,7 +169,7 @@ start_menu(){
         setport
         ;;
         4)
-        udp2raw
+        ss_kcp_udp2raw_wg_speed
         ;;
         5)
         wg_clients
