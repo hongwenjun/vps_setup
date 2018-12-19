@@ -74,8 +74,10 @@ wg_clients()
 # 安装Udp2Raw服务TCP伪装，高级的加速伪装脚本以后看情况开源
 ss_kcp_udp2raw_wg_speed()
 {
-    # 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装速度慢  for debian 9  Ubuntu
-    wget -qO- git.io/fx6UQ | bash
+    # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
+    wget -qO- git.io/fpZIW | bash
+    
+    echo -e "${RedBG}:: 注意 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 只适合 debian 9 ,其他系统，须编译安装 SS ${Font}"
     
     # 设置 WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本
     wget -qO- https://git.io/fpKnF | bash
