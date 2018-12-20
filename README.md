@@ -1,7 +1,3 @@
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
-### 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
-
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w)
 # 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
@@ -15,6 +11,10 @@ yum install -y wget && \
 wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
 && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/bash_wg5.gif)
+### 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
+
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w)
 
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c)
 
@@ -28,14 +28,14 @@ wget -qO- https://git.io/fpnQt | bash
 ```
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
 
-### Udp2Raw服务TCP伪装 WireGuard 服务端设置脚本
+### 一键 SS+KCP+UDP2RAW 和 WG+SPEED+UDP2RAW 设置脚本
 ```
-wget -qO- https://git.io/fpKnF | bash
+# 先安装 一键 WireGuard 脚本，动手能力使用命令设置
+bash wgmtu
 ```
-### 使用Udp2Raw 调试好脚本，可以使用工具方便使用
-![](https://raw.githubusercontent.com/hongwenjun/img/master/wg_udp2raw.gif)
+# ------------------------- 分割线以下可以不看 --------------------------
 
-## Wireguard 手机和PC客户端设置技巧，现在可以直接扫描二维码，更加方便
+### Wireguard 手机和PC客户端设置技巧，现在可以直接扫描二维码，更加方便
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
 ### 导出到客户端配置，修改实际的IP，修改成实际端口号
