@@ -11,9 +11,9 @@ yum install -y wget && \
 wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
 && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc)
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/ss_wg_speed.webp)
 ### 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
+[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc)
 
 [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w)
 
@@ -80,10 +80,6 @@ wget -qO- git.io/fpZIW | bash
 wget -qO- git.io/fx6UQ | bash
 ```
 
-###  本地电脑端 SS 导入配置 
-```
-ss://YWVzLTI1Ni1nY206c3JnYi54eXpAMTI3LjAuMC4xOjMzMjI=
-```
 
 ### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
 ```
