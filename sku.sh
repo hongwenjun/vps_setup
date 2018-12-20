@@ -20,7 +20,9 @@ sysctl_config() {
 sysctl_config
 lsmod | grep bbr
 
-echo -e "${RedBG}:: 注意 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 只适合 debian 9 ,其他系统，须编译安装 SS ${Font}"
+# 定义文字颜色
+Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
+echo -e "${RedBG}:: 注意 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 只适合 debian 9 ,其他系统，须编译安装 SS ${Font}"
 echo   "# 设置 WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
 echo -e  "${GreenBG} wget -qO- https://git.io/fpKnF | bash  ${Font} 或者 使用 ${RedBG} bash wgmtu   菜单进入${Font}"
