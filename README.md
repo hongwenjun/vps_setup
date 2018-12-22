@@ -13,12 +13,10 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 ```
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/ss_wg_speed.webp)
 ### 由于脚本原来默认使用 9009 端口，上了黑名单，现在改成随机端口由用户改端口号，参考演示或视频修改端口号
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc)
 
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w)
-
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c)
-
+| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c) |
+| :------| ------: | :------: |
+| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)|
 ###  一键 WireGuard 多用户配置共享脚本
 ```
 # 一键 WireGuard 多用户配置共享脚本 
@@ -27,17 +25,12 @@ wget -qO- https://git.io/fpnQt | bash
 # WireGuar 服务端修改MTU数值，修改服务器端口脚本，Udp2Raw服务TCP伪装设置
 # 自动下载，使用命令  bash wgmtu  设置   
 ```
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY)
-
 ### 一键 SS+KCP+UDP2RAW 和 WG+SPEED+UDP2RAW 设置脚本
 ```
 # 先安装 一键 WireGuard 脚本，动手能力使用命令设置
 bash wgmtu
 ```
 # ------------------------- 分割线以下可以不看 --------------------------
-
-### Wireguard 手机和PC客户端设置技巧，现在可以直接扫描二维码，更加方便
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60)
 
 ### 导出到客户端配置，修改实际的IP，修改成实际端口号
 ```
@@ -69,7 +62,6 @@ reboot
 sed -i "s/eth0/ens4/g"  /etc/wireguard/wg0.conf
 reboot
 ```
-[![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)
 
 ### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
 ```
