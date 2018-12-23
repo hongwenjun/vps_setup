@@ -103,6 +103,9 @@ onekey_plus()
 {
     echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
     cat  <<EOF
+  # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
+  wget -qO safe_iptables.sh  git.io/fhJrU
+    
   #  Google Cloud Platform GCP实例开启密码与root用户登陆
   wget -qO- git.io/fpQWf | bash
 
