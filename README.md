@@ -65,6 +65,15 @@ reboot
 #  GCP 香港 Ubuntu系统 没带python，不能开启临时web下载，可以 apt install -y python 安装
 sed -i "s/eth0/ens4/g"  /etc/wireguard/wg0.conf
 reboot
+
+# 原来的 iptables 防火墙规则
+PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o ens3 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o ens3 -j MASQUERADE
+
+# 测试新的路由防火墙规则
+PostUp   = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+
 ```
 
 ### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
