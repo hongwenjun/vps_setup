@@ -98,7 +98,7 @@ scp_conf()
     echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 }
 
-# 主菜单输入数字 188   隐藏功能: 一键全家桶
+#  隐藏功能开放: 一键脚本全家桶
 onekey_plus()
 {
     echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
@@ -143,6 +143,13 @@ EOF
     echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 }
 
+safe_iptables()
+{
+   # IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB  特别感谢 TaterLi 指导
+   wget -O ~/safe_iptables.sh  git.io/fhJrU    >/dev/null 2>&1
+   bash ~/safe_iptables.sh
+}
+
 # 更新wgmtu脚本
 update()
 {
@@ -159,9 +166,11 @@ start_menu(){
     echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
     echo -e ">  4. 安装WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
     echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
-    echo -e ">  6. 退出设置${Font}"
+    echo -e ">  6. 退出(更新脚本)$"
+    echo -e ">  7. 隐藏功能开放: 一键脚本全家桶大礼包"
+    echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
     echo
-    read -p "请输入数字(1-6):" num
+    read -p "请输入数字(1-8):" num
     case "$num" in
         1)
         wgconf
@@ -182,11 +191,14 @@ start_menu(){
         update
         exit 1
         ;;
+        7)
+        onekey_plus
+        ;;
+        8)
+        safe_iptables
+        ;;
         88)
         scp_conf
-        ;;
-        188)
-        onekey_plus
         ;;
         *)
         echo
