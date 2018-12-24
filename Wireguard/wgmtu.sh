@@ -166,7 +166,7 @@ start_menu(){
     echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
     echo -e ">  4. 安装WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
     echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
-    echo -e ">  6. 退出(更新脚本)$"
+    echo -e ">  6. 退出(更新 wgmtu 脚本)"
     echo -e ">  7. 隐藏功能开放: 一键脚本全家桶大礼包"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
     echo
