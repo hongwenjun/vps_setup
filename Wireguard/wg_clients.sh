@@ -1,80 +1,296 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# 服务器 IP 和 端口
-port=$(wg | grep 'listening port:' | awk '{print $3}')
-serverip=$(curl -4 icanhazip.com)
-host=$(hostname -s)
+# 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
+# wget -qO safe_iptables.sh  git.io/fhJrU
 
-#定义文字颜色
+#  初始化安全防火墙规则预设端口,1999和2999是转接端口
+tcp_port="80,443"
+udp_port="9999,8000"
+
+# 保存防火墙规则文件路径 /etc/iptables/rules.v4  禁用ipv6
+mkdir -p /etc/iptables
+
+# 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-#定义提示信息
-Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[错误]${Font}"
-
-# 转到wg配置文件目录
-cd /etc/wireguard
-cp wg0.conf  conf.wg0.bak
-
-echo -e   "${RedBG}重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬${Font}"
-echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-echo
-
-echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
-read -p "请输入数字(3--218): " num_x
-
-if [[ ${num_x} -ge 3 ]] && [[ ${num_x} -le 218 ]]; then
- wg_num=OK
-else
-  num_x=5
-fi
-
-# 删除原1号配置，让IP和配置号对应; 保留原来服务器的端口等配置
-rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
-head -n 13  conf.wg0.bak > wg0.conf
-
-# 修改用户配置数量
-for i in `seq 2 250`
-do
-    ip=10.0.0.${i}
-    wg genkey | tee cprivatekey | wg pubkey > cpublickey
-
-    cat <<EOF >>wg0.conf
-[Peer]
-PublicKey = $(cat cpublickey)
-AllowedIPs = $ip/32
-
-EOF
-
-    cat <<EOF >wg_${host}_$i.conf
-[Interface]
-PrivateKey = $(cat cprivatekey)
-Address = $ip/24
-DNS = 8.8.8.8
-
-[Peer]
-PublicKey = $(cat spublickey)
-Endpoint = $serverip:$port
-AllowedIPs = 0.0.0.0/0, ::0/0
-PersistentKeepalive = 25
-
-EOF
-    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
-
-    if [ $i -ge $num_x ]; then
-        break
+# 检查系统
+check_sys(){
+    if [[ -f /etc/redhat-release ]]; then
+        release="centos"
+    elif cat /etc/issue | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    elif cat /proc/version | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /proc/version | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
     fi
-done
+    bit=`uname -m`
+}
 
-# 重启wg服务器
-wg-quick down wg0  >/dev/null 2>&1
-wg-quick up wg0    >/dev/null 2>&1
-wg
 
-cat /etc/wireguard/client.conf
-cat /etc/wireguard/wg_${host}_2.conf
-cat /etc/wireguard/wg_${host}_3.conf
-echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-echo
-echo -e "# ${Info} 使用${GreenBG} bash wg5 ${Font} 命令，可以临时网页下载配置和二维码"
-echo -e "# ${Info} 使用${GreenBG} bash wgmtu ${Font} 命令，重置客户端数量，设置服务器端MTU数值或服务端口号 "
+# 保存防火墙规则
+save_iptables(){
+    if [[ ${release} == "centos" ]]; then
+        service iptables save
+    else
+        iptables-save > /etc/iptables/rules.v4
+    fi
+}
+
+# 设置防火墙规则，下次开机也生效
+set_iptables(){
+    if [[ ${release} == "centos" ]]; then
+        service iptables save
+        chkconfig --level 2345 iptables on
+    else
+        iptables-save > /etc/iptables/rules.v4
+        echo -e '#!/bin/bash\n/sbin/iptables-restore < /etc/iptables/rules.v4' > /etc/network/if-pre-up.d/iptables
+        chmod +x /etc/network/if-pre-up.d/iptables
+    fi
+}
+
+no_use_passwd(){
+    # 禁用密码登陆
+    sed -i "s/PasswordAuthentication.*/PasswordAuthentication no/g"   /etc/ssh/sshd_config
+
+    # 重启ssh服务
+    systemctl restart ssh
+}
+
+srgb18_ga_ddns(){
+   # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
+   wget -qO safe_iptables.sh  git.io/fhJrU
+
+   echo -e "${Red}  浏览器 HE.NET 动态DDNS更新IP示例: ${Font}"
+   echo -e "${Green}https://srgb18.ga:Br9LmXp6le1MTSXY@dyn.dns.he.net/nic/update?hostname=srgb18.ga&myip=35.235.96.85 ${Font}"
+   curl -4 "srgb18.ga:Br9LmXp6le1MTSXY@dyn.dns.he.net/nic/update?hostname=srgb18.ga"
+   echo
+}
+
+# 隐藏的防火墙设置功能菜单  88
+hide_menu(){
+    echo
+    echo -e "${RedBG}   隐藏的高级防火墙设置功能 By 蘭雅sRGB  ${Font}"
+    echo -e "${Green}>  1. ss_kcp_speed_udp2raw 端口开放 防火墙规则"
+    echo -e ">  2. ss brook 电报代理端口开放 防火墙规则"
+    echo -e ">  3. frps_iptables 防火墙规则"
+    echo -e ">  4. 菜单项1-2-3全功能开放"
+    echo -e ">  5. 使用临时${GreenBG} srgb18.ga ${Font}${Green}域名(更新脚本)"
+    echo -e ">  6. ${RedBG}禁止使用密码远程SSH登陆${Font}"
+    echo
+    read -p "请输入数字(1-6):" num_x
+    case "$num_x" in
+        1)
+        ss_kcp_speed_udp2raw
+        ;;
+        2)
+        ss_bk_tg
+        ;;
+        3)
+        frps_iptables
+        ;;
+        4)
+        ss_kcp_speed_udp2raw
+        ss_bk_tg_frps_iptables
+        ;;
+        5)
+        srgb18_ga_ddns
+        ;;
+        6)
+        no_use_passwd
+        ;;
+        *)
+        ;;
+        esac
+}
+
+# ss_kcp_speed_udp2raw 端口防火墙规则
+ss_kcp_speed_udp2raw(){
+    # udp2raw 转接端口 1999 和 2999
+    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    tcp_port="80,443,1999,2999"
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT
+
+    # ss+kcp+udp2raw  和  # wg+speed+udp2raw  环路设置
+    iptables -I INPUT -s 127.0.0.1 -p tcp  --dport 40000 -j ACCEPT
+    iptables -I INPUT -s 127.0.0.1 -p udp -m multiport --dport 4000,8888,9999 -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+
+    # 重启 WireGuard
+    wg-quick down wg0   >/dev/null 2>&1
+    wg-quick up   wg0   >/dev/null 2>&1
+}
+
+# ss brook 电报代理端口开放 防火墙规则
+ss_bk_tg(){
+    ss_bk_tg="2018,7731,7979"
+    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${ss_bk_tg} -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+}
+
+# frps_iptables 防火墙规则
+frps_iptables(){
+    frps_port="7000,7500,8080,4443,11122,2222"
+    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${frps_port} -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+}
+
+# 菜单项1-2-3全功能开放
+ss_bk_tg_frps_iptables(){
+    ss_bk_tg="2018,7731,7979"
+    frps_port="7000,7500,8080,4443,11122,2222"
+    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${ss_bk_tg},${frps_port} -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+}
+
+# 安全防火墙规则: 只能Ping和SSH，如果SSH不是22端口
+safe_iptables(){
+    iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+
+    ssh_port=$(cat /etc/ssh/sshd_config | grep -e 'Port ' | awk '{print $2}')
+    if [ ${ssh_port}!=22 ]; then
+       iptables -A INPUT -p tcp -m tcp --dport ${ssh_port}  -j ACCEPT
+    fi
+    iptables -A INPUT -p tcp -m tcp --dport 22  -j ACCEPT
+    iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+    iptables -A INPUT -j DROP
+    iptables -P FORWARD DROP
+    iptables -A OUTPUT -j ACCEPT
+}
+
+# 建立相关链接的优先
+RELATED_ESTABLISHED(){
+    iptables -D INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+    iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+}
+
+
+# 禁止网卡IPV6功能
+disable_ipv6(){
+    ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
+    echo 1 > /proc/sys/net/ipv6/conf/${ni}/disable_ipv6
+}
+
+# 初始化安全防火墙规则
+init_iptables(){
+    # 清除防火墙规则
+    iptables -F
+    disable_ipv6
+
+    # 添加 预置 tcp 和 udp端口
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT
+    iptables -I INPUT -p udp -m multiport --dport ${udp_port} -j ACCEPT
+
+    safe_iptables
+    set_iptables
+}
+
+add_tcp_chain(){
+    echo -e "${GreenBG} 追加TCP端口段到 Chain INPUT ( multiport dports) ${Font}"
+    read -p "请输入TCP端口段(示例: 7000,7500:7510 ): " port
+
+    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${port} -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+}
+
+add_udp_chain(){
+    echo -e "${GreenBG} 追加UDP端口段到 Chain INPUT ( multiport dports) ${Font}"
+    read -p "请输入UDP端口段(示例: 7000,7500:7510 ): " port
+
+    iptables -D INPUT -p udp -m multiport --dport ${udp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p udp -m multiport --dport ${udp_port},${port} -j ACCEPT
+
+    RELATED_ESTABLISHED
+    save_iptables
+}
+
+# 删除指定INPUT Chain 序号行
+del_chain(){
+    iptables -nvL --line
+    echo -e "${RedBG} 删除指定INPUT Chain 序号行 ${Font}"
+    read -p "请检查INPUT Chain序号行，输入序号(2-X): " no_x
+
+    if [[ ${no_x} -ge 2 ]] && [[ ${no_x} -le 20 ]]; then
+      iptables -D INPUT ${no_x}
+    else
+       echo -e "${RedBG}::  INPUT Chain序号行选择错误，没有删除！${Font}"
+    fi
+
+    save_iptables
+}
+
+# 禁止ICMP，禁止Ping服务器
+no_ping(){
+    iptables -D INPUT -p icmp --icmp-type echo-request -j ACCEPT
+}
+
+# 设置菜单
+start_menu(){
+    echo
+    echo -e "${GreenBG}  IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB  特别感谢 TaterLi 指导 ${Font}"
+    echo -e "${RedBG}   原则: 规则不宜超过10条，3-5条最好，每增加规则系统都忙很多。    ${Font}"
+    echo -e "${Green}>  1. 追加 TCP 多端口到防火墙规则"
+    echo -e ">  2. 追加 UDP 多端口到防火墙规则"
+    echo -e ">  3. 删除指定INPUT Chain 序号行(原则: 精简规则)"
+    echo -e ">  4. 禁止ICMP，禁止Ping服务器"
+    echo -e ">  5. 重置初始化安全防火墙规则(首次需运行)"
+    echo -e ">  6. 退出设置"
+    echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
+    echo
+    read -p "请输入数字(1-8):" num
+    case "$num" in
+        1)
+        add_tcp_chain
+        ;;
+        2)
+        add_udp_chain
+        ;;
+        3)
+        del_chain
+        ;;
+        4)
+        no_ping
+        ;;
+        5)
+        init_iptables
+        ;;
+        6)
+        netstat -ltup
+        exit 1
+        ;;
+        8)
+        init_iptables
+        ss_kcp_speed_udp2raw
+        ;;
+        88)
+        hide_menu
+        ;;
+        *)
+        echo
+        ;;
+        esac
+        iptables -nvL --line
+}
+
+check_sys
+start_menu
