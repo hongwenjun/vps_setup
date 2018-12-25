@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB  特别感谢 TaterLi 指导
-# wget -qO safe_iptables.sh  git.io/fhJrU
+# wget -qO safe_iptables.sh  https://git.io/fhUSe && bash safe_iptables.sh
 
 #  初始化安全防火墙规则预设端口; 可以个性修改脚本; 或者 指定INPUT Chain 设置删除
 tcp_port="80,443"
@@ -66,7 +66,7 @@ no_use_passwd(){
 
 srgb18_ga_ddns(){
    # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
-   wget -qO safe_iptables.sh  git.io/fhJrU
+   wget -qO safe_iptables.sh  https://git.io/fhUSe
 
    echo -e "${Red}  浏览器 HE.NET 动态DDNS更新IP示例: ${Font}"
    echo -e "${Green}https://srgb18.ga:Br9LmXp6le1MTSXY@dyn.dns.he.net/nic/update?hostname=srgb18.ga&myip=35.235.96.85 ${Font}"
