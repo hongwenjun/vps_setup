@@ -14,9 +14,9 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 
 ### 一键安装wireguard 参考演示视频集合
 
-| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c) |
+| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c) |
 | :------| ------: | :------: |
-| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/tel_pc.jpg)](https://youtu.be/O__RsZewA60) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)|
+| [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/tel_pc.jpg)](https://youtu.be/O__RsZewA60) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)|
 
 ###  一键 WireGuard 多用户配置共享脚本
 ```
