@@ -104,7 +104,7 @@ onekey_plus()
     echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
     cat  <<EOF
   # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
-  wget -qO safe_iptables.sh  git.io/fhJrU
+  wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh
     
   #  Google Cloud Platform GCP实例开启密码与root用户登陆
   wget -qO- git.io/fpQWf | bash
@@ -146,8 +146,7 @@ EOF
 safe_iptables()
 {
    # IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB  特别感谢 TaterLi 指导
-   wget -O ~/safe_iptables.sh  git.io/fhJrU    >/dev/null 2>&1
-   bash ~/safe_iptables.sh
+   wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh
 }
 
 # 更新wgmtu脚本
