@@ -33,7 +33,6 @@ check_sys(){
     bit=`uname -m`
 }
 
-
 # 保存防火墙规则
 save_iptables(){
     if [[ ${release} == "centos" ]]; then
@@ -55,10 +54,16 @@ set_iptables(){
     fi
 }
 
+# 禁止网卡IPV6功能，简易管理
+disable_ipv6(){
+    ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
+    echo 1 > /proc/sys/net/ipv6/conf/${ni}/disable_ipv6
+}
+
 no_use_passwd(){
     # 禁用密码登陆
+    sed -i "s/PasswordAuthentication.*/PasswordAuthentication no/g"    /etc/ssh/sshd_config
     sed -i "s/#PasswordAuthentication.*/PasswordAuthentication no/g"   /etc/ssh/sshd_config
-    sed -i "s/PasswordAuthentication.*/PasswordAuthentication no/g"   /etc/ssh/sshd_config
 
     # 重启ssh服务
     systemctl restart ssh
@@ -167,7 +172,7 @@ safe_iptables(){
     iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
     ssh_port=$(cat /etc/ssh/sshd_config | grep -e 'Port ' | awk '{print $2}')
-        if [ ${ssh_port} != '22' ]; then
+    if [ ${ssh_port} != '22' ]; then
        iptables -A INPUT -p tcp -m tcp --dport ${ssh_port}  -j ACCEPT
     fi
     iptables -A INPUT -p tcp -m tcp --dport 22  -j ACCEPT
@@ -181,13 +186,6 @@ safe_iptables(){
 RELATED_ESTABLISHED(){
     iptables -D INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
     iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
-}
-
-
-# 禁止网卡IPV6功能
-disable_ipv6(){
-    ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
-    echo 1 > /proc/sys/net/ipv6/conf/${ni}/disable_ipv6
 }
 
 # 初始化安全防火墙规则
@@ -263,6 +261,7 @@ start_menu(){
     echo -e ">  4. 禁止ICMP，禁止Ping服务器"
     echo -e ">  5. 重置初始化安全防火墙规则(首次需运行)"
     echo -e ">  6. 退出设置"
+    echo    "------------------------------------------------------------"
     echo -e ">  7. 关闭 IPTABLES 防火墙"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
     echo
@@ -304,5 +303,6 @@ start_menu(){
         iptables -nvL --line
 }
 
+clear
 check_sys
 start_menu
