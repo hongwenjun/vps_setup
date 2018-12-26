@@ -46,7 +46,8 @@ save_iptables(){
 set_iptables(){
     if [[ ${release} == "centos" ]]; then
         service iptables save
-        chkconfig --level 2345 iptables on
+        chkconfig --level 2345 iptables on   >/dev/null 2>&1
+        systemctl enable iptables
     else
         iptables-save > /etc/iptables/rules.v4
         echo -e '#!/bin/bash\n/sbin/iptables-restore < /etc/iptables/rules.v4' > /etc/network/if-pre-up.d/iptables
