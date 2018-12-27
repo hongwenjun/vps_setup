@@ -35,3 +35,4 @@ MTU = 1500
 PublicKey = $PublicKey
 AllowedIPs = 10.0.0.8/32
 ```
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wg_RELATED_ESTABLISHED.png)
