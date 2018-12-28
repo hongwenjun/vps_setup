@@ -10,8 +10,8 @@
 
 #  crontab -e   修改定时任务, 添加运行脚本
 
-#  # netlog.sh  定时执行转html脚本，每10分钟一次，为了修改方便和多台机器用，直接到github更新
-#  */10  *   *   *  *    wget -qO- git.io/fxxlb | bash
+#  # netlog.sh  定时执行转html脚本，每3小时一次，为了修改方便和多台机器用，直接到github更新
+#  * */3   *   *  *    wget -qO- git.io/fxxlb | bash
 
 ######################################################
 
@@ -65,7 +65,7 @@ vnstat_install(){
 
     # 设置定时运行脚本
     crontab -l >> crontab.txt
-	echo "*/10  *   *   *  *    wget -qO- git.io/fxxlb | bash" >> crontab.txt
+	echo "*  */3   *   *  *    wget -qO- git.io/fxxlb | bash" >> crontab.txt
 	crontab crontab.txt
 	sleep 2
 	if [ ! -e '/etc/redhat-release' ]; then
