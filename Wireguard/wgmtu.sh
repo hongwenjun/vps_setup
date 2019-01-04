@@ -155,6 +155,58 @@ update(){
     wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh >/dev/null 2>&1
 }
 
+# 更新 WireGuard
+wireguard_update(){
+    yum update -y wireguard-dkms wireguard-tools     >/dev/null 2>&1
+    apt update -y wireguard-dkms wireguard-tools     >/dev/null 2>&1
+    echo -e "${RedBG}   更新完成  ${Font}"
+}
+# 卸载 WireGuard
+wireguard_remove(){
+    wg-quick down wg0
+    yum remove -y wireguard-dkms wireguard-tools     >/dev/null 2>&1
+    apt remove -y wireguard-dkms wireguard-tools     >/dev/null 2>&1
+    rm -rf /etc/wireguard/
+    echo -e "${RedBG}   卸载完成  ${Font}"
+}
+
+
+rc-local_remove(){
+   echo -e "${RedBG}推荐: 卸载Udp2Raw服务使用 vim /etc/rc.local 手工编辑修改  ${Font}"
+   echo -e "${GreenBG} 按  Ctrl + C 可以取消 卸载操作 ${Font}"
+   read -p "请任意键确认:"  yes
+
+   systemctl stop rc-local
+   mv  /etc/rc.local  ~/rc.local
+   echo -e "${RedBG}   卸载完成，rc.local 备份在 /root 目录  ${Font}"
+}
+
+update_remove_menu(){
+    echo -e "${RedBG}   更新或卸载 WireGuard服务端和Udp2Raw 子菜单  ${Font}"
+    echo -e "${Green}>  1. 更新 WireGuard 服务端"
+    echo -e ">  2. 卸载 WireGuard 服务端"
+    echo -e ">  3. 卸载 Udp2Raw 服务"
+    echo -e ">  4. 退出"
+    echo
+    read -p "请输入数字(1-4):" num_x
+    case "$num_x" in
+        1)
+        wireguard_update
+        ;;
+        2)
+        wireguard_remove
+        ;;
+        3)
+        rc-local_remove
+        ;;
+        4)
+        exit 1
+        ;;
+        *)
+        ;;
+        esac
+}
+
 # 设置菜单
 start_menu(){
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
@@ -162,9 +214,9 @@ start_menu(){
     echo -e "${Green}>  1. 显示手机客户端二维码"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
-    echo -e ">  4. 安装WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
+    echo -e ">  4. 安装 WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
     echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
-    echo -e ">  6. 退出"
+    echo -e ">  6. 更新 wgmtu 脚本 更新或卸载 WireGuard服务端和Udp2Raw"
     echo    "----------------------------------------------------------"
     echo -e ">  7. 隐藏功能开放: 一键脚本全家桶大礼包"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
@@ -187,6 +239,7 @@ start_menu(){
         wg_clients
         ;;
         6)
+        update_remove_menu
         update
         exit 1
         ;;
