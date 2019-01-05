@@ -18,7 +18,12 @@ vim /etc/v2ray/config.json
 systemctl restart v2ray
 curl -4 ip.sb
 ```
-
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_diy.gif)
+### 为了安全可以使用客户端生成UUID，再替换示例文件中UUID
+```
+# 使用网上的一键脚本生成config.json，放到新服务器测试
+cat /etc/v2ray/config.json
+```
 ### v2ray服务端走kcp配置示例 /etc/v2ray/config.json
 ```
 {
@@ -100,7 +105,6 @@ curl -4 ip.sb
 }
 
 ```
-
 ### 方法1: 客户端 vmess协议导入，再修改成实际服务器IP
 ```
 vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYyUmF5IiwNCiAgImFkZCI6ICIxODguMTg4LjE4OC4xODgiLA0KICAicG9ydCI6ICI4MDAwIiwNCiAgImlkIjogIjUyMDU1MzUyLTM0ZTgtNDUzYy1iNmY2LTIyZWFjNjMwYjZlMSIsDQogICJhaWQiOiAiMTYiLA0KICAibmV0IjogImtjcCIsDQogICJ0eXBlIjogInNydHAiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIiLA0KICAidGxzIjogIiINCn0=
