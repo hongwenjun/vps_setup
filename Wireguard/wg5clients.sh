@@ -62,7 +62,7 @@ ip_list=(2 5 8 18 88 188 118 158 198 168 186 )
 if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
 fi
-serverip=$(curl -4 icanhazip.com)
+serverip=$(curl -4 ip.sb)
 
 # 安装二维码插件
 if [ ! -f '/usr/bin/qrencode' ]; then

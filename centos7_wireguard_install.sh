@@ -1,6 +1,6 @@
 #!/bin/bash
 
-https://github.com/atrandys/wireguard/edit/master/wireguard_install.sh
+#  https://github.com/atrandys/wireguard/edit/master/wireguard_install.sh
 
 #判断系统
 if [ ! -e '/etc/redhat-release' ]; then
@@ -17,7 +17,7 @@ fi
 #更新内核
 update_kernel(){
 
-    yum -y install epel-release
+    yum -y install epel-release curl
     sed -i "0,/enabled=0/s//enabled=1/" /etc/yum.repos.d/epel.repo
     yum remove -y kernel-devel
     rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
@@ -51,6 +51,7 @@ wireguard_update(){
 }
 
 wireguard_remove(){
+    wg-quick down wg0
     yum remove -y wireguard-dkms wireguard-tools
     rm -rf /etc/wireguard/
     echo "卸载完成"
@@ -89,6 +90,7 @@ wireguard_install(){
     c2=$(cat cpublickey)
     serverip=$(curl ipv4.icanhazip.com)
     port=$(rand 10000 60000)
+    eth=$(ls /sys/class/net | awk '/^e/{print}')
     chmod 777 -R /etc/wireguard
     systemctl stop firewalld
     systemctl disable firewalld
@@ -107,8 +109,8 @@ cat > /etc/wireguard/wg0.conf <<-EOF
 [Interface]
 PrivateKey = $s1
 Address = 10.0.0.1/24 
-PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp   = echo 1 > /proc/sys/net/ipv4/ip_forward; iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o $eth -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o $eth -j MASQUERADE
 ListenPort = $port
 DNS = 8.8.8.8
 MTU = 1420
@@ -173,5 +175,4 @@ start_menu(){
 }
 
 start_menu
-
 

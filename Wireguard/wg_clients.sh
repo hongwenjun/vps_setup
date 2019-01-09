@@ -2,7 +2,7 @@
 
 # 服务器 IP 和 端口
 port=$(wg | grep 'listening port:' | awk '{print $3}')
-serverip=$(curl -4 icanhazip.com)
+serverip=$(curl -4 ip.sb)
 host=$(hostname -s)
 
 #定义文字颜色
