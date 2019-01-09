@@ -41,3 +41,7 @@ PublicKey = /cHDZfLZm8OLPiPjMxhlA8U+sd1tOPwf6qXhpm38dQI=
 AllowedIPs = 10.0.0.3/32
 
 ```
+
+### 中国白名单分流  route.zip
+### TunSafe-TAP 虚拟网卡驱动  TunSafe-TAP-9.21.2.exe
+### TunSafe 客户端 TunSafe-1.4.exe

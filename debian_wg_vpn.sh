@@ -46,7 +46,7 @@ wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
 # 获得服务器ip
-serverip=$(curl -4 icanhazip.com)
+serverip=$(curl -4 ip.sb)
 
 # 生成服务端配置文件
 echo "[Interface]
@@ -114,6 +114,7 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 # 保持连接，如果客户端或服务端是 NAT 网络(比如国内大多数家庭宽带没有公网IP，都是NAT)，
 # 那么就需要添加这个参数定时链接服务端(单位：秒)，如果你的服务器和你本地都不是 NAT 网络，
 # 那么建议不使用该参数（设置为0，或客户端配置文件中删除这行）
+
 PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
 
 # 赋予配置文件夹权限
@@ -146,7 +147,7 @@ systemctl enable wg-quick@wg0
 wg
 
 # 以上生成的配置只作为说明文档，实际去调用另一个脚本生成配置
-#
+
 # 一键 WireGuard 多用户配置共享脚本 
 wget -qO- https://git.io/fpnQt | bash
 

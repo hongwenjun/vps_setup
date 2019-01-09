@@ -66,6 +66,10 @@ no_use_passwd(){
     sed -i "s/PasswordAuthentication.*/PasswordAuthentication no/g"    /etc/ssh/sshd_config
     sed -i "s/#PasswordAuthentication.*/PasswordAuthentication no/g"   /etc/ssh/sshd_config
 
+    # 只能SSH2访问,这个安全性高.
+    sed -i '/Protocol/d' /etc/ssh/sshd_config
+    echo "Protocol 2" >> /etc/ssh/sshd_config
+
     # 重启ssh服务
     systemctl restart ssh
 }
