@@ -32,7 +32,7 @@ setport(){
        wg-quick down wg0
        sed -i "s/ListenPort = .*$/ListenPort = ${port}/g"  /etc/wireguard/wg0.conf
        wg-quick up wg0
-       echo -e "${RedBG}    端口号已经修改!    ${Font}"
+       echo -e "${RedBG}    端口号已经修改, 客户端请手工修改!  ${Font}"
     else
        echo -e "${RedBG}    没有修改端口号!    ${Font}"
     fi
@@ -182,11 +182,11 @@ rc-local_remove(){
 }
 
 update_remove_menu(){
-    echo -e "${RedBG}   更新或卸载 WireGuard服务端和Udp2Raw 子菜单  ${Font}"
+    echo -e "${RedBG}   更新 或卸载 WireGuard服务端和Udp2Raw 子菜单  ${Font}"
     echo -e "${Green}>  1. 更新 WireGuard 服务端"
     echo -e ">  2. 卸载 WireGuard 服务端"
     echo -e ">  3. 卸载 Udp2Raw 服务"
-    echo -e ">  4. 退出"
+    echo -e ">  4. 退出${Font}"
     echo
     read -p "请输入数字(1-4):" num_x
     case "$num_x" in
@@ -207,17 +207,140 @@ update_remove_menu(){
         esac
 }
 
+# 删除最末尾的peer
+del_last_peer(){
+    peer_key=$(wg | grep 'peer:' | tail -1 | awk '{print $2}')
+    wg set wg0 peer $peer_key remove
+    wg-quick save wg0
+}
+
+# 显示激活Peer表
+display_peer(){
+    # peer和ip表写临时文件
+    wg | grep  'peer:' | awk '{print $2}'         > /tmp/peer_list
+    wg | grep  'allowed ips:' | awk '{print $3}'  > /tmp/ip_list
+    peer_cnt=$(cat /tmp/peer_list | wc -l)
+
+    # 显示 peer和ip表
+    echo -e  "${GreenBG}  ID  IP_Addr:    Peer:  <base64 public key>  ${Font}"
+    for i in `seq 1 250`
+    do
+        peer=$(cat /tmp/peer_list | head -n $i | tail -1)
+        ipaddr=$(cat /tmp/ip_list | head -n $i | tail -1)
+        line=">   ${i}      ${ipaddr}      ${peer}"
+
+        echo $line
+        if [ $i -ge $peer_cnt ]; then
+            break
+        fi
+    done
+}
+
+del_peer(){
+    display_peer
+    echo
+    echo -e "${RedBG}请选择 IP_Addr 对应 ID 号码，指定客户端配置将删除! ${Font}"
+    read -p "请输入ID号数字(1-X):" x
+
+    if [[ ${x} -ge 1 ]] && [[ ${x} -le ${peer_cnt} ]]; then
+        i=$x
+        peer=$(cat /tmp/peer_list | head -n $i | tail -1)
+        wg set wg0 peer $peer remove
+        wg-quick save wg0
+    else
+        echo -e "手工命令: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
+    fi
+
+    rm /tmp/peer_list && rm /tmp/ip_list
+}
+
+
+# 添加新的客户端peer
+add_peer(){
+
+    # 服务器 IP 端口 ，新客户端 序号和IP
+    port=$(wg | grep 'listening port:' | awk '{print $3}')
+    serverip=$(curl -4 ip.sb) && host=$(hostname -s) && cd /etc/wireguard
+    wg genkey | tee cprivatekey | wg pubkey > cpublickey
+
+    ipnum=$(wg | grep 'allowed ips:' | tail -1 | awk '{print $3}' | awk -F '[./]' '{print $4}')
+    i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}
+
+    # 生成客户端配置文件
+    cat <<EOF >>wg0.conf
+[Peer]
+PublicKey = $(cat cpublickey)
+AllowedIPs = $ip/32
+EOF
+
+    cat <<EOF >wg_${host}_$i.conf
+[Interface]
+PrivateKey = $(cat cprivatekey)
+Address = $ip/24
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = $(cat spublickey)
+Endpoint = $serverip:$port
+AllowedIPs = 0.0.0.0/0, ::0/0
+PersistentKeepalive = 25
+EOF
+
+    # 重启wg服务器
+    wg-quick down wg0  >/dev/null 2>&1
+    wg-quick up wg0    >/dev/null 2>&1
+
+    # 显示客户端
+    cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
+    cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
+    cat /etc/wireguard/wg_${host}_$i.conf
+}
+
+wg_clients_menu(){
+    echo -e "${RedBG}   添加/删除 WireGuard 客户端配置  子菜单  ${Font}"
+    echo -e "${Green}>  1. 添加一个 WireGuard 客户端配置"
+    echo -e ">  2. 删除末尾 WireGuard 客户端配置"
+    echo -e ">  3. 指定删除 WireGuard 客户端配置"
+    echo    "------------------------------------------------------"
+    echo -e ">  4. 退出"
+    echo -e ">  5.${RedBG} 重置 WireGuard 客户端配置和数量 ${Font}"
+    echo
+    read -p "请输入数字(1-5):" num_x
+    case "$num_x" in
+        1)
+        add_peer
+        ;;
+        2)
+        del_last_peer
+        ;;
+        3)
+        del_peer
+        ;;
+        4)
+        exit 1
+        ;;
+        5)
+        wg_clients
+        ;;
+        *)
+        display_peer
+        ;;
+        esac
+}
+
+
 # 设置菜单
 start_menu(){
+    clear
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
     echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
     echo -e "${Green}>  1. 显示手机客户端二维码"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
-    echo -e ">  3. 修改 WireGuard 端口号  (如改端口,菜单5重置客户端配置)"
-    echo -e ">  4. 安装 WireGuard + Speeder + Udp2Raw 和 Shadowsocks + Kcp + Udp2RAW 一键脚本"
-    echo -e ">  5. 重置 WireGuard 客户端配置和数量，方便修改过端口或者机场大佬"
-    echo -e ">  6. 更新 wgmtu 脚本 更新或卸载 WireGuard服务端和Udp2Raw"
+    echo -e ">  3. 修改 WireGuard 端口号"
+    echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"
     echo    "----------------------------------------------------------"
+    echo -e ">  5. 添加/删除 WireGuard 客户端配置 或 重置客户端数量"
+    echo -e ">  6. 更新 或卸载 WireGuard服务端和Udp2Raw 子菜单"
     echo -e ">  7. 隐藏功能开放: 一键脚本全家桶大礼包"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
     echo
@@ -236,7 +359,7 @@ start_menu(){
         ss_kcp_udp2raw_wg_speed
         ;;
         5)
-        wg_clients
+        wg_clients_menu
         ;;
         6)
         update_remove_menu
