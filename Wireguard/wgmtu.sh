@@ -2,6 +2,7 @@
 
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
+Yellow='\033[0;33m' && SkyBlue='\033[0;36m'
 
 # 修改mtu数值
 setmtu(){
@@ -212,6 +213,7 @@ del_last_peer(){
     peer_key=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $1}')
     wg set wg0 peer $peer_key remove
     wg-quick save wg0
+    echo -e "${SkyBlue}删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
 }
 
 # 显示激活Peer表
@@ -220,14 +222,13 @@ display_peer(){
     wg show wg0 allowed-ips > /tmp/peer_list
     peer_cnt=$(cat /tmp/peer_list | wc -l)
 
-    YELLOW='\033[0;33m' && SKYBLUE='\033[0;36m'
     # 显示 peer和ip表
-    echo -e  "${RedBG} ID ${GreenBG}         Peer:  <base64 public key>         ${SKYBLUE}  IP_Addr:  ${Font}"
+    echo -e  "${RedBG} ID ${GreenBG}         Peer:  <base64 public key>         ${SkyBlue}  IP_Addr:  ${Font}"
     for i in `seq 1 250`
     do
         peer=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
         ip=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $2}')
-        line="> ${Red}${i}   ${YELLOW}${peer}${Font}   ${ip}"
+        line="> ${Red}${i}   ${Yellow}${peer}${Font}   ${ip}"
         echo -e $line
         if [ $i -ge $peer_cnt ]; then
             break
@@ -246,8 +247,9 @@ del_peer(){
         peer_key=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
         wg set wg0 peer $peer_key remove
         wg-quick save wg0
+        echo -e "${SkyBlue}删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
     else
-        echo -e "手工命令: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
+        echo -e "命令行使用: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
     fi
 
     rm /tmp/peer_list
@@ -266,12 +268,6 @@ add_peer(){
     i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}
 
     # 生成客户端配置文件
-    cat <<EOF >>wg0.conf
-[Peer]
-PublicKey = $(cat cpublickey)
-AllowedIPs = $ip/32
-EOF
-
     cat <<EOF >wg_${host}_$i.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
@@ -285,13 +281,14 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 EOF
 
-    # 重启wg服务器
-    wg-quick down wg0  >/dev/null 2>&1
-    wg-quick up wg0    >/dev/null 2>&1
+    # 在wg服务器中生效客户端peer
+    wg set wg0 peer $(cat cpublickey) allowed-ips $ip/32
+    wg-quick save wg0
 
     # 显示客户端
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
+    echo -e "${SkyBlue}新客户端peer添加完成; 文件:${Yellow} /etc/wireguard/wg_${host}_$i.conf ${Font}"
     cat /etc/wireguard/wg_${host}_$i.conf
 }
 
@@ -338,9 +335,9 @@ start_menu(){
     echo -e ">  3. 修改 WireGuard 端口号"
     echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"
     echo    "----------------------------------------------------------"
-    echo -e ">  5. 添加/删除 WireGuard 客户端配置 或 重置客户端数量"
-    echo -e ">  6. 更新 或卸载 WireGuard服务端和Udp2Raw 子菜单"
-    echo -e ">  7. 隐藏功能开放: 一键脚本全家桶大礼包"
+    echo -e "${SkyBlue}>  5. 添加/删除 WireGuard 客户端配置"
+    echo -e ">  6. 更新/卸载 WireGuard服务端和Udp2Raw"
+    echo -e ">  7. vps_setup 一键脚本全家桶大礼包"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
     echo
     read -p "请输入数字(1-8):" num
