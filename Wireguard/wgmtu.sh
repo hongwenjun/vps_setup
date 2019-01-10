@@ -209,7 +209,7 @@ update_remove_menu(){
 
 # 删除最末尾的peer
 del_last_peer(){
-    peer_key=$(wg | grep 'peer:' | tail -1 | awk '{print $2}')
+    peer_key=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $1}')
     wg set wg0 peer $peer_key remove
     wg-quick save wg0
 }
@@ -263,7 +263,7 @@ add_peer(){
     serverip=$(curl -4 ip.sb) && host=$(hostname -s) && cd /etc/wireguard
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-    ipnum=$(wg | grep 'allowed ips:' | tail -1 | awk '{print $3}' | awk -F '[./]' '{print $4}')
+    ipnum=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $2}' | awk -F '[./]' '{print $4}')
     i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}
 
     # 生成客户端配置文件
