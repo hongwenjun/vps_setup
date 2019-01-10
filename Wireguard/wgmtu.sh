@@ -217,18 +217,15 @@ del_last_peer(){
 # 显示激活Peer表
 display_peer(){
     # peer和ip表写临时文件
-    wg | grep  'peer:' | awk '{print $2}'         > /tmp/peer_list
-    wg | grep  'allowed ips:' | awk '{print $3}'  > /tmp/ip_list
+    wg show wg0 allowed-ips > /tmp/peer_list
     peer_cnt=$(cat /tmp/peer_list | wc -l)
 
     # 显示 peer和ip表
-    echo -e  "${GreenBG}  ID  IP_Addr:    Peer:  <base64 public key>  ${Font}"
+    echo -e  "${GreenBG}       Peer:  <base64 public key>            ${RedBG} IP_Addr:  ID ${Font}"
     for i in `seq 1 250`
     do
         peer=$(cat /tmp/peer_list | head -n $i | tail -1)
-        ipaddr=$(cat /tmp/ip_list | head -n $i | tail -1)
-        line=">   ${i}      ${ipaddr}      ${peer}"
-
+        line="${peer}      ${i}"
         echo $line
         if [ $i -ge $peer_cnt ]; then
             break
@@ -244,14 +241,14 @@ del_peer(){
 
     if [[ ${x} -ge 1 ]] && [[ ${x} -le ${peer_cnt} ]]; then
         i=$x
-        peer=$(cat /tmp/peer_list | head -n $i | tail -1)
-        wg set wg0 peer $peer remove
+        peer_key=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
+        wg set wg0 peer $peer_key remove
         wg-quick save wg0
     else
         echo -e "手工命令: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
     fi
 
-    rm /tmp/peer_list && rm /tmp/ip_list
+    rm /tmp/peer_list
 }
 
 
@@ -323,7 +320,7 @@ wg_clients_menu(){
         wg_clients
         ;;
         *)
-        display_peer
+
         ;;
         esac
 }
@@ -376,8 +373,7 @@ start_menu(){
         scp_conf
         ;;
         *)
-        echo
-        echo "请输入正确数字"
+        display_peer
         ;;
         esac
 }
