@@ -220,13 +220,15 @@ display_peer(){
     wg show wg0 allowed-ips > /tmp/peer_list
     peer_cnt=$(cat /tmp/peer_list | wc -l)
 
+    YELLOW='\033[0;33m' && SKYBLUE='\033[0;36m'
     # 显示 peer和ip表
-    echo -e  "${GreenBG}       Peer:  <base64 public key>            ${RedBG} IP_Addr:  ID ${Font}"
+    echo -e  "${RedBG} ID ${GreenBG}         Peer:  <base64 public key>         ${SKYBLUE}  IP_Addr:  ${Font}"
     for i in `seq 1 250`
     do
-        peer=$(cat /tmp/peer_list | head -n $i | tail -1)
-        line="${peer}      ${i}"
-        echo $line
+        peer=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
+        ip=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $2}')
+        line="> ${Red}${i}   ${YELLOW}${peer}${Font}   ${ip}"
+        echo -e $line
         if [ $i -ge $peer_cnt ]; then
             break
         fi
