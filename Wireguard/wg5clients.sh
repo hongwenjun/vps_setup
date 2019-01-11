@@ -56,7 +56,7 @@ port=$(rand 1000 60000)
 mtu=1420
 host=$(hostname -s)
 
-ip_list=(2 8 98 88 188 118 158 198 168 9)
+ip_list=(2 5 8 178 188 118 158 198 168 9)
 
 # 获得服务器ip，自动获取
 if [ ! -f '/usr/bin/curl' ]; then

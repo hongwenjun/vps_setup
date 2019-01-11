@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 服务器 IP 和 端口
-port=$(wg | grep 'listening port:' | awk '{print $3}')
+port=$(wg show wg0 listen-port)
 serverip=$(curl -4 ip.sb)
 host=$(hostname -s)
 
@@ -15,10 +15,8 @@ Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[
 cd /etc/wireguard
 cp wg0.conf  conf.wg0.bak
 
-echo -e   "${RedBG}重置 WireGuard 客户端配置数量，方便修改过端口或者机场大佬${Font}"
-echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+echo -e   "${RedBG}  重置 WireGuard 客户端 Peer 数量  ${Font}"
 echo
-
 echo -e "${GreenBG} 请输入客户端配置数量 ${Font}"
 read -p "请输入数字(3--218): " num_x
 

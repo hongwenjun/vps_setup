@@ -30,9 +30,9 @@ setport(){
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        port=$num
-       wg-quick down wg0
-       sed -i "s/ListenPort = .*$/ListenPort = ${port}/g"  /etc/wireguard/wg0.conf
-       wg-quick up wg0
+       wg set wg0 listen-port $port
+       wg-quick save wg0
+
        echo -e "${RedBG}    端口号已经修改, 客户端请手工修改!  ${Font}"
     else
        echo -e "${RedBG}    没有修改端口号!    ${Font}"
@@ -96,19 +96,19 @@ scp_conf(){
     wg-quick up wg0     >/dev/null 2>&1
     echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
-    if [ ! -f '/usr/bin/tmux' ]; then
+    if [ ! -f '~/.tmux.conf' ]; then
         get_tools_conf
     fi
 }
 
 #  隐藏功能开放: 一键脚本全家桶
 onekey_plus(){
-    echo -e "${RedBG}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
+    echo -e "${SkyBlue}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
     cat  <<EOF
   # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
   wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh
 
-  #  Google Cloud Platform GCP实例开启密码与root用户登陆
+  # Google Cloud Platform GCP实例开启密码与root用户登陆
   wget -qO- git.io/fpQWf | bash
 
   # 一键安装 vnstat 流量检测   by 蘭雅sRGB
@@ -142,7 +142,7 @@ onekey_plus(){
   cat wg_vultr_5.conf  | qrencode -o- -t utf8
 
 EOF
-    echo -e "${GreenBG}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
+    echo -e "${SkyBlue}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 }
 
 safe_iptables(){
@@ -183,7 +183,7 @@ rc-local_remove(){
 }
 
 update_remove_menu(){
-    echo -e "${RedBG}   更新 或卸载 WireGuard服务端和Udp2Raw 子菜单  ${Font}"
+    echo -e "${RedBG}   更新/卸载 WireGuard服务端和Udp2Raw   ${Font}"
     echo -e "${Green}>  1. 更新 WireGuard 服务端"
     echo -e ">  2. 卸载 WireGuard 服务端"
     echo -e ">  3. 卸载 Udp2Raw 服务"
@@ -208,7 +208,7 @@ update_remove_menu(){
         esac
 }
 
-# 删除最末尾的peer
+# 删除末尾的Peer
 del_last_peer(){
     peer_key=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $1}')
     wg set wg0 peer $peer_key remove
@@ -236,6 +236,7 @@ display_peer(){
     done
 }
 
+# 选择删除Peer客户端
 del_peer(){
     display_peer
     echo
@@ -275,7 +276,7 @@ Address = $ip/24
 DNS = 8.8.8.8
 
 [Peer]
-PublicKey = $(cat spublickey)
+PublicKey = $(wg show wg0 public-key)
 Endpoint = $serverip:$port
 AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
@@ -293,13 +294,13 @@ EOF
 }
 
 wg_clients_menu(){
-    echo -e "${RedBG}   添加/删除 WireGuard 客户端配置  子菜单  ${Font}"
-    echo -e "${Green}>  1. 添加一个 WireGuard 客户端配置"
-    echo -e ">  2. 删除末尾 WireGuard 客户端配置"
-    echo -e ">  3. 指定删除 WireGuard 客户端配置"
+    echo -e "${RedBG}   添加/删除 WireGuard Peer 客户端管理  ${Font}"
+    echo -e "${Green}>  1. 添加一个 WireGuard Peer 客户端配置"
+    echo -e ">  2. 删除末尾 WireGuard Peer 客户端配置"
+    echo -e ">  3. 指定删除 WireGuard Peer 客户端配置"
     echo    "------------------------------------------------------"
-    echo -e ">  4. 退出"
-    echo -e ">  5.${RedBG} 重置 WireGuard 客户端配置和数量 ${Font}"
+    echo -e "${SkyBlue}>  4. 退出"
+    echo -e ">  5.${RedBG} 重置 WireGuard 客户端 Peer 数量 ${Font}"
     echo
     read -p "请输入数字(1-5):" num_x
     case "$num_x" in
@@ -313,6 +314,7 @@ wg_clients_menu(){
         del_peer
         ;;
         4)
+        display_peer
         exit 1
         ;;
         5)
@@ -335,7 +337,7 @@ start_menu(){
     echo -e ">  3. 修改 WireGuard 端口号"
     echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"
     echo    "----------------------------------------------------------"
-    echo -e "${SkyBlue}>  5. 添加/删除 WireGuard 客户端配置"
+    echo -e "${SkyBlue}>  5. 添加/删除 WireGuard Peer 客户端管理"
     echo -e ">  6. 更新/卸载 WireGuard服务端和Udp2Raw"
     echo -e ">  7. vps_setup 一键脚本全家桶大礼包"
     echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
