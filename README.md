@@ -11,9 +11,8 @@ yum install -y wget && \
 wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
 && chmod +x wireguard_install.sh && ./wireguard_install.sh
 ```
-
-### 猪事顺利，青春永猪，猪圆玉润，猪笼入水---八面来财
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/zfb_hb.png)
+### 增加功能  <<  添加/删除 WireGuard Peer 客户端管理 >>
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)
 
 ### 一键安装wireguard 参考演示视频集合
 
