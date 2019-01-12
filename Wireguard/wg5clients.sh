@@ -36,7 +36,7 @@ if [ ! -f '/usr/bin/wg' ]; then
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
     echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
     help_info
-    echo -e "${RedBG}   检测到你的vps没有正确选择脚本，请使用对应系统的脚本安装   ${Font}"
+    echo -e "${Red}::  检测到你的vps没有安装wireguard，请选择复制一键脚本安装   ${Font}"
     exit 1
 fi
 #############################################################
@@ -52,11 +52,10 @@ rand(){
 }
 
 port=$(rand 1000 60000)
-
 mtu=1420
 host=$(hostname -s)
 
-ip_list=(2 5 8 178 188 118 158 198 168 9)
+ip_list=(2 5 8 178 186 118 158 198 168 9)
 
 # 获得服务器ip，自动获取
 if [ ! -f '/usr/bin/curl' ]; then
@@ -94,7 +93,7 @@ MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.218/32
+AllowedIPs = 10.0.0.0/32
 
 EOF
 
@@ -102,7 +101,7 @@ EOF
 cat <<EOF >client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.218/24
+Address = 10.0.0.188/24
 DNS = 8.8.8.8
 #  MTU = $mtu
 #  PreUp =  start   .\route\routes-up.bat

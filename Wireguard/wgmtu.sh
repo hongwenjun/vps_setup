@@ -6,8 +6,7 @@ Yellow='\033[0;33m' && SkyBlue='\033[0;36m'
 
 # 修改mtu数值
 setmtu(){
-    echo -e "${GreenBG}WireGuard 修改服务器端MTU值，最大效率加大网速，默认值 MTU = 1420 "
-    echo -e "WireGuard 客户端可以MTU参数自动，请修改电脑客户端TunSafe配置把MTU行注释掉。${Font}"
+    echo -e "${GreenBG}WireGuard 修改服务器端MTU值,提高效率;默认值MTU=1420${Font}"
     read -p "请输入数字(1200--1500): " num
 
     if [[ ${num} -ge 1200 ]] && [[ ${num} -le 1500 ]]; then
@@ -16,11 +15,9 @@ setmtu(){
        mtu=1420
     fi
 
-    wg-quick down wg0
-    sed -i "s/MTU = .*$/MTU = ${mtu}/g"  /etc/wireguard/wg0.conf
-
-    wg-quick up wg0
-    echo -e "${RedBG}    服务器端MTU值已经修改!    ${Font}"
+    ip link set mtu $num up dev wg0
+    wg-quick save wg0
+    echo -e "${SkyBlue}:: 服务器端MTU值已经修改!${Font}"
 }
 
 # 修改端口号
@@ -33,16 +30,16 @@ setport(){
        wg set wg0 listen-port $port
        wg-quick save wg0
 
-       echo -e "${RedBG}    端口号已经修改, 客户端请手工修改!  ${Font}"
+       echo -e "${SkyBlue}:: 端口号已经修改, 客户端请手工修改! ${Font}"
     else
-       echo -e "${RedBG}    没有修改端口号!    ${Font}"
+       echo -e "${Red}:: 没有修改端口号!${Font}"
     fi
 }
 
 # 显示手机客户端二维码
-wgconf(){
-    echo -e "${RedBG}:: 显示手机客户端二维码  (如改端口,请先菜单5重置客户端配置)  ${Font}"
-    read -p "请输入数字(2-9)，默认2号: " x
+conf_QRcode(){
+    echo -e "${Yellow}:: 显示手机客户端二维码(默认2号),请输入数字${Font}\c"
+    read -p "(2-9): " x
 
     if [[ ${x} -ge 2 ]] && [[ ${x} -le 9 ]]; then
        i=$x
@@ -52,16 +49,67 @@ wgconf(){
 
     host=$(hostname -s)
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
-    echo -e "${GreenBG}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用  ${Font}"
-    echo -e "${RedBG}SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码正常${Font}"
+    echo -e "${Green}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用${Font}"
+    echo -e "${SkyBlue}:: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码正常${Font}"
 }
 
 # 重置 WireGuard 客户端配置和数量
 wg_clients(){
-    echo -e "${RedBG}:: 注意原来的客户端配置都会删除，按 Ctrl+ C 可以紧急撤销  ${Font}"
-    wget -O ~/wg100  https://git.io/fp6r0    >/dev/null 2>&1
-    bash ~/wg100
-    rm   ~/wg100
+    echo -e "${Red}:: 注意原来的客户端配置都会删除，按 Ctrl+ C 可以紧急撤销  ${Font}"
+
+    # 转到wg配置文件目录
+    cd /etc/wireguard
+    cp wg0.conf  conf.wg0.bak
+
+    echo -e "${SkyBlue}:: 输入客户端Peer总数${Font}\c"
+    read -p "(2--200): " num_x
+
+    if [[ ${num_x} -ge 2 ]] && [[ ${num_x} -le 250 ]]; then
+     wg_num=OK
+    else
+      num_x=3
+    fi
+
+    # 服务器 IP 和 端口
+    port=$(wg show wg0 listen-port) && host=$(hostname -s)
+    serverip=$(curl -4 ip.sb)
+
+    # 删除原配置，让IP和ID号对应; 保留原来服务器的端口等配置
+    rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
+    head -n 13  conf.wg0.bak > wg0.conf
+
+    # 重启wg服务器
+    wg-quick down wg0  >/dev/null 2>&1
+    wg-quick up wg0    >/dev/null 2>&1
+
+    # 重新生成用户配置数量
+    for i in `seq 2 250`
+    do
+        ip=10.0.0.${i}
+        wg genkey | tee cprivatekey | wg pubkey > cpublickey
+        wg set wg0 peer $(cat cpublickey) allowed-ips $ip/32
+
+        cat <<EOF >wg_${host}_$i.conf
+[Interface]
+PrivateKey = $(cat cprivatekey)
+Address = $ip/24
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = $(wg show wg0 public-key)
+Endpoint = $serverip:$port
+AllowedIPs = 0.0.0.0/0, ::0/0
+PersistentKeepalive = 25
+
+EOF
+        cat wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
+        if [ $i -ge $num_x ]; then break; fi
+    done
+
+    wg-quick save wg0
+    clear && display_peer
+    cat /etc/wireguard/wg_${host}_2.conf
+    echo -e "${SkyBlue}:: 使用${GreenBG} bash wg5 ${SkyBlue}命令,可以临时网页下载配置和二维码${Font}"
 }
 
 # 安装Udp2Raw服务TCP伪装，加速功能
@@ -151,7 +199,7 @@ safe_iptables(){
 }
 
 # 更新wgmtu脚本
-update(){
+update_self(){
     # 安装 bash wgmtu 脚本用来设置服务器
     wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh >/dev/null 2>&1
 }
@@ -213,27 +261,23 @@ del_last_peer(){
     peer_key=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $1}')
     wg set wg0 peer $peer_key remove
     wg-quick save wg0
-    echo -e "${SkyBlue}删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
+    echo -e "${SkyBlue}:: 删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
 }
 
 # 显示激活Peer表
 display_peer(){
     # peer和ip表写临时文件
     wg show wg0 allowed-ips > /tmp/peer_list
-    peer_cnt=$(cat /tmp/peer_list | wc -l)
 
     # 显示 peer和ip表
     echo -e  "${RedBG} ID ${GreenBG}         Peer:  <base64 public key>         ${SkyBlue}  IP_Addr:  ${Font}"
-    for i in `seq 1 250`
-    do
-        peer=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
-        ip=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $2}')
+    i=1
+    while read -r line || [[ -n $line ]]; do
+        peer=$(echo $line | awk '{print $1}')
+        ip=$(echo $line | awk '{print $2}')
         line="> ${Red}${i}   ${Yellow}${peer}${Font}   ${ip}"
-        echo -e $line
-        if [ $i -ge $peer_cnt ]; then
-            break
-        fi
-    done
+        echo -e $line  &&  let i++
+    done < /tmp/peer_list
 }
 
 # 选择删除Peer客户端
@@ -248,20 +292,18 @@ del_peer(){
         peer_key=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
         wg set wg0 peer $peer_key remove
         wg-quick save wg0
-        echo -e "${SkyBlue}删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
+        echo -e "${SkyBlue}:: 删除客户端 peer: ${Yellow} ${peer_key} ${SkyBlue} 完成.${Font}"
     else
-        echo -e "命令行使用: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
+        echo -e "${SkyBlue}:: 命令使用: ${GreenBG} wg set wg0 peer <base64 public key> remove ${Font}"
     fi
-
     rm /tmp/peer_list
 }
-
 
 # 添加新的客户端peer
 add_peer(){
 
     # 服务器 IP 端口 ，新客户端 序号和IP
-    port=$(wg | grep 'listening port:' | awk '{print $3}')
+    port=$(wg show wg0 listen-port)
     serverip=$(curl -4 ip.sb) && host=$(hostname -s) && cd /etc/wireguard
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
@@ -289,7 +331,7 @@ EOF
     # 显示客户端
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
-    echo -e "${SkyBlue}新客户端peer添加完成; 文件:${Yellow} /etc/wireguard/wg_${host}_$i.conf ${Font}"
+    echo -e "${SkyBlue}:: 新客户端peer添加完成; 文件:${Yellow} /etc/wireguard/wg_${host}_$i.conf ${Font}"
     cat /etc/wireguard/wg_${host}_$i.conf
 }
 
@@ -345,7 +387,7 @@ start_menu(){
     read -p "请输入数字(1-8):" num
     case "$num" in
         1)
-        wgconf
+        conf_QRcode
         ;;
         2)
         setmtu
@@ -361,7 +403,7 @@ start_menu(){
         ;;
         6)
         update_remove_menu
-        update
+        update_self
         exit 1
         ;;
         7)
