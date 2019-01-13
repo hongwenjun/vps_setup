@@ -7,7 +7,7 @@ wget -qO- git.io/fptwc | bash
 wget -qO- git.io/fpcnL | bash
 
 # CentOS7一键脚本安装WireGuard
-[https://github.com/atrandys/wireguard](https://github.com/atrandys)
+https://github.com/atrandys/wireguard
 
 ```
 ### 增加功能  <<  添加/删除 WireGuard Peer 客户端管理 >>
@@ -36,7 +36,7 @@ wget -qO- https://git.io/fpnQt | bash
 bash wgmtu
 ```
 
-### ------------------------- 分割线以下可以不看 --------------------------
+### --------------------- 分割线以下可以不看 ----------------------
 
 ### 导出到客户端配置，修改实际的IP，修改成实际端口号
 ```
@@ -115,10 +115,10 @@ wget -qO- git.io/fxxlb | bash
 wget -qO- https://git.io/fp4jf | bash
 ```
 
-# -------------------------------------------------------------------
-#   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
-# -------------------------------------------------------------------
-#  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
+### -------------------------------------------------------------------
+###   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
+### -------------------------------------------------------------------
+###  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
 蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
 
 下载程序地址:  https://github.com/hongwenjun/WinKcp_Launcher
