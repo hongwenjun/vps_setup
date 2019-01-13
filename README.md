@@ -6,10 +6,9 @@ wget -qO- git.io/fptwc | bash
 # 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
 wget -qO- git.io/fpcnL | bash
 
-# CentOS7一键脚本安装WireGuard   (https://atrandys.com/2018/886.html)
-yum install -y wget && \
-wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_install.sh \
-&& chmod +x wireguard_install.sh && ./wireguard_install.sh
+# CentOS7一键脚本安装WireGuard
+[https://github.com/atrandys/wireguard](https://github.com/atrandys)
+
 ```
 ### 增加功能  <<  添加/删除 WireGuard Peer 客户端管理 >>
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)
@@ -23,11 +22,11 @@ wget https://raw.githubusercontent.com/atrandys/wireguard/master/wireguard_insta
 
 ###  一键 WireGuard 多用户配置共享脚本
 ```
-# 一键 WireGuard 多用户配置共享脚本 
+# 一键 WireGuard 多用户配置共享脚本
 wget -qO- https://git.io/fpnQt | bash
 
 # WireGuar 服务端修改MTU数值，修改服务器端口脚本，Udp2Raw服务TCP伪装设置
-# 自动下载，使用命令  bash wgmtu  设置   
+# 自动下载，使用命令  bash wgmtu  设置
 ```
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/ss_wg_speed.webp)
 
@@ -171,7 +170,7 @@ ls /sys/class/net | awk {print} | head -n 1
 ```
 可以得到软件的安装目录和配置文件目录
 
-```	
+```
 /usr/bin/shadowsocks-server -c /etc/shadowsocks-go/config.json
 /usr/local/frps/frps -c /usr/local/frps/frps.ini
 /bin/bash /etc/init.d/brook start
@@ -198,11 +197,11 @@ tar -czv -T filelist -f ss_frp.tar.gz
 - 可以先不删除原来机器，新建立机器使用wget把备份文件挪过去
 - 本笔记，由于使用Vultr_IPV6的机器，所以使用wget先下载到本地电脑了
 
-### 本地上传到服务器/tmp 
+### 本地上传到服务器/tmp
 
 	$ scp /c/Users/vip/Desktop/ss_frp/ss_frp.tar.gz root@[2001:19f0:8001:c85:5400:01ff:fe91:7ed8]:/tmp/ss_frp.tar.gz
- 
- 
+
+
 ### 服务器上解压和开启服务
 
 ```
@@ -214,7 +213,7 @@ cd / && tar -xvf /tmp/ss_frp.tar.gz
 
 ```
 systemctl enable frps
-systemctl enable brook 
+systemctl enable brook
 systemctl enable shadowsocks-go
 
 systemctl disable frps #禁止的脚本
