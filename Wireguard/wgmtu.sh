@@ -286,7 +286,8 @@ del_peer(){
     echo
     echo -e "${RedBG}请选择 IP_Addr 对应 ID 号码，指定客户端配置将删除! ${Font}"
     read -p "请输入ID号数字(1-X):" x
-
+    
+    peer_cnt=$(at /tmp/peer_list | wc -l)
     if [[ ${x} -ge 1 ]] && [[ ${x} -le ${peer_cnt} ]]; then
         i=$x
         peer_key=$(cat /tmp/peer_list | head -n $i | tail -1 | awk '{print $1}')
