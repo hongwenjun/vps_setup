@@ -85,8 +85,8 @@ cat <<EOF >wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/24
-PostUp   = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
+PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $port
 DNS = 8.8.8.8
 MTU = $mtu
@@ -176,10 +176,9 @@ echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7  
 echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 新手使用${GreenBG} bash wg5 ${Font} 命令，使用临时网页下载配置和手机客户端二维码配置"
-echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，服务端高级配置; (至少能vim wgmtu会看脚本爱折腾玩家)"
+echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，服务端高级配置和添加删除客户端数量"
 
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
-# echo -e "#  scp root@10.0.0.1:/etc/wireguard/wg5clients.tar   wg5clients.tar"
 # python -m SimpleHTTPServer 8000 &
 echo ""
 # echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
