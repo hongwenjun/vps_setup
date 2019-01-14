@@ -53,6 +53,7 @@ wireguard_install(){
     wg genkey | tee sprivatekey | wg pubkey > spublickey
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
     chmod 777 -R /etc/wireguard
+    systemctl enable wg-quick@wg0
 }
 
 # Bash执行选项  kernel 升级内核  默认安装 wireguard
