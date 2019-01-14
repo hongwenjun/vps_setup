@@ -47,9 +47,15 @@ wireguard_install(){
     iptables -F  && service iptables save && service iptables restart
     echo 1 > /proc/sys/net/ipv4/ip_forward
     echo "net.ipv4.ip_forward = 1" > /etc/sysctl.conf
+
+    mkdir -p /etc/wireguard
+    cd /etc/wireguard
+    wg genkey | tee sprivatekey | wg pubkey > spublickey
+    wg genkey | tee cprivatekey | wg pubkey > cpublickey
+    chmod 777 -R /etc/wireguard
 }
 
-#Bash执行选项
+# Bash执行选项  kernel 升级内核  默认安装 wireguard
 if [[ $# > 0 ]];then
 	key="$1"
 	case $key in
