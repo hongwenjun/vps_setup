@@ -20,9 +20,8 @@ https://github.com/atrandys/wireguard
 你必须立刻停止此行为！并删除脚本！
 
 ### 增加功能  <<添加/删除 WireGuard Peer 客户端管理 >>
+[![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
 
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)
- [![](https://i.ytimg.com/vi/iOnAeWRvSQI/hqdefault.jpg)](https://youtu.be/iOnAeWRvSQI) 
 ### 一键安装wireguard 参考演示视频集合
 
 | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/ss_wgmtu.jpg)](https://youtu.be/-sJLfPg12oc) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wg_mac_pc_tel.jpg)](https://youtu.be/dkXWicxak3w) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.jpg)](https://youtu.be/e86tCRDqu8c) |
@@ -97,12 +96,12 @@ wget -qO- git.io/fpZIW | bash
 wget -qO- git.io/fx6UQ | bash
 ```
 
-
 ### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
 ```
 # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
 wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
 ```
+
 ### 使用BestTrace查看VPS的去程和回程
 ```
 wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBestTrace.sh | bash
@@ -124,30 +123,17 @@ wget -qO- git.io/fxxlb | bash
 # linux下golang环境搭建自动脚本  by 蘭雅sRGB
 wget -qO- https://git.io/fp4jf | bash
 ```
-
-### -------------------------------------------------------------------
-###   以下为 Linux 命令学习笔记，适合想提高的朋友学习参考使用
-### -------------------------------------------------------------------
-###  Windows udp2raw+kcptun 加速tcp流量 简易工具  by 蘭雅sRGB
-蘭雅sRGB 龙芯小本服务器 | [sRGB.vicp.net](http://sRGB.vicp.net)
-
-下载程序地址:  https://github.com/hongwenjun/WinKcp_Launcher
-
-![](https://raw.githubusercontent.com/hongwenjun/WinKcp_Launcher/master/WinKcp_Launcher.webp)
-
+----
 ### Debian或Ubuntun mini版 wget下载证书无法验证
-apt-get install -y ca-certificates
+	apt-get install -y ca-certificates
 
 # Debian远程SSH汉字utf-8乱码解决
-```
-apt-get  install locales
-dpkg-reconfigure locales
-```
+	apt-get  install locales
+	dpkg-reconfigure locales
+
 # 查看默认字符集是否是en_US.UTF-8
-```
-$ vim /etc/default/locale
-LANG=en_US.UTF-8
-```
+	vim /etc/default/locale
+	LANG=en_US.UTF-8
 
 # vim和bash高亮,tmux 配置
 ```
@@ -164,13 +150,10 @@ autoindex on;
 ```
 
 ### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
-================================================
 ```
 wget --no-check-certificate -O vps_setup.sh https://git.io/fx6UQ  && \
 chmod +x vps_setup.sh && ./vps_setup.sh
 ```
-
-
 
 ### 获取自己所需服务软件的信息
 ```
@@ -188,7 +171,6 @@ ls /sys/class/net | awk {print} | head -n 1
 screen ./fuck_net
 screen iperf3 -s
 ```
-
 
 ### 打包程序和配置
 ```
