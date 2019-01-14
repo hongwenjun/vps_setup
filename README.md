@@ -6,9 +6,9 @@ wget -qO- git.io/fptwc | bash
 # 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
 wget -qO- git.io/fpcnL | bash
 
-# CentOS7一键脚本安装WireGuard
-https://github.com/atrandys/wireguard
-
+# CentOS 7 一键脚本安装WireGuard  (1.先升级内核-重启)
+wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel
+bash wg.sh        # 2.重启后安装
 ```
 ## 严重声明：
 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。
