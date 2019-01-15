@@ -1,4 +1,4 @@
-# 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
+## 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
@@ -6,10 +6,13 @@ wget -qO- git.io/fptwc | bash
 # 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
 wget -qO- git.io/fpcnL | bash
 
-# CentOS 7 一键脚本安装WireGuard  (1.先升级内核-重启)
-wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel
-bash wg.sh        # 2.重启后安装
+# CentOS 7 一键脚本安装WireGuard  (官方脚本自动升级内核)
+wget -qO- git.io/fhnhS | bash
 ```
+### CentOS 7 测试 GCP和Vultr 都能自动升级内核，如果辣鸡要升级内核
+	yum install -y wget vim             # Cetos 安装 wget 和 vim 工具
+	wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel    # Centos 升级内核命令
+
 ## 严重声明：
 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。
 此项目为bash一键脚本，其中涉及到的任何软件版权和责任归原作者所有。
