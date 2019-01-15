@@ -1,10 +1,7 @@
 #!/bin/bash
 # youtube-dl.sh  安装下载YouTube视频和音乐
-
-url_list=url_list.txt
-if [[ $# > 1 ]];then
-    url_list=$2
-fi
+# 下载脚本命令
+# wget -qO you.sh https://git.io/fhc9F
 
 youtube_dl_install(){
     apt install -y youtube-dl ffmpeg
@@ -34,11 +31,25 @@ mp3_download(){
 }
 
 
-help_info(){
-echo -e "\e[1;33m Usage: $0  [install|mp3|vod]  [url_list.txt] \e[0m"
+url_list=url_list.txt
+if [[ $# > 1 ]];then
+    url_list=$2
+fi
 
+URL=$2
+url_f(){
+    if [ ! -f $URL ]; then
+        echo $URL > /tmp/url
+        url_list=/tmp/url
+        echo -e "\e[1;33m URL: ${URL} \e[0m"
+    fi
 }
 
+help_info(){
+echo -e "\e[1;33m Usage: $0  [install | mp3 | vod]  [url_list.txt | URL] \e[0m"
+}
+
+url_f
 # Bash执行选项
 if [[ $# > 0 ]];then
 	key="$1"
