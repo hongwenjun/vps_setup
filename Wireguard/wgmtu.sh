@@ -64,7 +64,7 @@ wg_clients(){
     echo -e "${SkyBlue}:: 输入客户端Peer总数${Font}\c"
     read -p "(2--200): " num_x
 
-    if [[ ${num_x} -ge 2 ]] && [[ ${num_x} -le 250 ]]; then
+    if [[ ${num_x} -ge 2 ]] && [[ ${num_x} -le 200 ]]; then
      wg_num=OK
     else
       num_x=3
@@ -77,13 +77,14 @@ wg_clients(){
     # 删除原配置，让IP和ID号对应; 保留原来服务器的端口等配置
     rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
     head -n 13  conf.wg0.bak > wg0.conf
-
+    sed -i '13s/.//g' wg0.conf
+    
     # 重启wg服务器
     wg-quick down wg0  >/dev/null 2>&1
     wg-quick up wg0    >/dev/null 2>&1
 
     # 重新生成用户配置数量
-    for i in `seq 2 250`
+    for i in `seq 2 200`
     do
         ip=10.0.0.${i}
         wg genkey | tee cprivatekey | wg pubkey > cpublickey
@@ -112,7 +113,7 @@ EOF
     echo -e "${SkyBlue}:: 使用${GreenBG} bash wg5 ${SkyBlue}命令,可以临时网页下载配置和二维码${Font}"
 }
 
-# 安装Udp2Raw服务TCP伪装，加速功能
+# 安装Speeder+Udp2Raw服务TCP伪装，加速功能
 ss_kcp_udp2raw_wg_speed(){
     # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
     wget -qO- git.io/fpZIW | bash
@@ -125,7 +126,8 @@ ss_kcp_udp2raw_wg_speed(){
 # 常用工具和配置
 get_tools_conf(){
     apt-get update
-    apt-get install -y htop tmux screen iperf3
+    apt-get install -y htop tmux screen iperf3  >/dev/null 2>&1
+    yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
     wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
