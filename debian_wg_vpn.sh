@@ -24,7 +24,7 @@ dpkg -l|grep linux-headers
 # 安装WireGuard
 # 添加 unstable 软件包源，以确保安装版本是最新的
 echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
-echo -e 'Package: *\nPin: release a=unstable\nPin-Priority: 150' > /etc/apt/preferences.d/limit-unstable
+printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
  
 # 更新一下软件包源
 apt update
