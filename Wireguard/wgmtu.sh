@@ -115,10 +115,10 @@ EOF
 
 # 安装Speeder+Udp2Raw服务TCP伪装，加速功能
 ss_kcp_udp2raw_wg_speed(){
-    # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
-    wget -qO- git.io/fpZIW | bash
+    # 下载/编译 shadowsocks-libev
+    wget -qO- git.io/fhExJ | bash
 
-    wget -O ~/ss_wg_set_raw  https://git.io/fpKnF    >/dev/null 2>&1
+    wget -O ~/ss_wg_set_raw  git.io/fpKnF    >/dev/null 2>&1
     bash ~/ss_wg_set_raw
     rm ~/ss_wg_set_raw
 }
