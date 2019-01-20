@@ -97,7 +97,7 @@ def_install(){
     if [[ ${release} == "debian" ]]; then
         debian_fast
     fi
-    if [ ! -f '/usr/bin/ss-server' ]; then
+    if [ ! -f '/usr/local/bin/ss-server' ]; then
         install_ss-server
     fi
 }
