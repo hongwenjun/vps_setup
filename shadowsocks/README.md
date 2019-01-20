@@ -1,7 +1,8 @@
-## 自己编译安装 shadowsocks-libev
+# 一键安装shadowsocks-libev脚本 For Debian_9  Ubuntu  Centos_7
 ```
-# 一键安装shadowsocks-libev
+# 一键安装shadowsocks-libev 也可下载使用update参数
 wget -qO- git.io/fhExJ | bash
+
 ```
 ### 使用: 添加命令行到 /etc/rc.local
 ```

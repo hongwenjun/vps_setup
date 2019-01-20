@@ -9,10 +9,6 @@ wget -qO- git.io/fpcnL | bash
 # CentOS 7 一键脚本安装WireGuard  (官方脚本自动升级内核)
 wget -qO- git.io/fhnhS | bash
 ```
-### CentOS 7 测试 GCP和Vultr 都能自动升级内核，如果辣鸡要升级内核
-	yum install -y wget vim             # Cetos 安装 wget 和 vim 工具
-	wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel    # Centos 升级内核命令
-
 ## 严重声明：
 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。
 此项目为bash一键脚本，其中涉及到的任何软件版权和责任归原作者所有。
@@ -21,6 +17,15 @@ wget -qO- git.io/fhnhS | bash
 在中国境内使用、传播、售卖、免费分享等任何翻墙服务，都是违法的。
 如果你在中国境内使用、测试此项目脚本，或者使用此脚本搭建服务器发生以上违法行为，都有违作者意愿！
 你必须立刻停止此行为！并删除脚本！
+
+### 一键安装shadowsocks-libev脚本 For Debian_9  Ubuntu  Centos_7
+```
+#  一键安装shadowsocks-libev
+wget -qO- git.io/fhExJ | bash
+```
+### CentOS 7 测试 GCP和Vultr 都能自动升级内核，如果辣鸡要升级内核
+	yum install -y wget vim             # Cetos 安装 wget 和 vim 工具
+	wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel    # Centos 升级内核命令
 
 ### 增加功能  <<添加/删除 WireGuard Peer 客户端管理 >>
 [![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
@@ -37,18 +42,10 @@ wget -qO- git.io/fhnhS | bash
 # 一键 WireGuard 多用户配置共享脚本
 wget -qO- https://git.io/fpnQt | bash
 
-# WireGuar 服务端修改MTU数值，修改服务器端口脚本，Udp2Raw服务TCP伪装设置
-# 自动下载，使用命令  bash wgmtu  设置
 ```
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/ss_wg_speed.webp)
 
-### 一键 SS+KCP+UDP2RAW 和 WG+SPEED+UDP2RAW 设置脚本
-```
-# 先安装 一键 WireGuard 脚本，动手能力使用命令设置
-bash wgmtu
-```
-
-### --------------------- 分割线以下可以不看 ----------------------
+### ----------------- 分割线以下可以不看 ------------------
 
 ### 导出到客户端配置，修改实际的IP，修改成实际端口号
 ```
@@ -88,15 +85,6 @@ PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j A
 PostUp   = iptables -I FORWARD -i wg0 -j ACCEPT; iptables -I FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT
 
-```
-
-### Shadowsocks+Kcp+Udp2Raw加速 服务端  debian 9  Ubuntu
-```
-# 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for debian 9
-wget -qO- git.io/fpZIW | bash
-
-# 一键安装 SS+Kcp+Udp2Raw 脚本 第二种编译方式安装速度慢  for debian 9  Ubuntu
-wget -qO- git.io/fx6UQ | bash
 ```
 
 ### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
@@ -149,7 +137,6 @@ wget -O .tmux.conf --no-check-certificate https://raw.githubusercontent.com/hong
 $ vim /etc/nginx/sites-enabled/default
 root /var/www;
 autoindex on;
-
 ```
 
 ### udp2raw_kcptun_ss_for_debian9.sh  一键安装，默认$$只对本地开放
@@ -174,7 +161,6 @@ ls /sys/class/net | awk {print} | head -n 1
 screen ./fuck_net
 screen iperf3 -s
 ```
-
 ### 打包程序和配置
 ```
 tar -czvf  ss_frp.tar.gz  /etc/init.d/brook  /usr/local/brook/brook  /usr/local/brook/brook.conf   \
@@ -188,15 +174,11 @@ tar -czv -T filelist -f ss_frp.tar.gz
 ```
 
 ## 搬迁备份文件，使用wget
-
 - 可以先不删除原来机器，新建立机器使用wget把备份文件挪过去
 - 本笔记，由于使用Vultr_IPV6的机器，所以使用wget先下载到本地电脑了
 
 ### 本地上传到服务器/tmp
-
 	$ scp /c/Users/vip/Desktop/ss_frp/ss_frp.tar.gz root@[2001:19f0:8001:c85:5400:01ff:fe91:7ed8]:/tmp/ss_frp.tar.gz
-
-
 ### 服务器上解压和开启服务
 
 ```
@@ -205,7 +187,6 @@ cd / && tar -xvf /tmp/ss_frp.tar.gz
 ```
 
 ### 注册服务，禁止服务
-
 ```
 systemctl enable frps
 systemctl enable brook

@@ -3,7 +3,7 @@
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-echo -e "${Geeen}:: 注意 快速安装 shadowsocks-libev 脚本 For debian 9 ${Font}"
+echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For debian 9 ${Font}"
 echo -e ":: Centos 7 和 Ubuntu 系统，进行编译安装 ${RedBG} shadowsocks-libev  ${Font}"
 
 debian_fast(){
@@ -88,8 +88,29 @@ install_ss-server(){
     fi
 
     if [[ ${release} == "debian" ]]; then
-        debian_fast
+        debian_ubuntu_dev
+        inst_ss-server
     fi
 }
+
+def_install(){
+    if [[ ${release} == "debian" ]]; then
+        debian_fast
+    fi
+    if [ ! -f '/usr/bin/ss-server' ]; then
+        install_ss-server
+    fi
+}
+
+# 安装 ss-server
 check_sys
-install_ss-server
+if [[ $# > 0 ]]; then
+	key="$1"
+	case $key in
+		update)
+		install_ss-server
+		;;
+	esac
+else
+    def_install
+fi
