@@ -4,7 +4,8 @@
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
 echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For debian 9 ${Font}"
-echo -e ":: Centos 7 和 Ubuntu 系统，进行编译安装 ${RedBG} shadowsocks-libev  ${Font}"
+echo -e "${RedBG}:: Centos和Ubuntu系统，进行编译安装 ${RedBG} shadowsocks-libev  ${Font}"
+echo -e "${Green}$  wget -qO ss.sh git.io/fhExJ && bash ss.sh update  ${Font}"
 
 debian_fast(){
     # 安装所需运行库
@@ -45,22 +46,22 @@ inst_ss-server(){
 
 # 检查系统
 check_sys(){
-	if [[ -f /etc/redhat-release ]]; then
-		release="centos"
-	elif cat /etc/issue | grep -q -E -i "debian"; then
-		release="debian"
-	elif cat /etc/issue | grep -q -E -i "ubuntu"; then
-		release="ubuntu"
-	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
-		release="centos"
-	elif cat /proc/version | grep -q -E -i "debian"; then
-		release="debian"
-	elif cat /proc/version | grep -q -E -i "ubuntu"; then
-		release="ubuntu"
-	elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
-		release="centos"
+    if [[ -f /etc/redhat-release ]]; then
+        release="centos"
+    elif cat /etc/issue | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    elif cat /proc/version | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /proc/version | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
     fi
-	bit=`uname -m`
+    bit=`uname -m`
 }
 
 sysctl_config() {
@@ -96,8 +97,7 @@ install_ss-server(){
 def_install(){
     if [[ ${release} == "debian" ]]; then
         debian_fast
-    fi
-    if [ ! -f '/usr/local/bin/ss-server' ]; then
+    else
         install_ss-server
     fi
 }
@@ -105,12 +105,14 @@ def_install(){
 # 安装 ss-server
 check_sys
 if [[ $# > 0 ]]; then
-	key="$1"
-	case $key in
-		update)
-		install_ss-server
-		;;
-	esac
+    key="$1"
+    case $key in
+        update)
+        install_ss-server
+        ;;
+    esac
 else
-    def_install
+    if [ ! -f '/usr/local/bin/ss-server' ]; then
+        def_install
+    fi
 fi
