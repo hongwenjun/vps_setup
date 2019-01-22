@@ -3,26 +3,29 @@
 
 #    本脚本(WireGuard 多用户配置)一键安装短网址
 #    wget -qO- https://git.io/fpnQt | bash
+#############################################################
+# 定义修改端口号，适合已经安装WireGuard而不想改端口
+port=8000
+mtu=1420
+ip_list=(2 5 8 178 186 118 158 198 168 9)
 
 #############################################################
-help_info()
-{
+help_info() {
 cat  <<EOF
-
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
 
 # 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
 wget -qO- git.io/fpcnL | bash
 
-# CentOS 7 一键脚本安装WireGuard  (1.先升级内核-重启)
-wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel
-bash wg.sh        # 2.重启后安装
+# CentOS 7 一键脚本安装WireGuard  (官方脚本自动升级内核)
+wget -qO- git.io/fhnhS | bash
 
+#  一键安装shadowsocks-libev
+wget -qO- git.io/fhExJ | bash
 EOF
 }
 #############################################################
-
 #定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
@@ -38,24 +41,8 @@ if [ ! -f '/usr/bin/wg' ]; then
     echo -e "${Red}::  检测到你的vps没有安装wireguard，请选择复制一键脚本安装   ${Font}"
     exit 1
 fi
-#############################################################
 
-# 定义修改端口号，适合已经安装WireGuard而不想改端口
-
-#生成随机端口
-rand(){
-    min=$1
-    max=$(($2-$min+1))
-    num=$(cat /dev/urandom | head -n 10 | cksum | awk -F ' ' '{print $1}')
-    echo $(($num%$max+$min))
-}
-
-port=$(rand 1000 60000)
-mtu=1420
 host=$(hostname -s)
-
-ip_list=(2 5 8 178 186 118 158 198 168 9)
-
 # 获得服务器ip，自动获取
 if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
@@ -69,7 +56,6 @@ fi
 
 # 安装 bash wgmtu 脚本用来设置服务器
 wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
-
 #############################################################
 
 # wg配置文件目录 /etc/wireguard
@@ -155,10 +141,9 @@ fi
 wg-quick down wg0
 wg-quick up wg0
 
+# 安装 bash wg5 命令，新手下载客户端配置用
 conf_url=http://${serverip}:8000
-
 cat  <<EOF > ~/wg5
- # 打包客户端配置，开启临时WEB服务下载
 next() {
     printf "# %-70s\n" "-" | sed 's/\s/-/g'
 }
@@ -186,10 +171,7 @@ echo ""
 
 EOF
 
-# 显示服务器配置信息
+# 显示管理脚本信息
 bash ~/wg5
-
-# 用户选择下载配置和修改mtu
 sed -i "s/# python -m/python -m/g"  ~/wg5
 sed -i "s/# echo -e/echo -e/g"  ~/wg5
-
