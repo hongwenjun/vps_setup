@@ -5,7 +5,7 @@
 #    wget -qO- https://git.io/fpnQt | bash
 #############################################################
 # 定义修改端口号，适合已经安装WireGuard而不想改端口
-port=8000
+port=9999
 mtu=1420
 ip_list=(2 5 8 178 186 118 158 198 168 9)
 
@@ -167,7 +167,7 @@ echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，服务端�
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
 # python -m SimpleHTTPServer 8000 &
 echo ""
-# echo -e "#  ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
+# echo -e "# ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
 
 EOF
 
