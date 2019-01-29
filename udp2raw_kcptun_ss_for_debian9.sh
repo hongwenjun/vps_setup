@@ -38,10 +38,10 @@ cd ..
 rm shadowsocks-libev -rf
 
 #下载KCPTUN
-wget https://github.com/xtaci/kcptun/releases/download/v20181114/kcptun-linux-amd64-20181114.tar.gz
-tar xf kcptun-linux-amd64-20181114.tar.gz 
+wget https://github.com/xtaci/kcptun/releases/download/v20190109/kcptun-linux-amd64-20190109.tar.gz
+tar xf kcptun-linux-amd64-20190109.tar.gz 
 mv server_linux_amd64 /usr/bin/kcp-server
-rm kcptun-linux-amd64-20181002.tar.gz 
+rm kcptun-linux-amd64-20190109.tar.gz 
 rm client_linux_amd64
 rm server_linux_amd64
 
