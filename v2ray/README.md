@@ -3,9 +3,9 @@
 ###  V2Ray官方一键脚本
 bash <(curl -L -s https://install.direct/go.sh)
 
-### 下载v2ray for Windows 客户端
-wget https://github.com/2dust/v2rayN/releases/download/2.21/v2rayN-Core.zip
-
+### 下载v2ray for Windows 客户端,先用vps下载，再开启一个网页服务器
+wget https://github.com/2dust/v2rayN/releases/download/2.22/v2rayN-Core.zip
+python -m SimpleHTTPServer 8000
 ```
 ### 修改服务端配置，先复制v2ray配置
 ```
