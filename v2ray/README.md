@@ -2,10 +2,6 @@
 ```
 ###  V2Ray官方一键脚本
 bash <(curl -L -s https://install.direct/go.sh)
-
-### 下载v2ray for Windows 客户端,先用vps下载，再开启一个网页服务器
-wget https://github.com/2dust/v2rayN/releases/download/2.22/v2rayN-Core.zip
-python -m SimpleHTTPServer 8000
 ```
 ### 修改服务端配置，先复制v2ray配置
 ```
@@ -110,3 +106,10 @@ cat /etc/v2ray/config.json
 vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYyUmF5IiwNCiAgImFkZCI6ICIxODguMTg4LjE4OC4xODgiLA0KICAicG9ydCI6ICI4MDAwIiwNCiAgImlkIjogIjUyMDU1MzUyLTM0ZTgtNDUzYy1iNmY2LTIyZWFjNjMwYjZlMSIsDQogICJhaWQiOiAiMTYiLA0KICAibmV0IjogImtjcCIsDQogICJ0eXBlIjogInNydHAiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIiLA0KICAidGxzIjogIiINCn0=
 ```
 ### 方法2: 添加[vmess]服务器-->导入配置文件-->导入服务端配置-->再修改成实际服务器IP
+
+### 下载v2ray for Windows 客户端地址如果被墙，可以先用vps下载
+### 借用vps中转，开临时网页服务器 访问 http://1.2.3.4:8000  (1.2.3.4实际vps的ip)
+```
+wget https://github.com/2dust/v2rayN/releases/download/2.22/v2rayN-Core.zip
+python -m SimpleHTTPServer 8000
+```
