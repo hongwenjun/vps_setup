@@ -4,7 +4,7 @@
 
 # 下载释放go语言安装包
 
-go_tar_gz="go1.11.2.linux-amd64.tar.gz"
+go_tar_gz="go1.12.linux-amd64.tar.gz"
 
 go_url="https://dl.google.com/go/${go_tar_gz}"
 
