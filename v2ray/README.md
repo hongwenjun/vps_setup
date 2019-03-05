@@ -106,6 +106,8 @@ cat /etc/v2ray/config.json
 vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYyUmF5IiwNCiAgImFkZCI6ICIxODguMTg4LjE4OC4xODgiLA0KICAicG9ydCI6ICI4MDAwIiwNCiAgImlkIjogIjUyMDU1MzUyLTM0ZTgtNDUzYy1iNmY2LTIyZWFjNjMwYjZlMSIsDQogICJhaWQiOiAiMTYiLA0KICAibmV0IjogImtjcCIsDQogICJ0eXBlIjogInNydHAiLA0KICAiaG9zdCI6ICIiLA0KICAicGF0aCI6ICIiLA0KICAidGxzIjogIiINCn0=
 ```
 ### 方法2: 添加[vmess]服务器-->导入配置文件-->导入服务端配置-->再修改成实际服务器IP
+- 导入有个Bug，伪装类型不会识别，使用上面的mKcp配置，伪装类型srtp要按实际设置
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_set.gif)
 
 ### 下载v2ray for Windows 客户端地址如果被墙，可以先用vps下载
 ### 借用vps中转，开临时网页服务器 访问 http://1.2.3.4:8000  (1.2.3.4实际vps的ip)
