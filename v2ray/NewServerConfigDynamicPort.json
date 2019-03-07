@@ -1,0 +1,167 @@
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "tags": "TCP",
+            "port": 10086,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "换上你自己的uuid",
+                        "alterId": 64
+                    }
+                ],
+                "detour": {
+                    "to": "DynamicPortTCP"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        },
+        {
+            "tag": "mKCP",
+            "port": 10010,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "换上你自己的uuid，建议别与上面那个一样",
+                        "alterId": 64
+                    }
+                ],
+                "detour": {
+                    "to": "DynamicPortUDP"
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "streamSettings": {
+                "network": "mkcp",
+                "kcpSettings": {
+                    "mtu": 1350,
+                    "tti": 20,
+                    "uplinkCapacity": 100,
+                    "downlinkCapacity": 100,
+                    "congestion": true,
+                    "readBufferSize": 1,
+                    "writeBufferSize": 1,
+                    "header": {
+                        "type": "none"
+                    }
+                }
+            }
+        },
+        {
+            "tag": "shadowsocks",
+            "port": 10000,
+            "protocol": "shadowsocks",
+            "settings": {
+                "method": "aes-128-gcm",
+                "udp": true,
+                "password": "建议拿一个uuid做ss协议的密码，还有，这个协议没有动态端口支持"
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        },
+        {
+            "tag": "DynamicPortTCP",
+            "protocol": "vmess",
+            "port": "12000-13000",
+            "settings": {
+                "default": {
+                    "alterId": 64
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "allocate": {
+                "strategy": "random",
+                "concurrency": 2,
+                "refresh": 30
+            }
+        },
+        {
+            "tag": "DynamicPortUDP",
+            "protocol": "vmess",
+            "port": "14000-15980",
+            "settings": {
+                "default": {
+                    "alterId": 64
+                }
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "allocate": {
+                "strategy": "random",
+                "concurrency": 2,
+                "refresh": 30
+            },
+            "streamSettings": {
+                "network": "kcp"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "tag": "freedom",
+            "protocol": "freedom",
+            "settings": {}
+        },
+        {
+            "tag": "blocked",
+            "protocol": "blackhole",
+            "settings": {},
+            "response": {
+                "type": "http"
+            }
+        }
+    ],
+    "routing": {
+        "strategy": "rules",
+        "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "protocol": [
+                        "bittorrent"
+                    ],
+                    "ip": [
+                        "geoip:private"
+                    ],
+                    "domain": [
+                        "geosite:category-ads"
+                    ],
+                    "outboundTag": "blocked"
+                }
+            ]
+        }
+    }
+}

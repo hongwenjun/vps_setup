@@ -1,0 +1,177 @@
+{
+  "log": {
+    "access": "/var/log/v2ray/access.log",
+    "error": "/var/log/v2ray/error.log",
+    "loglevel": "warning"
+  },
+  "dns": {
+    "servers": [
+      "8.8.8.8",
+      "8.8.4.4",
+      "localhost"
+    ]
+  },
+  "routing": {
+    "strategy": "rules",
+    "settings": {
+      "domainStrategy": "IPIfNonMatch",
+      "rules": [
+        {
+          "type": "field",
+          "ip": [
+            "0.0.0.0/8",
+            "10.0.0.0/8",
+            "100.64.0.0/10",
+            "127.0.0.0/8",
+            "169.254.0.0/16",
+            "172.16.0.0/12",
+            "192.0.0.0/24",
+            "192.0.2.0/24",
+            "192.168.0.0/16",
+            "198.18.0.0/15",
+            "198.51.100.0/24",
+            "203.0.113.0/24",
+            "::1/128",
+            "fc00::/7",
+            "fe80::/10"
+          ],
+          "outboundTag": "blocked"
+        },
+        {
+          "type": "field",
+          "domain": [
+            "geosite:cn"
+          ],
+          "ip": [
+            "geoip:cn"
+          ],
+          "network": "tcp,udp",
+          "outboundTag": "direct"
+        },
+        {
+          "type": "chinaip",
+          "outboundTag": "direct"
+        },
+        {
+          "type": "chinasites",
+          "outboundTag": "direct"
+        }
+      ]
+    }
+  },
+  "inbounds": [
+    {
+      "port": 1234,
+      "listen": "0.0.0.0",
+      "protocol": "shadowsocks",
+      "settings": {
+        "method": "aes-256-gcm",
+        "password": "123456",
+        "level": 1,
+        "network": "tcp,udp"
+      },
+      "streamSettings": {
+        "network": "tcp"
+      },
+      "tag": "inbound-ss-tcp",
+      "domainOverride": [
+        "http",
+        "tls"
+      ]
+    },
+    {
+      "protocol": "vmess",
+      "port": "60001-61000",
+      "tag": "DynamicPorts-tcp",
+      "settings": {},
+      "streamSettings": {
+        "network": "tcp"
+      },
+      "allocate": {
+        "strategy": "random",
+        "concurrency": 3,
+        "refresh": 5
+      }
+    },
+    {
+      "port": 12345,
+      "listen": "0.0.0.0",
+      "protocol": "vmess",
+      "settings": {
+        "clients": [
+          {
+            "id": "3cb379e2-a7ee-413c-aa53-6d84e656e793",
+            "level": 1,
+            "alterId": 100
+          }
+        ],
+        "detour": {
+          "to": "DynamicPorts-tcp"
+        }
+      },
+      "streamSettings": {
+        "network": "tcp"
+      },
+      "tag": "inbound-vmess-tcp",
+      "domainOverride": []
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "国外地址",
+            "port": 443,
+            "users": [
+              {
+                "id": "3cb379e2-a7ee-413c-aa53-6d84e656e793",
+                "alterId": 100,
+                "security": "aes-128-gcm"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp"
+      },
+      "mux": {
+        "enabled": true
+      },
+      "tag": "direct"
+    },
+    {
+      "protocol": "blackhole",
+      "settings": {},
+      "tag": "blocked"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct1"
+    }
+  ],
+  "transport": {
+    "tcpSettings": {
+      "connectionReuse": true,
+      "header": {
+        "type": "none"
+      }
+    },
+    "kcpSettings": {
+      "mtu": 1350,
+      "tti": 20,
+      "uplinkCapacity": 5,
+      "downlinkCapacity": 20,
+      "congestion": false,
+      "readBufferSize": 1,
+      "writeBufferSize": 1,
+      "header": {
+        "type": "none"
+      }
+    },
+    "wsSettings": {}
+  }
+}
