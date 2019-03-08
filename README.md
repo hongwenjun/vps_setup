@@ -1,5 +1,6 @@
 ## 一键安装 WireGuard  Shadowsocks V2Ray 服务端三合一脚本
-    wget -qO- git.io/vps.sh | bash
+    bash <(curl -L -s https://git.io/vps.sh)
+    wget -qO- git.io/vps.sh | bash       # wget调用是静默安装  curl调用可以使用菜单
 
 | [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
