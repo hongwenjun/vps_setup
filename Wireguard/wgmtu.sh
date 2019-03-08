@@ -433,6 +433,10 @@ if [[ $# > 0 ]]; then
         setup)
         ss_kcp_udp2raw_wg_speed
         ;;
+        remove)
+        wireguard_remove
+	rc-local_remove
+        ;;
     esac
 else
 	start_menu
