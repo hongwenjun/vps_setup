@@ -5,7 +5,7 @@ Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;3
 
 echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For debian 9 ${Font}"
 echo -e "${RedBG}:: Centos和Ubuntu系统，进行编译安装 ${RedBG} shadowsocks-libev  ${Font}"
-echo -e "${Green}$  wget -qO ss.sh git.io/fhExJ && bash ss.sh update  ${Font}"
+echo -e "${Green}$  bash <(curl -L -s git.io/fhExJ) update  ${Font}"
 
 debian_fast(){
     # 安装所需运行库

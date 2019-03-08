@@ -424,4 +424,16 @@ start_menu(){
         esac
 }
 
-start_menu
+# 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 配置
+# bash wgmtu setup  
+
+if [[ $# > 0 ]]; then
+    key="$1"
+    case $key in
+        setup)
+        ss_kcp_udp2raw_wg_speed
+        ;;
+    esac
+else
+	start_menu
+fi

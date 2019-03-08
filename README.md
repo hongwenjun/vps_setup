@@ -3,7 +3,7 @@
 
 | [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks-libev 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
-| wget -qO- git.io/fptwc \| bash | wget -qO- git.io/fhExJ \| bash | bash <(curl -L -s https://install.direct/go.sh)|
+| wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
 
 ### 严重声明和友情提示：
 - 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。此项目为bash一键脚本，其中涉及到的任何软件版权和责任归原作者所有。
@@ -60,6 +60,8 @@ wget -qO- git.io/fxxlb | bash
 wget -qO- https://git.io/fp4jf | bash
 ```
 ----
+
+```
 ### Debian或Ubuntun mini版 wget下载证书无法验证
 	apt-get install -y ca-certificates
 
