@@ -6,13 +6,15 @@ wget -qO- git.io/fhExJ | bash
 ```
 ### 使用: 添加命令行到 /etc/rc.local
 ```
-# -p 端口 -k 密码 -m 协议 -s 服务ip
-ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+# -p 端口 -k 密码 -m 协议 -s 服务IP
+ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
 ```
 ### 基于alipine构建的shadowsocks-libev服务 -- Docker安装
   https://hub.docker.com/r/taterli/shadowsocks-tiny
+  
+### wget -qO ss.sh git.io/fhExJ && bash ss.sh update
 
------
+# ---------------- 手工编译安装 --------------------------
 ### Debian 9 & Ubuntu 18 安装编译环境和运行库
 ```
 apt update

@@ -146,9 +146,43 @@ systemctl enable wg-quick@wg0
 # 查询WireGuard状态
 wg
 
-# 以上生成的配置只作为说明文档，实际去调用另一个脚本生成配置
+# ======= 容错：检查系统，调用 Ubuntu Centos 系统对应安装脚本 ========
+check_sys(){
+    if [[ -f /etc/redhat-release ]]; then
+        release="centos"
+    elif cat /etc/issue | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    elif cat /proc/version | grep -q -E -i "debian"; then
+        release="debian"
+    elif cat /proc/version | grep -q -E -i "ubuntu"; then
+        release="ubuntu"
+    elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+        release="centos"
+    fi
+    bit=`uname -m`
+}
 
-# 一键 WireGuard 多用户配置共享脚本 
-wget -qO- https://git.io/fpnQt | bash
+wireguard_config(){
+    if [[ ${release} == "centos" ]]; then
+    	yum install -y wget vim curl  	
+        # CentOS 7 一键脚本安装WireGuard  (官方脚本自动升级内核)      
+		wget -qO- git.io/fhnhS | bash
+    fi
 
+    if [[ ${release} == "ubuntu" ]]; then
+        # 一键安装wireguard 脚本 Ubuntu   (源:逗比网安装笔记)
+		wget -qO- git.io/fpcnL | bash
+    fi
 
+    if [[ ${release} == "debian" ]]; then
+        # 一键 WireGuard 多用户配置共享脚本 
+		wget -qO- https://git.io/fpnQt | bash
+    fi
+}
+
+# 以上配置文本只是参考文档使用，实际生成 WireGuard 多用户配置 
+check_sys && wireguard_config
