@@ -1,7 +1,7 @@
 ## 一键安装 WireGuard  Shadowsocks V2Ray 服务端三合一脚本
     wget -qO- git.io/vps.sh | bash
 
-| [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks-libev 脚本(编译更新)](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
+| [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
 | wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
 
@@ -79,7 +79,7 @@ wget -O .vimrc --no-check-certificate https://raw.githubusercontent.com/hongwenj
 wget -O .bashrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
 wget -O .tmux.conf --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
 ```
-# 修改默认主页地址 和 目录索引显示
+### 修改默认主页地址 和 目录索引显示
 ```
 $ vim /etc/nginx/sites-enabled/default
 root /var/www;
@@ -140,4 +140,41 @@ systemctl enable brook
 systemctl enable shadowsocks-go
 
 systemctl disable frps #禁止的脚本
+```
+
+### https://git.io  自定义短域名链接
+```
+curl -i https://git.io -F "url=https://raw.githubusercontent.com/hongwenjun/vps_setup/master/vps.sh"  -F "code=vps.sh"
+
+####   返回信息
+HTTP/1.1 201 Created
+Server: Cowboy
+Connection: keep-alive
+Date: Fri, 08 Mar 2019 04:47:37 GMT
+Status: 201 Created
+Content-Type: text/html;charset=utf-8
+Location: https://git.io/vps.sh
+Content-Length: 68
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Runtime: 0.193189
+X-Node: 4c602b07-61d9-41e0-bee8-654fbdc36e98
+X-Revision: 392798d237fc1aa5cd55cada10d2945773e741a8
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+Via: 1.1 vegur
+
+https://raw.githubusercontent.com/hongwenjun/vps_setup/master/vps.sh
+
+```
+
+### Git pull 强制覆盖本地文件
+```
+git fetch --all
+git reset --hard origin/master 
+git pull
+git fetch origin master
+git merge origin/master
+git merge origin/master --allow-unrelated-histories
+git diff
 ```
