@@ -5,6 +5,8 @@
 | :------:| :------: | :------: |
 | wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
 
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/vps.sh.png)
+
 | WireGuard 管理 | bash wgmtu | 卸载命令 | bash wgmtu remove | 
 | :------:| :------: | :------:| :------: |
 
