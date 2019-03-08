@@ -1,7 +1,7 @@
 ## 一键安装 WireGuard  Shadowsocks V2Ray 服务端三合一脚本
     wget -qO- git.io/vps.sh | bash
 
-| [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks-libev 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
+| [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks-libev 脚本(编译更新)](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
 | wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
 
@@ -61,19 +61,19 @@ wget -qO- https://git.io/fp4jf | bash
 ```
 ----
 
-```
+
 ### Debian或Ubuntun mini版 wget下载证书无法验证
 	apt-get install -y ca-certificates
 
-# Debian远程SSH汉字utf-8乱码解决
+### Debian远程SSH汉字utf-8乱码解决
 	apt-get  install locales
 	dpkg-reconfigure locales
 
-# 查看默认字符集是否是en_US.UTF-8
+### 查看默认字符集是否是en_US.UTF-8
 	vim /etc/default/locale
 	LANG=en_US.UTF-8
 
-# vim和bash高亮,tmux 配置
+### vim和bash高亮,tmux 配置
 ```
 wget -O .vimrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
 wget -O .bashrc --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
