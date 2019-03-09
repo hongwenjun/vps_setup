@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# 定义文字颜色
-Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
-Yellow='\033[0;33m' && SkyBlue='\033[0;36m'
-
 # 修改mtu数值
 setmtu(){
     echo -e "${GreenBG}WireGuard 修改服务器端MTU值,提高效率;默认值MTU=1420${Font}"
@@ -78,7 +74,7 @@ wg_clients(){
     rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
     head -n 13  conf.wg0.bak > wg0.conf
     sed -i '13s/.//g' wg0.conf
-    
+
     # 重启wg服务器
     wg-quick down wg0  >/dev/null 2>&1
     wg-quick up wg0    >/dev/null 2>&1
@@ -135,9 +131,9 @@ get_tools_conf(){
 
 # 主菜单输入数字 88      # 隐藏功能:从源VPS克隆服务端配置，获得常用工具和配置
 scp_conf(){
-    echo -e "${RedBG}:: 警告: 警告: 警告: VPS服务器已经被GFW防火墙关照，按 Ctrl+ C 可以紧急逃离！  ${Font}"
-    echo  "隐藏功能:从源VPS克隆服务端配置，共用客户端配置"
-    read -p "请输入源VPS的IP地址(域名):"  vps_ip
+    echo -e "${RedBG}:: 警告: 警告: 警告:${Yellow} VPS服务器已经被GFW防火墙关照，按 Ctrl+ C 可以紧急逃离！  ${Font}"
+    echo_SkyBlue  ":: 隐藏功能: 从源VPS克隆服务端配置，共用客户端配置"
+    read -p ":: 请输入源VPS的IP地址(域名):"  vps_ip
     cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
     echo -e "${GreenBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，源vps的root密码"
     ${cmd}
@@ -151,48 +147,51 @@ scp_conf(){
     fi
 }
 
+# 定义文字颜色
+Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
+Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
+
+echo_SkyBlue(){
+    echo -e "${SkyBlue}$1${Font}"
+}
+echo_Yellow(){
+    echo -e "${Yellow}$1${Font}"
+}
+echo_GreenBG(){
+    echo -e "${GreenBG}$1${Font}"
+}
+echo_RedBG(){
+    echo -e "${RedBG}$1${Font}"
+}
+
 #  隐藏功能开放: 一键脚本全家桶
 onekey_plus(){
-    echo -e "${SkyBlue}           一键安装设置全家桶    by 蘭雅sRGB             ${Font}"
-    cat  <<EOF
-  # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB
-  wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh
+    echo_RedBG   "           一键安装设置全家桶    by 蘭雅sRGB             "
+    echo_GreenBG "    开源项目：https://github.com/hongwenjun/vps_setup    "
 
-  # Google Cloud Platform GCP实例开启密码与root用户登陆
-  wget -qO- git.io/fpQWf | bash
+    echo_SkyBlue "  # 一键安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本"
+    echo_Yellow  "  bash <(curl -L -s https://git.io/vps.sh)"
+    echo_SkyBlue "  # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB"
+    echo_Yellow  "  wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh"
+    echo_SkyBlue "  # Google Cloud Platform GCP实例开启密码与root用户登陆"
+    echo_Yellow  "  wget -qO- git.io/fpQWf | bash"
+    echo_SkyBlue "  # 一键安装 vnstat 流量检测   by 蘭雅sRGB"
+    echo_Yellow  "  wget -qO- git.io/fxxlb | bash"
+    echo_SkyBlue "  # 一键安装wireguard 脚本 For Debian_9 Ubuntu Centos_7"
+    echo_Yellow  "  wget -qO- git.io/fptwc | bash"
+    echo_SkyBlue "  # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9"
+    echo_Yellow  "  wget -qO- git.io/fpZIW | bash"
+    echo_SkyBlue "  # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)"
+    echo_Yellow  "  wget -qO- git.io/fx6UQ | bash"
+    echo_SkyBlue "  # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)"
+    echo_Yellow  "  wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh"
+    echo_SkyBlue "  # linux下golang环境搭建自动脚本  by 蘭雅sRGB"
+    echo_Yellow  "  wget -qO- https://git.io/fp4jf | bash"
+    echo_SkyBlue "  # SuperBench.sh 一键测试服务器的基本参数"
+    echo_Yellow  "  wget -qO- git.io/superbench.sh | bash"
+    echo_SkyBlue "  # 使用BestTrace查看VPS的去程和回程"
+    echo_Yellow  "  wget -qO- git.io/fp5lf | bash"
 
-  # 一键安装 vnstat 流量检测   by 蘭雅sRGB
-  wget -qO- git.io/fxxlb | bash
-
-  # 一键安装wireguard 脚本 Debian 9  (源:逗比网安装笔记)
-  wget -qO- git.io/fptwc | bash
-
-  # 一键 WireGuard 多用户配置共享脚本   by 蘭雅sRGB
-  wget -qO- https://git.io/fpnQt | bash
-
-  # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9
-  wget -qO- git.io/fpZIW | bash
-
-  # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)
-  wget -qO- git.io/fx6UQ | bash
-
-  # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
-  wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
-
-  # linux下golang环境搭建自动脚本  by 蘭雅sRGB
-  wget -qO- https://git.io/fp4jf | bash
-
-  # SuperBench.sh 一键测试服务器的基本参数
-  wget -qO- git.io/superbench.sh | bash
-
-  # 使用BestTrace查看VPS的去程和回程
-  wget -qO- git.io/fp5lf | bash
-
-  # qrencode 生成二维码 -o- 参数显示在屏幕 -t utf8 文本格式
-  cat wg_vultr_5.conf  | qrencode -o- -t utf8
-
-EOF
-    echo -e "${SkyBlue}    开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 }
 
 safe_iptables(){
@@ -223,13 +222,10 @@ wireguard_remove(){
 
 
 rc-local_remove(){
-   echo -e "${RedBG}推荐: 卸载Udp2Raw服务使用 vim /etc/rc.local 手工编辑修改  ${Font}"
-   echo -e "${GreenBG} 按  Ctrl + C 可以取消 卸载操作 ${Font}"
-   read -p "请任意键确认:"  yes
-
+   echo -e "${RedBG}   卸载Udp2Raw套接服务配置 /etc/rc.local ${Font}"
    systemctl stop rc-local
    mv  /etc/rc.local  ~/rc.local
-   echo -e "${RedBG}   卸载完成，rc.local 备份在 /root 目录  ${Font}"
+   echo -e "${RedBG}   卸载完成，备份在 /root/rc.local  ${Font}"
 }
 
 update_remove_menu(){
@@ -288,7 +284,7 @@ del_peer(){
     echo
     echo -e "${RedBG}请选择 IP_Addr 对应 ID 号码，指定客户端配置将删除! ${Font}"
     read -p "请输入ID号数字(1-X):" x
-    
+
     peer_cnt=$(cat /tmp/peer_list | wc -l)
     if [[ ${x} -ge 1 ]] && [[ ${x} -le ${peer_cnt} ]]; then
         i=$x
@@ -425,7 +421,7 @@ start_menu(){
 }
 
 # 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 配置
-# bash wgmtu setup  
+# bash wgmtu [setup | remove | U | 88]
 
 if [[ $# > 0 ]]; then
     key="$1"
@@ -435,7 +431,14 @@ if [[ $# > 0 ]]; then
         ;;
         remove)
         wireguard_remove
-	rc-local_remove
+        rc-local_remove
+        ;;
+        88)
+        scp_conf
+        ;;
+        U)
+        update_remove_menu
+        update_self
         ;;
     esac
 else
