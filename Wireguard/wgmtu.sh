@@ -1,4 +1,5 @@
 #!/bin/bash
+# WireGuard 管理使用命令 bash wgmtu    短网址: https://git.io/wgmtu
 
 # 修改mtu数值
 setmtu(){
@@ -109,7 +110,7 @@ EOF
     echo -e "${SkyBlue}:: 使用${GreenBG} bash wg5 ${SkyBlue}命令,可以临时网页下载配置和二维码${Font}"
 }
 
-# 安装Speeder+Udp2Raw服务TCP伪装，加速功能
+# 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 配置
 ss_kcp_udp2raw_wg_speed(){
     # 下载/编译 shadowsocks-libev
     wget -qO- git.io/fhExJ | bash
@@ -121,8 +122,8 @@ ss_kcp_udp2raw_wg_speed(){
 
 # 常用工具和配置
 get_tools_conf(){
-    apt-get update
-    apt-get install -y htop tmux screen iperf3  >/dev/null 2>&1
+    apt update
+    apt install -y htop tmux screen iperf3  >/dev/null 2>&1
     yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
@@ -142,7 +143,7 @@ scp_conf(){
     wg-quick up wg0     >/dev/null 2>&1
     echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
-    if [ ! -f '~/.tmux.conf' ]; then
+    if [ ! -e '/root/.tmux.conf' ]; then
         get_tools_conf
     fi
 }
@@ -164,7 +165,7 @@ echo_RedBG(){
     echo -e "${RedBG}$1${Font}"
 }
 
-#  隐藏功能开放: 一键脚本全家桶
+#  Vps_Setup 一键脚本 藏经阁
 onekey_plus(){
     echo_RedBG   "           一键安装设置全家桶    by 蘭雅sRGB             "
     echo_GreenBG "    开源项目：https://github.com/hongwenjun/vps_setup    "
@@ -202,7 +203,7 @@ safe_iptables(){
 # 更新wgmtu脚本
 update_self(){
     # 安装 bash wgmtu 脚本用来设置服务器
-    wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh >/dev/null 2>&1
+    wget -O ~/wgmtu  https://git.io/wgmtu >/dev/null 2>&1
 }
 
 # 更新 WireGuard
@@ -380,8 +381,8 @@ start_menu(){
     echo    "----------------------------------------------------------"
     echo -e "${SkyBlue}>  5. 添加/删除 WireGuard Peer 客户端管理"
     echo -e ">  6. 更新/卸载 WireGuard服务端和Udp2Raw"
-    echo -e ">  7. vps_setup 一键脚本全家桶大礼包"
-    echo -e ">  8. ${RedBG}  小白一键设置防火墙  ${Font}"
+    echo -e ">  7. Vps_Setup 一键脚本 藏经阁"
+    echo -e ">  8. ${RedBG}  IPTABLES 防火墙设置脚本  ${Font}"
     echo
     read -p "请输入数字(1-8):" num
     case "$num" in
@@ -420,9 +421,7 @@ start_menu(){
         esac
 }
 
-# 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 配置
-# bash wgmtu [setup | remove | U | 88]
-
+# WireGuard 管理使用命令 bash wgmtu
 if [[ $# > 0 ]]; then
     key="$1"
     case $key in
@@ -436,9 +435,12 @@ if [[ $# > 0 ]]; then
         88)
         scp_conf
         ;;
-        U)
+        -U)
         update_remove_menu
         update_self
+        ;;
+        -h)
+        echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | -U | -h ] "
         ;;
     esac
 else
