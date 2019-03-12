@@ -206,6 +206,7 @@ conf_QRcode(){
      echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
      echo_Yellow $v2ray_vmess
      echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
+     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置 端口和UUID"
 }
 
 # 设置 v2ray和SS 端口和UUID
@@ -232,8 +233,8 @@ if [[ $# > 0 ]]; then
 fi
 
 echo_SkyBlue  ":: Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  By 蘭雅sRGB "
-echo_Yellow   ":: 首次配置保存文件 base64_v2ray_vmess.json, 如再次配置请先手工删除!"
-echo_Yellow   ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置 端口和UUID"
+echo_Yellow   ":: 一键命令 ${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) "
 
 # 输出ss和v2ray配置和二维码
 conf_QRcode 2>&1 | tee ${cur_dir}/v2ray_ss.log
+
