@@ -1,22 +1,22 @@
 #!/bin/bash
 
-v2ray_port=8000
+let v2ray_port=$RANDOM+10000
 UUID=$(cat /proc/sys/kernel/random/uuid)
 serverip=$(curl -4 ip.sb)
 
-ss_port=40000
+let ss_port=$RANDOM+20000
 cur_dir=$(pwd)
 
 # 修改端口号
 setport(){
-    echo_SkyBlue ":: 1.请修改 V2ray 服务器端端口号，默认:${RedBG} ${v2ray_port} "
+    echo_SkyBlue ":: 1.请修改 V2ray 服务器端端口号，随机端口:${RedBG} ${v2ray_port} "
     read -p "请输入数字(100--60000): " num
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        v2ray_port=$num
     fi
 
-    echo_SkyBlue ":: 2.请修改 Shadowsocks 服务器端端口号，默认: ${RedBG} ${ss_port} "
+    echo_SkyBlue ":: 2.请修改 Shadowsocks 服务器端端口号，随机端口: ${RedBG} ${ss_port} "
     read -p "请输入数字(100--60000): " num
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
@@ -24,15 +24,26 @@ setport(){
     fi
 }
 
+# bbr 设置打开
+sysctl_config() {
+    sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
+    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
+    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    sysctl -p >/dev/null 2>&1
+}
+
 conf_shadowsocks(){
 
     # 如果 Shadowsocks 服务没有安装，安装ss服务
     if [ ! -e '/etc/rc.local' ]; then
+        sysctl_config
         bash <(curl -L -s https://git.io/wgmtu) setup
     fi
 
     ss=$(cat /etc/rc.local | grep ss-server | awk '{print $1}')
     if [ $ss != "ss-server" ]; then
+        sysctl_config
         bash <(curl -L -s https://git.io/wgmtu) setup
     fi
 
@@ -222,7 +233,7 @@ fi
 
 echo_SkyBlue  ":: Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  By 蘭雅sRGB "
 echo_Yellow   ":: 首次配置保存文件 base64_v2ray_vmess.json, 如再次配置请先手工删除!"
-echo_Yellow   ":: 或者下载脚本, 命令${RedBG} bash v2ray_ss_conf.sh setup ${Font}设置 端口和UUID"
+echo_Yellow   ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置 端口和UUID"
 
 # 输出ss和v2ray配置和二维码
 conf_QRcode 2>&1 | tee ${cur_dir}/v2ray_ss.log
