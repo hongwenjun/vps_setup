@@ -42,13 +42,14 @@ conf_shadowsocks(){
     fi
 
     ss=$(cat /etc/rc.local | grep ss-server | awk '{print $1}')
-    if [ $ss != "ss-server" ]; then
+    if [[ $ss == "" ]]; then
         sysctl_config
         bash <(curl -L -s https://git.io/wgmtu) setup
     fi
 
     old_ss_port=$(cat /etc/rc.local | grep ss-server | awk '{print $5}')
     ss_passwd=$(cat /etc/rc.local | grep ss-server | awk '{print $7}')
+    method=$(cat /etc/rc.local | grep ss-server | awk '{print $9}')
 
 	sed -i "s/${old_ss_port}/${ss_port}/g"  "/etc/rc.local"
 	sed -i "s/ss-server -s 127.0.0.1/ss-server -s 0.0.0.0/g"  "/etc/rc.local"
@@ -56,7 +57,7 @@ conf_shadowsocks(){
 
     echo_Yellow ":: Shadowsocks 服务 加密协议/密码/IP/端口 信息!"
 	#  ss://<<base64_shadowsocks.conf>>
-	echo "aes-256-gcm:${ss_passwd}@${serverip}:${ss_port}" | tee ${cur_dir}/base64_shadowsocks.conf
+	echo "${method}:${ss_passwd}@${serverip}:${ss_port}" | tee ${cur_dir}/base64_shadowsocks.conf
 }
 
 conf_v2ray(){
@@ -182,27 +183,19 @@ echo_Yellow(){
 # 显示手机客户端二维码
 conf_QRcode(){
 
-    # 安装二维码插件
-    if [ ! -e '/usr/bin/qrencode' ]; then
-        apt -y install qrencode
-    fi
-    if [ ! -e '/usr/bin/qrencode' ]; then
-        yum -y install qrencode
-    fi
-
-     st="$(cat ${cur_dir}/base64_shadowsocks.conf)\c"
-     ss_b64=$(echo -e $st | base64)
+     st="$(cat ${cur_dir}/base64_shadowsocks.conf)"
+     ss_b64=$(echo -n $st | base64)
      shadowsocks_ss="ss://${ss_b64}"
 
      v2_b64=$(base64 -w0 ${cur_dir}/base64_v2ray_vmess.json)
      v2ray_vmess="vmess://${v2_b64}"
 
      echo_SkyBlue ":: Shadowsocks 服务器二维码,请手机扫描!"
-     echo $shadowsocks_ss | qrencode -o - -t UTF8
+     echo -n $shadowsocks_ss | qrencode -o - -t UTF8
      echo_Yellow $shadowsocks_ss
      echo
      echo_SkyBlue ":: V2rayNG 手机配置二维码,请手机扫描!"
-     echo $v2ray_vmess  | qrencode -o - -t UTF8
+     echo -n $v2ray_vmess  | qrencode -o - -t UTF8
      echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
      echo_Yellow $v2ray_vmess
      echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
@@ -219,7 +212,17 @@ set_v2ray_ss(){
 clear
 # 首次运行脚本，设置 端口和UUID
 if [ ! -e 'base64_v2ray_vmess.json' ]; then
+
+    # 安装二维码插件 和 wget
+    if [ ! -e '/usr/bin/qrencode' ]; then
+        apt update && apt install -y  qrencode wget
+    fi
+    if [ ! -e '/usr/bin/qrencode' ]; then
+        yum update && yum install -y  qrencode wget
+    fi
+
     set_v2ray_ss
+
 fi
 
 # 命令 bash v2ray_ss_conf.sh setup 设置 端口和UUID
