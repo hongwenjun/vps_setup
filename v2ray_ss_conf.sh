@@ -25,6 +25,10 @@ setport(){
 }
 
 conf_shadowsocks(){
+    if [ ! -e '/etc/rc.local' ]; then
+        bash <(curl -L -s https://git.io/wgmtu)
+    fi
+
     old_ss_port=$(cat /etc/rc.local | grep ss-server | awk '{print $5}')
     ss_passwd=$(cat /etc/rc.local | grep ss-server | awk '{print $7}')
 
@@ -37,6 +41,10 @@ conf_shadowsocks(){
 }
 
 conf_v2ray(){
+    if [ ! -e '/etc/v2ray/config.json' ]; then
+        bash <(curl -L -s https://install.direct/go.sh)
+    fi
+
 # vmess://<<base64_v2ray_vmess.json>>
 cat <<EOF | tee ${cur_dir}/base64_v2ray_vmess.json
 {
@@ -153,6 +161,15 @@ echo_Yellow(){
 
 # 显示手机客户端二维码
 conf_QRcode(){
+
+    # 安装二维码插件
+    if [ ! -e '/usr/bin/qrencode' ]; then
+        apt -y install qrencode
+    fi
+    if [ ! -e '/usr/bin/qrencode' ]; then
+        yum -y install qrencode
+    fi
+
      ss_b64=$(base64 ${cur_dir}/base64_shadowsocks.conf)
      shadowsocks_ss="ss://${ss_b64}"
 

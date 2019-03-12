@@ -39,6 +39,7 @@ start_menu(){
     echo_SkyBlue ">  4. 卸载 WireGuard Shadowsocks V2ray 服务"
     echo_SkyBlue ">  5. 显示 WireGuard V2ray 和 rc.local 配置"
     echo_SkyBlue ">  6. 退出"
+    ececho_SkyBlue ">  8. ${GreenBG} Shadowsocks 和 V2Ray 配置显示二维码 "
     read -p "请输入数字:" num
     case "$num" in
         1)
@@ -59,6 +60,9 @@ start_menu(){
         ;;
         6)
         exit 1
+        ;;
+        8)
+        bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray_ss_conf.sh)
         ;;
         *)
         default_install
