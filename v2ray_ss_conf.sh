@@ -179,10 +179,11 @@ conf_QRcode(){
         yum -y install qrencode
     fi
 
-     ss_b64=$(base64 ${cur_dir}/base64_shadowsocks.conf)
+     st="$(cat ${cur_dir}/base64_shadowsocks.conf)\c"
+     ss_b64=$(echo -e $st | base64)
      shadowsocks_ss="ss://${ss_b64}"
 
-     v2_b64=$(base64 ${cur_dir}/base64_v2ray_vmess.json)
+     v2_b64=$(base64 -w0 ${cur_dir}/base64_v2ray_vmess.json)
      v2ray_vmess="vmess://${v2_b64}"
 
      echo_SkyBlue ":: Shadowsocks 服务器二维码,请手机扫描!"
@@ -190,9 +191,9 @@ conf_QRcode(){
      echo_Yellow $shadowsocks_ss
      echo
      echo_SkyBlue ":: V2rayNG 手机配置二维码,请手机扫描!"
-     echo $v2ray_vmess | tr -d " " | qrencode -o - -t UTF8
-     echo_Yellow  ":: V2rayN Windows 客户端 Vmess 协议配置"
-     echo $v2ray_vmess | tr -d " "
+     echo $v2ray_vmess  | qrencode -o - -t UTF8
+     echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
+     echo_Yellow $v2ray_vmess
      echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
 }
 
@@ -224,4 +225,4 @@ echo_Yellow   ":: 首次配置保存文件 base64_v2ray_vmess.json, 如再次配
 echo_Yellow   ":: 或者下载脚本, 命令${RedBG} bash v2ray_ss_conf.sh setup ${Font}设置 端口和UUID"
 
 # 输出ss和v2ray配置和二维码
-conf_QRcode
+conf_QRcode 2>&1 | tee ${cur_dir}/v2ray_ss.log
