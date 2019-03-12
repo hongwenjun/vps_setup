@@ -25,8 +25,15 @@ setport(){
 }
 
 conf_shadowsocks(){
+
+    # 如果 Shadowsocks 服务没有安装，安装ss服务
     if [ ! -e '/etc/rc.local' ]; then
-        bash <(curl -L -s https://git.io/wgmtu)
+        bash <(curl -L -s https://git.io/wgmtu) setup
+    fi
+
+    ss=$(cat /etc/rc.local | grep ss-server | awk '{print $1}')
+    if [ $ss != "ss-server" ]; then
+        bash <(curl -L -s https://git.io/wgmtu) setup
     fi
 
     old_ss_port=$(cat /etc/rc.local | grep ss-server | awk '{print $5}')
@@ -36,6 +43,7 @@ conf_shadowsocks(){
 	sed -i "s/ss-server -s 127.0.0.1/ss-server -s 0.0.0.0/g"  "/etc/rc.local"
 	systemctl restart rc-local
 
+    echo_Yellow ":: Shadowsocks 服务 加密协议/密码/IP/端口 信息!"
 	#  ss://<<base64_shadowsocks.conf>>
 	echo "aes-256-gcm:${ss_passwd}@${serverip}:${ss_port}" | tee ${cur_dir}/base64_shadowsocks.conf
 }
@@ -45,8 +53,9 @@ conf_v2ray(){
         bash <(curl -L -s https://install.direct/go.sh)
     fi
 
-# vmess://<<base64_v2ray_vmess.json>>
-cat <<EOF | tee ${cur_dir}/base64_v2ray_vmess.json
+    echo_SkyBlue ":: V2ray 服务 IP/端口/UUID等信息!"
+    # vmess://<<base64_v2ray_vmess.json>>
+    cat <<EOF | tee ${cur_dir}/base64_v2ray_vmess.json
 {
   "v": "2",
   "ps": "v2ray",
@@ -184,16 +193,35 @@ conf_QRcode(){
      echo $v2ray_vmess | tr -d " " | qrencode -o - -t UTF8
      echo_Yellow  ":: V2rayN Windows 客户端 Vmess 协议配置"
      echo $v2ray_vmess | tr -d " "
+     echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
 }
 
-clear
-if [ ! -e 'base64_v2ray_vmess.json' ]; then
-    echo_SkyBlue  ":: Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  By 蘭雅sRGB "
-    echo_Yellow   ":: 首次配置保存文件 base64_v2ray_vmess.json, 如再次配置请先手工删除!"
+# 设置 v2ray和SS 端口和UUID
+set_v2ray_ss(){
     setport
     conf_shadowsocks
     conf_v2ray
+}
+
+clear
+# 首次运行脚本，设置 端口和UUID
+if [ ! -e 'base64_v2ray_vmess.json' ]; then
+    set_v2ray_ss
 fi
+
+# 命令 bash v2ray_ss_conf.sh setup 设置 端口和UUID
+if [[ $# > 0 ]]; then
+    key="$1"
+    case $key in
+        setup)
+        set_v2ray_ss
+        ;;
+    esac
+fi
+
+echo_SkyBlue  ":: Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  By 蘭雅sRGB "
+echo_Yellow   ":: 首次配置保存文件 base64_v2ray_vmess.json, 如再次配置请先手工删除!"
+echo_Yellow   ":: 或者下载脚本, 命令${RedBG} bash v2ray_ss_conf.sh setup ${Font}设置 端口和UUID"
 
 # 输出ss和v2ray配置和二维码
 conf_QRcode
