@@ -1,11 +1,15 @@
 #!/bin/bash
 
-let v2ray_port=$RANDOM+10000
+let v2ray_port=$RANDOM+9999
 UUID=$(cat /proc/sys/kernel/random/uuid)
-serverip=$(curl -4 ip.sb)
 
-let ss_port=$RANDOM+20000
+let ss_port=$RANDOM+8888
 cur_dir=$(pwd)
+
+if [ ! -e '/var/ip_addr' ]; then
+   echo -n $(curl -4 ip.sb) > /var/ip_addr
+fi
+serverip=$(cat /var/ip_addr)
 
 # 修改端口号
 setport(){
@@ -197,9 +201,9 @@ conf_QRcode(){
      echo_SkyBlue ":: V2rayNG 手机配置二维码,请手机扫描!"
      echo -n $v2ray_vmess  | qrencode -o - -t UTF8
      echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
-     echo_Yellow $v2ray_vmess
+     echo $v2ray_vmess
      echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
-     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置 端口和UUID"
+     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置修改端口和UUID"
 }
 
 # 设置 v2ray和SS 端口和UUID
@@ -213,16 +217,14 @@ clear
 # 首次运行脚本，设置 端口和UUID
 if [ ! -e 'base64_v2ray_vmess.json' ]; then
 
-    # 安装二维码插件 和 wget
-    if [ ! -e '/usr/bin/qrencode' ]; then
-        apt update && apt install -y  qrencode wget
-    fi
-    if [ ! -e '/usr/bin/qrencode' ]; then
-        yum update && yum install -y  qrencode wget
+    # 简化判断系统 debian/centos 族群
+    if [ ! -e '/etc/redhat-release' ]; then
+        yum update && yum install -y  qrencode wget vim
+    else
+	apt update && apt install -y  qrencode
     fi
 
     set_v2ray_ss
-
 fi
 
 # 命令 bash v2ray_ss_conf.sh setup 设置 端口和UUID
