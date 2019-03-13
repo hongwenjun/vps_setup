@@ -218,8 +218,8 @@ clear
 if [ ! -e 'base64_v2ray_vmess.json' ]; then
 
     # 简化判断系统 debian/centos 族群
-    if [ ! -e '/etc/redhat-release' ]; then
-        yum update && yum install -y  qrencode wget vim
+    if [ -e '/etc/redhat-release' ]; then
+        yum update -y && yum install -y  qrencode wget vim
     else
 	apt update && apt install -y  qrencode
     fi
