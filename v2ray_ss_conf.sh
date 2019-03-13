@@ -1,9 +1,11 @@
 #!/bin/bash
+# Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  短网址: https://git.io/v2ray.ss
 
 let v2ray_port=$RANDOM+9999
 UUID=$(cat /proc/sys/kernel/random/uuid)
 
 let ss_port=$RANDOM+8888
+ss_passwd=$(date | md5sum  | head -c 6)
 cur_dir=$(pwd)
 
 if [ ! -e '/var/ip_addr' ]; then
@@ -19,16 +21,9 @@ setport(){
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        v2ray_port=$num
     fi
-
-    echo_SkyBlue ":: 2.请修改 Shadowsocks 服务器端端口号，随机端口: ${RedBG} ${ss_port} "
-    read -p "请输入数字(100--60000): " num
-
-    if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
-       ss_port=$num
-    fi
 }
 
-# bbr 设置打开
+# debian 9 bbr 设置打开
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
     sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
@@ -37,34 +32,70 @@ sysctl_config() {
     sysctl -p >/dev/null 2>&1
 }
 
+
+
+ss_enable(){
+cat <<EOF >/etc/rc.local
+#!/bin/sh -e
+ss-server -s 0.0.0.0 -p 40000 -k ${ss_passwd} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+
+exit 0
+EOF
+}
+
 conf_shadowsocks(){
 
-    # 如果 Shadowsocks 服务没有安装，安装ss服务
-    if [ ! -e '/etc/rc.local' ]; then
-        sysctl_config
-        bash <(curl -L -s https://git.io/wgmtu) setup
+    echo_SkyBlue ":: 2.请修改 Shadowsocks 服务器端端口号，随机端口: ${RedBG} ${ss_port} "
+    read -p "请输入数字(100--60000): " num
+
+    if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
+       ss_port=$num
     fi
 
-    ss=$(cat /etc/rc.local | grep ss-server | awk '{print $1}')
-    if [[ $ss == "" ]]; then
+    echo_SkyBlue ":: 3.请修改 Shadowsocks 的密码，随机密码: ${RedBG} ${ss_passwd} "
+    read -p "请输入你要的密码(按回车不修改): "  new
+
+    if [[ ! -z "${new}" ]]; then
+        ss_passwd="${new}"
+        echo -e "修改密码: ${GreenBG} ${ss_passwd} ${Font}"
+    fi
+
+    # 如果 Shadowsocks 没有安装，安装Shadowsocks
+    if [ ! -e '/usr/local/bin/ss-server' ]; then
         sysctl_config
-        bash <(curl -L -s https://git.io/wgmtu) setup
+        ss_enable
+        bash <(curl -L -s git.io/fhExJ)
     fi
 
     old_ss_port=$(cat /etc/rc.local | grep ss-server | awk '{print $5}')
-    ss_passwd=$(cat /etc/rc.local | grep ss-server | awk '{print $7}')
+    old_passwd=$(cat /etc/rc.local | grep ss-server | awk '{print $7}')
     method=$(cat /etc/rc.local | grep ss-server | awk '{print $9}')
 
-	sed -i "s/${old_ss_port}/${ss_port}/g"  "/etc/rc.local"
+	sed -i "s/${old_ss_port}/${ss_port}/g"   "/etc/rc.local"
+    sed -i "s/${old_passwd}/${ss_passwd}/g"  "/etc/rc.local"
 	sed -i "s/ss-server -s 127.0.0.1/ss-server -s 0.0.0.0/g"  "/etc/rc.local"
+
+    systemctl stop rc-local
+    # 简化判断系统 debian/centos 族群
+    if [ -e '/etc/redhat-release' ]; then
+        mv /etc/rc.local /etc/rc.d/rc.local
+        ln -s /etc/rc.d/rc.local /etc/rc.local
+        chmod +x /etc/rc.d/rc.local
+        systemctl enable rc-local
+    else
+        chmod +x /etc/rc.local
+        systemctl enable rc-local
+    fi
+
 	systemctl restart rc-local
 
     echo_Yellow ":: Shadowsocks 服务 加密协议/密码/IP/端口 信息!"
-	#  ss://<<base64_shadowsocks.conf>>
+	# ss://<<base64_shadowsocks.conf>>
 	echo "${method}:${ss_passwd}@${serverip}:${ss_port}" | tee ${cur_dir}/base64_shadowsocks.conf
 }
 
 conf_v2ray(){
+    # 如果 v2ray 没有安装，安装v2ray
     if [ ! -e '/etc/v2ray/config.json' ]; then
         bash <(curl -L -s https://install.direct/go.sh)
     fi
@@ -203,10 +234,10 @@ conf_QRcode(){
      echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
      echo $v2ray_vmess
      echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
-     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置修改端口和UUID"
+     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置修改端口密码和UUID"
 }
 
-# 设置 v2ray和SS 端口和UUID
+# 设置 v2ray 端口和UUID
 set_v2ray_ss(){
     setport
     conf_shadowsocks
@@ -221,7 +252,7 @@ if [ ! -e 'base64_v2ray_vmess.json' ]; then
     if [ -e '/etc/redhat-release' ]; then
         yum update -y && yum install -y  qrencode wget vim
     else
-	apt update && apt install -y  qrencode
+        apt update && apt install -y  qrencode
     fi
 
     set_v2ray_ss
