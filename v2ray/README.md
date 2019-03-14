@@ -9,6 +9,9 @@ bash <(curl -L -s https://install.direct/go.sh)
 cat /etc/v2ray/config.json
 ```
 
+### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_diy.gif)
+
 ### v2ray服务端走kcp配置示例 /etc/v2ray/config.json
 ```
 {

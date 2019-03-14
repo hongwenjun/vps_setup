@@ -15,8 +15,10 @@ ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/s
 ### 基于alipine构建的shadowsocks-libev服务 -- Docker安装
   https://hub.docker.com/r/taterli/shadowsocks-tiny
   
-### wget -qO ss.sh git.io/fhExJ && bash ss.sh update
+### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_diy.gif)
 
+### wget -qO ss.sh git.io/fhExJ && bash ss.sh update
 # ---------------- 手工编译安装 --------------------------
 ### Debian 9 & Ubuntu 18 安装编译环境和运行库
 ```
