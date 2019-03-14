@@ -10,7 +10,7 @@ cat /etc/v2ray/config.json
 ```
 
 ### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_diy.gif)
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
 
 ### v2ray服务端走kcp配置示例 /etc/v2ray/config.json
 ```
@@ -105,10 +105,6 @@ vim /etc/v2ray/config.json
 systemctl restart v2ray
 curl -4 ip.sb
 ```
-
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_diy.gif)
-### 为了安全可以使用客户端生成UUID，再替换示例文件中UUID
-
 
 ### 方法1: 客户端 vmess协议导入，再修改成实际服务器IP
 ```
