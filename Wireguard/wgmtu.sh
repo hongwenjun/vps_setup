@@ -33,9 +33,9 @@ setport(){
     fi
 }
 
-# 显示手机客户端二维码
+# 显示客户端配置和手机二维码
 conf_QRcode(){
-    echo -e "${Yellow}:: 显示手机客户端二维码(默认2号),请输入数字${Font}\c"
+    echo -e "${Yellow}:: 显示客户端配置和手机二维码 (默认2号),请输入数字${Font}\c"
     read -p "(2-9): " x
 
     if [[ ${x} -ge 2 ]] && [[ ${x} -le 9 ]]; then
@@ -45,9 +45,47 @@ conf_QRcode(){
     fi
 
     host=$(hostname -s)
+    echo -e "${SkyBlue}:: 客户端配置文件: wg_${host}_$i.conf ${Font}"
+    cat /etc/wireguard/wg_${host}_$i.conf
+    echo -e "${SkyBlue}:: 请使用组合键 Ctrl+Ins 复制文本给Windows客户端使用${Font}"
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o - -t UTF8
     echo -e "${Green}:: 配置文件: wg_${host}_$i.conf 生成二维码，请用手机客户端扫描使用${Font}"
+
+    echo -e "${SkyBlue}:: 安卓手机WireGuard官方APP目前支持纯IPV6连接，是否显示IPV6二维码?${Font}\c"
+    read -p "(Y/N): " key
+    case $key in
+        Y)
+        ipv6_QRcode $i
+        ;;
+        y)
+        ipv6_QRcode $i
+        ;;
+    esac
+
     echo -e "${SkyBlue}:: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码正常${Font}"
+}
+
+# 显示IPV6手机客户端二维码
+ipv6_QRcode(){
+    if [[ $# > 0 ]]; then
+        i="$1"
+    fi
+    get_serverip
+    serveripv6=$(curl -6 ip.sb)
+    if [[ -z $serveripv6 ]]; then
+        echo -e "${Red}:: 获取IPV6地址不正确，你的服务器可能没有IPV6网络支持!${Font}"
+    else
+        cat /etc/wireguard/wg_${host}_$i.conf | sed "s/${serverip}/${serveripv6}/g" | qrencode -o - -t UTF8
+        echo -e "${Green}:: IPV6地址: ${serveripv6} 请确认服务器和本地网络支持IPV6!${Font}"
+    fi
+}
+
+get_serverip(){
+    if [ ! -e '/var/ip_addr' ]; then
+       echo -n $(curl -4 ip.sb) > /var/ip_addr
+    fi
+    serverip=$(cat /var/ip_addr)
+    ipv6_range="fd08:620c:4df0:65eb::"
 }
 
 # 重置 WireGuard 客户端配置和数量
@@ -69,12 +107,12 @@ wg_clients(){
 
     # 服务器 IP 和 端口
     port=$(wg show wg0 listen-port) && host=$(hostname -s)
-    serverip=$(curl -4 ip.sb)
+    get_serverip
 
     # 删除原配置，让IP和ID号对应; 保留原来服务器的端口等配置
     rm  /etc/wireguard/wg_${host}_*   >/dev/null 2>&1
-    head -n 13  conf.wg0.bak > wg0.conf
-    sed -i '13s/.//g' wg0.conf
+    line_num=$(cat -n wg0.conf | grep 'AllowedIPs'  | head -n 1 | awk '{print $1}')
+    head -n ${line_num}  conf.wg0.bak > wg0.conf
 
     # 重启wg服务器
     wg-quick down wg0  >/dev/null 2>&1
@@ -84,14 +122,15 @@ wg_clients(){
     for i in `seq 2 200`
     do
         ip=10.0.0.${i}
+        ip6=${ipv6_range}${i}
         wg genkey | tee cprivatekey | wg pubkey > cpublickey
-        wg set wg0 peer $(cat cpublickey) allowed-ips $ip/32
+        wg set wg0 peer $(cat cpublickey) allowed-ips "${ip}/32, ${ip6}"
 
         cat <<EOF >wg_${host}_$i.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = $ip/24
-DNS = 8.8.8.8
+Address = $ip/24, $ip6/64
+DNS = 8.8.8.8, 2001:4860:4860::8888
 
 [Peer]
 PublicKey = $(wg show wg0 public-key)
@@ -304,18 +343,18 @@ add_peer(){
 
     # 服务器 IP 端口 ，新客户端 序号和IP
     port=$(wg show wg0 listen-port)
-    serverip=$(curl -4 ip.sb) && host=$(hostname -s) && cd /etc/wireguard
+    get_serverip && host=$(hostname -s) && cd /etc/wireguard
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
     ipnum=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $2}' | awk -F '[./]' '{print $4}')
-    i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}
+    i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}  ip6=${ipv6_range}${i}
 
     # 生成客户端配置文件
     cat <<EOF >wg_${host}_$i.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = $ip/24
-DNS = 8.8.8.8
+Address = $ip/24, $ip6/64
+DNS = 8.8.8.8, 2001:4860:4860::8888
 
 [Peer]
 PublicKey = $(wg show wg0 public-key)
@@ -325,7 +364,7 @@ PersistentKeepalive = 25
 EOF
 
     # 在wg服务器中生效客户端peer
-    wg set wg0 peer $(cat cpublickey) allowed-ips $ip/32
+    wg set wg0 peer $(cat cpublickey) allowed-ips "${ip}/32, ${ip6}"
     wg-quick save wg0
 
     # 显示客户端
@@ -373,8 +412,8 @@ wg_clients_menu(){
 start_menu(){
     clear
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-    echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
-    echo -e "${Green}>  1. 显示手机客户端二维码"
+    echo -e "${GreenBG}     开源项目: https://github.com/hongwenjun/vps_setup    ${Font}"
+    echo -e "${Green}>  1. 显示客户端配置和二维码 (手机支持纯IPV6)"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号"
     echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"

@@ -1,4 +1,4 @@
-## 一键安装wireguard 脚本 For Debian_9  Ubuntu  Centos_7
+## 一键安装wireguard 脚本(支持IPV6) For Debian_9  Ubuntu  Centos_7
 ```
 # 一键安装wireguard 脚本 Debian 9 (源:逗比网安装笔记)
 wget -qO- git.io/fptwc | bash
@@ -13,7 +13,7 @@ wget -qO- git.io/fhnhS | bash
 ### CentOS 7 测试 GCP和Vultr 都能自动升级内核，如果辣鸡要升级内核
 	yum install -y wget vim             # Cetos 安装 wget 和 vim 工具
 	wget -qO wg.sh git.io/fhnhS && bash wg.sh kernel    # Centos 升级内核命令
-	
+
 ### 增加功能  <<添加/删除 WireGuard Peer 客户端管理 >>
 [![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
 

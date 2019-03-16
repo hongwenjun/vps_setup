@@ -2,13 +2,13 @@
     bash <(curl -L -s https://git.io/vps.sh)
     wget -qO- git.io/vps.sh | bash       # wget调用是静默安装  curl调用可以使用菜单
 
-| [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
+| [一键安装 WireGuard 脚本:支持IPV6 ](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
 | wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
 
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/vps.sh.png)
 
-| WireGuard 管理 | bash wgmtu | 卸载命令 | bash wgmtu remove | 
+| WireGuard 管理 | bash wgmtu | 卸载命令 | bash wgmtu remove |
 | :------:| :------: | :------:| :------: |
 
 |V2Ray 卸载命令 | bash <(curl -L -s https://install.direct/go.sh) --remove |
@@ -22,7 +22,7 @@
 ### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
 
-### WireGuard 管理使用命令 bash wgmtu 
+### WireGuard 管理使用命令 bash wgmtu
 [![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
 
 ### Shadowsocks 配置使用: 添加命令行到 /etc/rc.local
@@ -184,7 +184,7 @@ https://raw.githubusercontent.com/hongwenjun/vps_setup/master/vps.sh
 ### Git pull 强制覆盖本地文件
 ```
 git fetch --all
-git reset --hard origin/master 
+git reset --hard origin/master
 git pull
 git fetch origin master
 git merge origin/master

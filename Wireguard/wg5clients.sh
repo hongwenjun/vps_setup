@@ -8,6 +8,7 @@
 port=9999
 mtu=1420
 ip_list=(2 5 8 178 186 118 158 198 168 9)
+ipv6_range="fd08:620c:4df0:65eb::"
 
 #############################################################
 help_info() {
@@ -47,7 +48,12 @@ host=$(hostname -s)
 if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
 fi
-serverip=$(curl -4 ip.sb)
+
+
+if [ ! -e '/var/ip_addr' ]; then
+   echo -n $(curl -4 ip.sb) > /var/ip_addr
+fi
+serverip=$(cat /var/ip_addr)
 
 # 安装二维码插件
 if [ ! -f '/usr/bin/qrencode' ]; then
@@ -57,6 +63,21 @@ fi
 # 安装 bash wgmtu 脚本用来设置服务器
 wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
 #############################################################
+
+# 打开ip4/ipv6防火墙转发功能
+sysctl_config() {
+    sed -i '/net.ipv4.ip_forward/d' /etc/sysctl.conf
+    sed -i '/net.ipv6.conf.all.forwarding/d' /etc/sysctl.conf
+    sed -i '/net.ipv6.conf.default.accept_ra/d' /etc/sysctl.conf
+
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+    echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.conf
+    echo "net.ipv6.conf.all.forwarding = 1" >> /etc/sysctl.conf
+    echo "net.ipv6.conf.default.accept_ra=2" >> /etc/sysctl.conf
+    sysctl -p >/dev/null 2>&1
+}
+sysctl_config
+
 
 # wg配置文件目录 /etc/wireguard
 mkdir -p /etc/wireguard
@@ -71,16 +92,16 @@ wg genkey | tee cprivatekey | wg pubkey > cpublickey
 cat <<EOF >wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
-Address = 10.0.0.1/24
-PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+Address = 10.0.0.1/24,  ${ipv6_range}1/64
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $port
-DNS = 8.8.8.8
+DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = $mtu
 
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = 10.0.0.188/32
+AllowedIPs = 10.0.0.188/32,  ${ipv6_range}188
 
 EOF
 
@@ -88,8 +109,8 @@ EOF
 cat <<EOF >client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = 10.0.0.188/24
-DNS = 8.8.8.8
+Address = 10.0.0.188/24,  ${ipv6_range}188/64
+DNS = 8.8.8.8, 2001:4860:4860::8888
 #  MTU = $mtu
 #  PreUp =  start   .\route\routes-up.bat
 #  PostDown = start  .\route\routes-down.bat
@@ -106,20 +127,21 @@ EOF
 for i in {2..9}
 do
     ip=10.0.0.${ip_list[$i]}
+    ip6=${ipv6_range}${ip_list[$i]}
     wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
     cat <<EOF >>wg0.conf
 [Peer]
 PublicKey = $(cat cpublickey)
-AllowedIPs = $ip/32
+AllowedIPs = $ip/32, $ip6
 
 EOF
 
     cat <<EOF >wg_${host}_$i.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
-Address = $ip/24
-DNS = 8.8.8.8
+Address = $ip/24, $ip6/64
+DNS = 8.8.8.8, 2001:4860:4860::8888
 
 [Peer]
 PublicKey = $(cat spublickey)
@@ -128,7 +150,7 @@ AllowedIPs = 0.0.0.0/0, ::0/0
 PersistentKeepalive = 25
 
 EOF
-    cat /etc/wireguard/wg_${host}_$i.conf| qrencode -o wg_${host}_$i.png
+    cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
 done
 
 #  vps网卡如果不是eth0，修改成实际网卡
