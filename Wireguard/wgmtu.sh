@@ -75,8 +75,8 @@ ipv6_QRcode(){
     if [[ -z $serveripv6 ]]; then
         echo -e "${Red}:: 获取IPV6地址不正确，你的服务器可能没有IPV6网络支持!${Font}"
     else
-        cat /etc/wireguard/wg_${host}_$i.conf | sed "s/${serverip}/${serveripv6}/g" | qrencode -o - -t UTF8
-        echo -e "${Green}:: IPV6地址: ${serveripv6} 请确认服务器和本地网络支持IPV6!${Font}"
+        cat /etc/wireguard/wg_${host}_$i.conf | sed "s/${serverip}/[${serveripv6}]/g" | qrencode -o - -t UTF8
+        echo -e "${Green}:: IPV6地址: [${serveripv6}] 请确认服务器和本地网络支持IPV6!${Font}"
     fi
 }
 
@@ -413,7 +413,7 @@ start_menu(){
     clear
     echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
     echo -e "${GreenBG}     开源项目: https://github.com/hongwenjun/vps_setup    ${Font}"
-    echo -e "${Green}>  1. 显示客户端配置和二维码 (手机支持纯IPV6)"
+    echo -e "${Green}>  1. 显示客户端配置和二维码 (手机支持纯IPV6,稳定性有待测试)"
     echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
     echo -e ">  3. 修改 WireGuard 端口号"
     echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"
