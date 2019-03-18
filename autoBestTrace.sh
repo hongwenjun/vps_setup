@@ -7,15 +7,15 @@
 #  https://cdn.ipip.net/17mon/besttrace4linux.zip
 
 # install besttrace
-if [ ! -f "besttrace" ]; then
+if [ ! -e "/usr/bin/besttrace" ]; then
     apt -y install unzip
     wget https://cdn.ipip.net/17mon/besttrace4linux.zip
     unzip besttrace4linux.zip
     chmod +x besttrace
-    
+
     mv besttrace /usr/bin/besttrace
     rm besttrace* -rf
-    
+
 fi
 
 ## start to use besttrace

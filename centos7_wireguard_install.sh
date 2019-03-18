@@ -2,17 +2,17 @@
 
 # Centos 安装脚本源  https://github.com/atrandys/wireguard
 
-#判断系统
+# 判断系统
 if [ ! -e '/etc/redhat-release' ]; then
-echo "仅支持centos7"
-exit
+    echo "仅支持centos7"
+    exit
 fi
 if  [ -n "$(grep ' 6\.' /etc/redhat-release)" ] ;then
-echo "仅支持centos7"
-exit
+    echo "仅支持centos7"
+    exit
 fi
 
-#更新内核
+# 更新内核
 update_kernel(){
 
     yum -y install epel-release curl
@@ -35,7 +35,7 @@ update_kernel(){
 	fi
 }
 
-#centos7安装wireguard
+# centos7安装wireguard
 wireguard_install(){
     curl -Lo /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
     yum install -y epel-release

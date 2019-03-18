@@ -1,11 +1,13 @@
 #!/bin/bash
-#    WireGuard VPN多用户服务端  自动配置脚本
+# WireGuard VPN多用户服务端 自动配置脚本 支持IPV6
 
-#    本脚本(WireGuard 多用户配置)一键安装短网址
-#    wget -qO- https://git.io/fpnQt | bash
+# 本脚本(WireGuard 多用户配置)一键安装短网址
+# wget -qO- https://git.io/fpnQt | bash
+# 使用url调用脚本, 或者下载脚本使用, 可以指定端口数
+# bash <(curl -L -s https://git.io/fpnQt) 9999
 #############################################################
-# 定义修改端口号，适合已经安装WireGuard而不想改端口
-port=9999
+
+let port=$RANDOM/2+9999
 mtu=1420
 ip_list=(2 5 8 178 186 118 158 198 168 9)
 ipv6_range="fd08:620c:4df0:65eb::"
@@ -27,10 +29,18 @@ wget -qO- git.io/fhExJ | bash
 EOF
 }
 #############################################################
-#定义文字颜色
+
+if [[ $# > 0 ]]; then
+    num="$1"
+    if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
+       port=$num
+    fi
+fi
+
+# 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-#定义提示信息
+# 定义提示信息
 Info="${Green}[信息]${Font}"  &&  OK="${Green}[OK]${Font}"  &&  Error="${Red}[错误]${Font}"
 
 # 检查是否安装 WireGuard
@@ -49,7 +59,6 @@ if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
 fi
 
-
 if [ ! -e '/var/ip_addr' ]; then
    echo -n $(curl -4 ip.sb) > /var/ip_addr
 fi
@@ -61,7 +70,7 @@ if [ ! -f '/usr/bin/qrencode' ]; then
 fi
 
 # 安装 bash wgmtu 脚本用来设置服务器
-wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/master/Wireguard/wgmtu.sh
+wget -O ~/wgmtu  https://git.io/wgmtu 
 #############################################################
 
 # 打开ip4/ipv6防火墙转发功能
@@ -77,7 +86,6 @@ sysctl_config() {
     sysctl -p >/dev/null 2>&1
 }
 sysctl_config
-
 
 # wg配置文件目录 /etc/wireguard
 mkdir -p /etc/wireguard
@@ -153,7 +161,7 @@ EOF
     cat /etc/wireguard/wg_${host}_$i.conf | qrencode -o wg_${host}_$i.png
 done
 
-#  vps网卡如果不是eth0，修改成实际网卡
+# vps网卡如果不是eth0，修改成实际网卡
 ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
 if [ $ni != "eth0" ]; then
     sed -i "s/eth0/${ni}/g"  /etc/wireguard/wg0.conf
@@ -184,8 +192,8 @@ echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7  
 echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 新手使用${GreenBG} bash wg5 ${Font} 命令，使用临时网页下载配置和手机客户端二维码配置"
-echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，服务端高级配置和添加删除客户端数量"
-
+echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，WireGuard 配置管理支持IPV6，稳定有待测试"
+echo -e "# ${Info} 个性端口${RedBG} bash <(curl -L -s https://git.io/fpnQt) ${GreenBG}9999 ${Font} 参数是端口号"
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
 # python -m SimpleHTTPServer 8000 &
 echo ""
