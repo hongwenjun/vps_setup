@@ -3,17 +3,23 @@
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For debian 9 ${Font}"
-echo -e "${RedBG}:: Centos和Ubuntu系统，进行编译安装 ${RedBG} shadowsocks-libev  ${Font}"
+echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For Debian Centos Ubuntu ${Font}"
+echo -e "${RedBG}:: 如果没有正确安装，请编译安装/更新 ${RedBG} shadowsocks-libev ${Font}"
 echo -e "${Green}$  bash <(curl -L -s git.io/fhExJ) update  ${Font}"
 
-debian_fast(){
-    # 安装所需运行库
-    apt update
-    apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
+def_install(){
+    if [[ ${release} == "centos" ]]; then
+        # 安装所需运行库 Centos
+        yum update -y
+        yum install -y  libev-devel c-ares-devel  mbedtls-devel libsodium-devel
+    else
+        # 安装所需运行库 Debian 9 & Ubuntu
+        apt update
+        apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
+    fi
 
-    # 下载 ss-server
-    wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/ss-server
+    # 下载 ss-server 对应各系统
+    wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/shadowsocks/${release}/ss-server
     chmod +x  ss-server  &&  mv ss-server /usr/local/bin/ss-server
 }
 
@@ -77,7 +83,7 @@ sysctl_config
 lsmod | grep bbr
 
 # 判断系统安装软件
-install_ss-server(){
+update_ss-server(){
     if [[ ${release} == "centos" ]]; then
         centos7_dev
         inst_ss-server
@@ -94,21 +100,13 @@ install_ss-server(){
     fi
 }
 
-def_install(){
-    if [[ ${release} == "debian" ]]; then
-        debian_fast
-    else
-        install_ss-server
-    fi
-}
-
 # 安装 ss-server
 check_sys
 if [[ $# > 0 ]]; then
     key="$1"
     case $key in
         update)
-        install_ss-server
+        update_ss-server
         ;;
     esac
 else
