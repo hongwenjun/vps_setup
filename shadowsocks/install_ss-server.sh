@@ -3,8 +3,8 @@
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-echo -e "${Green}:: 注意 快速安装 shadowsocks-libev 脚本 For Debian Centos Ubuntu ${Font}"
-echo -e "${RedBG}:: 如果没有正确安装，请编译安装/更新 ${RedBG} shadowsocks-libev ${Font}"
+echo -e "${Green}:: 快速安装 shadowsocks-libev 脚本 For Debian_9 Centos_7 Ubuntu_18 ${Font}"
+echo -e "${Red}:: 如果运行运行库不匹配，请编译安装/更新 ${RedBG} shadowsocks-libev ${Font}"
 echo -e "${Green}$  bash <(curl -L -s git.io/fhExJ) update  ${Font}"
 
 def_install(){

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 默认安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本
+# 默认安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本  短网址 https://git.io/vps.sh
 default_install(){
 
     # 一键安装wireguard 脚本
@@ -29,18 +29,37 @@ display_conf(){
     cat /etc/wireguard/client.conf
 }
 
+base_tools(){
+    # 简化判断系统 debian/centos 族群
+    if [ -e '/etc/redhat-release' ]; then
+        yum update -y && yum install -y  wget curl vim ca-certificates
+    else
+        apt update && apt install -y  wget curl vim  ca-certificates
+    fi
+}
+
+wget_curl(){
+    if [[ ! -e /usr/bin/wget ]]; then
+        base_tools
+    fi
+    if [[ ! -e /usr/bin/curl ]]; then
+        base_tools
+    fi
+}
+
 # 设置菜单
 start_menu(){
     clear
     echo_GreenBG ">  开源项目:  https://github.com/hongwenjun/vps_setup  "
     echo_SkyBlue ">  1. 默认安装 WireGuard Shadowsocks V2Ray 服务端三合一"
     echo_SkyBlue ">  2. 选择安装 WireGuard 多用户服务端"
-    echo_SkyBlue ">  3. 选择安装 Shadowsocks 编译/更新"
-    echo_SkyBlue ">  4. 卸载 WireGuard Shadowsocks V2ray 服务"
-    echo_Yellow  ">  5. 显示 WireGuard V2ray 和 rc.local 配置"
+    echo_SkyBlue ">  3. 编译安装/更新 ${RedBG} shadowsocks-libev ${Font}"
+    echo_SkyBlue ">  4. 卸载 WireGuard Shadowsocks V2ray 服务程序"
+    echo         "-------------------------------------------------------"
+    echo_Yellow  ">  5. 显示 WireGuard V2ray 和 rc.local 配置信息"
     echo_Yellow  ">  6. 退出"
     echo_Yellow  ">  7. WireGuard 管理命令 ${RedBG} bash wgmtu "
-    echo_Yellow  ">  8. 选择安装${GreenBG} Shadowsocks 和 V2Ray 配置显示二维码"
+    echo_Yellow  ">  8. 选择安装 ${GreenBG} Shadowsocks 和 V2Ray ${Yellow} 配置显示二维码"
     read -p "请输入数字:" num
     case "$num" in
         1)
@@ -89,5 +108,7 @@ echo_GreenBG(){
     echo -e "${GreenBG}$1${Font}"
 }
 
+# 安装 wg ss v2 脚本开始菜单和必要的wget和curl工具
+wget_curl
 start_menu
 
