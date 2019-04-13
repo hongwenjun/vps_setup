@@ -36,6 +36,8 @@ https://download.virtualbox.org/virtualbox/6.0.4/VirtualBox-6.0.4-128413-Win.exe
 ### 单网卡 独臂路由和透明网桥设置 koolshare Lede X64 虚拟机配置视频
 https://youtu.be/7cKFdz_7rtE
 
+![](https://raw.githubusercontent.com/hongwenjun/img/master/lede.png)
+
 ```c
 1
 00:00:00,000 --> 00:00:10,000
