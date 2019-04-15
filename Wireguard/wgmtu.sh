@@ -260,10 +260,42 @@ wireguard_remove(){
     echo -e "${RedBG}   卸载完成  ${Font}"
 }
 
+# 更新/安装  UDP2RAW   KCPTUN   UDPspeeder 工具
+udp2raw_update()
+{
+	systemctl stop rc-local
+
+    # 下载 UDP2RAW
+    wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20181113.0/udp2raw_binaries.tar.gz
+    tar xf udp2raw_binaries.tar.gz
+    mv udp2raw_amd64 /usr/bin/udp2raw
+    rm udp2raw* -rf
+    rm version.txt
+
+    # 下载 KCPTUN
+    kcptun_tar_gz=kcptun-linux-amd64-20190409.tar.gz
+    wget https://github.com/xtaci/kcptun/releases/download/v20190409/$kcptun_tar_gz
+    tar xf $kcptun_tar_gz
+    mv server_linux_amd64 /usr/bin/kcp-server
+    rm $kcptun_tar_gz
+    rm client_linux_amd64
+
+    # 下载 UDPspeeder
+    wget https://github.com/wangyu-/UDPspeeder/releases/download/20190121.0/speederv2_binaries.tar.gz
+    tar xf speederv2_binaries.tar.gz
+    mv speederv2_amd64 /usr/bin/speederv2
+    rm speederv2* -rf
+    rm version.txt
+    
+    systemctl restart rc-local
+    ps aux | grep -e kcp -e udp -e speed
+}
 
 rc-local_remove(){
    echo -e "${RedBG}   卸载Udp2Raw套接服务配置 /etc/rc.local ${Font}"
    systemctl stop rc-local
+   rm /usr/bin/udp2raw  /usr/bin/kcp-server  /usr/bin/speederv2
+   ps aux | grep -e kcp -e udp -e speed 
    mv  /etc/rc.local  ~/rc.local
    echo -e "${RedBG}   卸载完成，备份在 /root/rc.local  ${Font}"
 }
@@ -272,8 +304,9 @@ update_remove_menu(){
     echo -e "${RedBG}   更新/卸载 WireGuard服务端和Udp2Raw   ${Font}"
     echo -e "${Green}>  1. 更新 WireGuard 服务端"
     echo -e ">  2. 卸载 WireGuard 服务端"
-    echo -e ">  3. 卸载 Udp2Raw 服务"
-    echo -e ">  4. 退出${Font}"
+    echo -e ">  3. 更新 Udp2Raw KCPTUN UDPspeeder 软件"
+    echo -e ">  4. 卸载 Udp2Raw KCPTUN UDPspeeder 服务套件"
+    echo -e ">  5. 退出${Font}"
     echo
     read -p "请输入数字(1-4):" num_x
     case "$num_x" in
@@ -283,10 +316,13 @@ update_remove_menu(){
         2)
         wireguard_remove
         ;;
-        3)
-        rc-local_remove
+	3)
+        udp2raw_update
         ;;
         4)
+        rc-local_remove
+        ;;
+        5)
         exit 1
         ;;
         *)
