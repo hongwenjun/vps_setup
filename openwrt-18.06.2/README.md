@@ -21,11 +21,13 @@ udp2raw -c -l127.0.0.1:21333 -r34.80.10.132:2999 --raw-mode faketcp -a -k passwo
 - UDP工具脚本: [/etc/init.d/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/init.d/udptools)
 - UDP参数配置: [/etc/config/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/config/udptools) 
 
-### OpenWRT 安装 WireGuard
+### OpenWRT 安装 WireGuard， 配置 Udp2Raw + UdpSpeeder + WireGuard 图示
 ```
 opkg list | grep wireguard
 opkg install wireguard wireguard-tools luci-i18n-wireguard-zh-cn
 ```
+![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt-wg_udp2raw.png)
+- 配置先填wg服务器IP，配置连上了，再改 UDP工具套接到 127.0.0.1
 -----------------
 
 ### OpenWRT-18.06.2 X64 固件和SDK 下载地址和文件名
