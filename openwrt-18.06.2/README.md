@@ -10,12 +10,16 @@
 ![](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.png)
 
 ```
-# ps | grep -e udp      # 可以查看工具运行的参数
+# ps | grep -e udp           # 可以查看工具运行的参数
 udpspeeder -c -l0.0.0.0:9999 -r127.0.0.1:21333   -f20:10 --mode 0 --timeout 0
 udp2raw -c -l127.0.0.1:21333 -r34.80.10.132:2999 --raw-mode faketcp -a -k password
 
-# luci-udptools 工具目前好像有个Bug: udpspeeder 不能指定密码，所以服务端 udpspeeder 改成不用密码
+# luci-udptools 工具默认: udpspeeder 不用密码，所以VPS服务端 udpspeeder 改成不用密码
+# vim /etc/init.d/udptools   # 或者编辑 luci-udptools 的脚本 第21行添加 -k $password
+# vim /etc/config/udptools   # UDP工具 参数配置
 ```
+- UDP工具脚本: [/etc/init.d/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/init.d/udptools)
+- UDP参数配置: [/etc/config/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/config/udptools) 
 
 ### OpenWRT 安装 WireGuard
 ```
