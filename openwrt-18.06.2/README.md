@@ -8,12 +8,12 @@
 
 -----------------
 ### UDP工具 配置图示
-![](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.png)
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/openwrt-18.06.2/openwrt_udptools.png)
 
 ```
 # ps | grep -e udp           # 可以查看工具运行的参数
 udpspeeder -c -l0.0.0.0:9999 -r127.0.0.1:21333   -f20:10 --mode 0 --timeout 0
-udp2raw -c -l127.0.0.1:21333 -r34.80.10.132:2999 --raw-mode faketcp -a -k password
+udp2raw -c -l127.0.0.1:21333 -r34.80.188.188:2999 --raw-mode faketcp -a -k password
 
 # luci-udptools 工具默认: udpspeeder 不用密码，所以VPS服务端 udpspeeder 改成不用密码
 # vim /etc/init.d/udptools   # 或者编辑 luci-udptools 的脚本 第21行添加 -k $password
@@ -142,5 +142,5 @@ mount /dev/sdb3 /usr/upan
 /usr/sbin/uhttpd -f -h /usr/upan -r upan -x /cgi-bin  -p 0.0.0.0:88 -p [::]:88  &
 ```
 - 把3行命令添加到路由器的开机脚本里面
-![](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_mount.png)
+![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt_mount.png)
 - OpenWRT 安装 frpc 客户端，使用内网穿透，就能从外网访问路由器和虚拟主机了

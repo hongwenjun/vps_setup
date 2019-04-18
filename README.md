@@ -20,6 +20,9 @@
 - 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。此项目为bash一键脚本，其中涉及到的任何软件版权和责任归原作者所有。
 - 在中国境内使用、传播、售卖、免费分享等任何翻墙服务，都是违法的。如果你在中国境内使用、测试此项目脚本，或者使用此脚本搭建服务器发生以上违法行为，都有违作者意愿！你必须立刻停止此行为！并删除脚本！
 
+### [OpenWRT 安装 WireGuard， 配置 Udp2Raw + UdpSpeeder + WireGuard](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/README.md)
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/openwrt-18.06.2/openwrt_udptools.png)
+
 ### V2Ray 和 Shadowsocks 配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
 
