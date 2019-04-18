@@ -1,6 +1,6 @@
-## OpenWRT-18.06.2 软路由 udp2raw-tunne udpspeeder luci-udptools 
-
-- 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
+## OpenWRT 安装 WireGuard 配置 Udp2Raw + UdpSpeeder + WireGuard 文档教程
+- 短网址: https://git.io/wrt.wg   [蘭雅sRGB YouTube频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos)
+- OpenWRT-18.06.2 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 - [openwrt_udptools.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 -----------------
 - 编译openwrt版udpspeeder和udp2raw [文章链接](https://www.atrandys.com/2018/1255.html)
@@ -20,7 +20,7 @@ udp2raw -c -l127.0.0.1:21333 -r34.80.188.188:2999 --raw-mode faketcp -a -k passw
 # vim /etc/config/udptools   # UDP工具 参数配置
 ```
 - UDP工具脚本: [/etc/init.d/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/init.d/udptools)
-- UDP参数配置: [/etc/config/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/config/udptools) 
+- UDP参数配置: [/etc/config/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/config/udptools)
 
 ### OpenWRT 安装 WireGuard， 配置 Udp2Raw + UdpSpeeder + WireGuard 图示
 ```
@@ -28,11 +28,9 @@ opkg list | grep wireguard
 opkg install wireguard wireguard-tools luci-i18n-wireguard-zh-cn
 
 # 安装中文语言包和常用工具
-opkg update    
+opkg update
 opkg install -y luci-i18n-base-zh-cn
 opkg install -y wget tmux ca-certificates htop
-opkg install -y wget tmux ca-certificates htop
-
 ```
 
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt-wg_udp2raw.png)
@@ -42,26 +40,6 @@ opkg install -y wget tmux ca-certificates htop
 ### 改进后 OpenWRT 安装 WireGuard 防火墙设置
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt-wg_firewall.png)
 - 在vps上下安装 Nginx 服务器，然后把电脑设置网关IP 为OpenWRT的IP，再使用 http://10.0.0.1 测试
-
------------------
-
-### OpenWRT 安装 shadowsocks-libev
-	opkg list | grep shadowsocks    # 查询官方有什么版本
-- luci-app-shadowsocks-libev - git-19.079.57770-b99e77d-1
-- shadowsocks-libev-config - 3.1.3-3
-- shadowsocks-libev-ss-local - 3.1.3-3
-- shadowsocks-libev-ss-redir - 3.1.3-3
-- shadowsocks-libev-ss-rules - 3.1.3-3
-- shadowsocks-libev-ss-tunnel - 3.1.3-3
-
-```
-# OpenWRT 安装 shadowsocks-libev 命令
-opkg update    
-opkg install -y luci-app-shadowsocks-libev  shadowsocks-libev-config  shadowsocks-libev-ss-local \
-             shadowsocks-libev-ss-redir  shadowsocks-libev-ss-rules  shadowsocks-libev-ss-tunnel
-
-```
------------------
 
 ### OpenWRT-18.06.2 X64 固件和SDK 下载地址和文件名
 https://downloads.openwrt.org/releases/18.06.2/targets/x86/64/
@@ -118,15 +96,16 @@ nameserver 114.114.114.114
 # 也可以添加DNS到 lan 接口里
 ```
 -----------------
+
 ### OpenWRT 安装到U盘里工具和命令
 - 下载工具 [physdiskwrite.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/physdiskwrite.zip)
-- 使用 [DiskGenius] (http://www.diskgenius.cn/) 把U盘删除所有分区保存
+- 使用 [DiskGenius](http://www.diskgenius.cn/) 把U盘删除所有分区保存
 - Windows 中找到 命令提示符  右键管理员权限打开，或者WINPE下的命令窗口操作
 	physdiskwrite.exe -u openwrt-18.img
 - -u 参数能够写大U盘和硬盘
-- 可以再使用 [DiskGenius] (http://www.diskgenius.cn/) 把剩余的空间分成 windows 支持的U盘分区，平常也可以装点工具
+- 可以再使用 [DiskGenius](http://www.diskgenius.cn/) 把剩余的空间分成 windows 支持的U盘分区，平常也可以装点工具
 
-### 安装 LEDE 或 OpenWRT 剩余磁盘空间，用来做虚拟主机空间 
+### 安装 LEDE 或 OpenWRT 剩余磁盘空间，用来做虚拟主机空间
 ```
 opkg install fdisk   # 安装fdisk工具
 fdisk -l             # 查询磁盘名称和空间
@@ -142,5 +121,29 @@ mount /dev/sdb3 /usr/upan
 /usr/sbin/uhttpd -f -h /usr/upan -r upan -x /cgi-bin  -p 0.0.0.0:88 -p [::]:88  &
 ```
 - 把3行命令添加到路由器的开机脚本里面
+
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt_mount.png)
+
 - OpenWRT 安装 frpc 客户端，使用内网穿透，就能从外网访问路由器和虚拟主机了
+
+-----------------
+
+### OpenWRT 安装 shadowsocks-libev
+	opkg list | grep shadowsocks    # 查询官方有什么版本
+- luci-app-shadowsocks-libev - git-19.079.57770-b99e77d-1
+- shadowsocks-libev-config - 3.1.3-3
+- shadowsocks-libev-ss-local - 3.1.3-3
+- shadowsocks-libev-ss-redir - 3.1.3-3
+- shadowsocks-libev-ss-rules - 3.1.3-3
+- shadowsocks-libev-ss-tunnel - 3.1.3-3
+
+```
+# OpenWRT 安装 shadowsocks-libev 命令
+opkg update
+opkg install -y luci-app-shadowsocks-libev  shadowsocks-libev-config  shadowsocks-libev-ss-local \
+             shadowsocks-libev-ss-redir  shadowsocks-libev-ss-rules  shadowsocks-libev-ss-tunnel
+
+```
+- PS: 目前电信运行商Qos拦截WireGuard确实越来严了，目前可以折腾爬墙新姿势：[WG+SPEED+UDP2RAW+SS](https://youtu.be/ptXfUpjP8bI?list=PLPidIcmhqWuRgSDLDdn-NFK1e3Y8pLg7M)
+
+-----------------
