@@ -149,3 +149,9 @@ opkg install luci-app-shadowsocks-libev  shadowsocks-libev-config  shadowsocks-l
 - PS: 目前电信运行商Qos拦截WireGuard确实越来严了，目前可以折腾爬墙新姿势：[WG+SPEED+UDP2RAW+SS](https://youtu.be/ptXfUpjP8bI?list=PLPidIcmhqWuRgSDLDdn-NFK1e3Y8pLg7M)
 
 -----------------
+### 视频最后 我把视频使用的虚拟盘镜像上传，有兴趣，可以直接下载解压给虚拟机
+[OpenWRT虚拟盘下载](https://github.com/hongwenjun/img/releases/download/1.0/OpenWRT_18.vmdk.7z)
+```
+https://github.com/hongwenjun/img/releases/download/1.0/OpenWRT_18.vmdk.7z
+```
+-----------------
