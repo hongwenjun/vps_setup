@@ -1,5 +1,5 @@
 ## OpenWRT 安装 WireGuard 配置 Udp2Raw + UdpSpeeder + WireGuard 文档教程
-- 短网址: https://git.io/wrt.wg   [蘭雅sRGB YouTube频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos)
+- 短网址: https://git.io/wrt.wg           [蘭雅sRGB YouTube频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos)
 - OpenWRT-18.06.2 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 - [openwrt_udptools.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 -----------------
@@ -29,8 +29,8 @@ opkg install wireguard wireguard-tools luci-i18n-wireguard-zh-cn
 
 # 安装中文语言包和常用工具
 opkg update
-opkg install -y luci-i18n-base-zh-cn
-opkg install -y wget tmux ca-certificates htop
+opkg install luci-i18n-base-zh-cn
+opkg install wget tmux ca-certificates htop
 ```
 
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt-wg_udp2raw.png)
@@ -101,7 +101,9 @@ nameserver 114.114.114.114
 - 下载工具 [physdiskwrite.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/physdiskwrite.zip)
 - 使用 [DiskGenius](http://www.diskgenius.cn/) 把U盘删除所有分区保存
 - Windows 中找到 命令提示符  右键管理员权限打开，或者WINPE下的命令窗口操作
+
 	physdiskwrite.exe -u openwrt-18.img
+
 - -u 参数能够写大U盘和硬盘
 - 可以再使用 [DiskGenius](http://www.diskgenius.cn/) 把剩余的空间分成 windows 支持的U盘分区，平常也可以装点工具
 
@@ -140,7 +142,7 @@ mount /dev/sdb3 /usr/upan
 ```
 # OpenWRT 安装 shadowsocks-libev 命令
 opkg update
-opkg install -y luci-app-shadowsocks-libev  shadowsocks-libev-config  shadowsocks-libev-ss-local \
+opkg install luci-app-shadowsocks-libev  shadowsocks-libev-config  shadowsocks-libev-ss-local \
              shadowsocks-libev-ss-redir  shadowsocks-libev-ss-rules  shadowsocks-libev-ss-tunnel
 
 ```
