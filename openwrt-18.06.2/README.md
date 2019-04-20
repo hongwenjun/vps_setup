@@ -1,5 +1,6 @@
 ## OpenWRT 安装 WireGuard 配置 Udp2Raw + UdpSpeeder + WireGuard 文档教程
-- 短网址: https://git.io/wrt.wg           [蘭雅sRGB YouTube频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos)
+- 短网址: https://git.io/wrt.wg  &nbsp;&nbsp;&nbsp; [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
+
 - OpenWRT-18.06.2 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 - [openwrt_udptools.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
 -----------------

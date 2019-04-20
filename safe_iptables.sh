@@ -61,6 +61,12 @@ disable_ipv6(){
     echo 1 > /proc/sys/net/ipv6/conf/${ni}/disable_ipv6
 }
 
+# 恢复网卡IPV6功能
+enable_ipv6(){
+    ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
+    echo 0 > /proc/sys/net/ipv6/conf/${ni}/disable_ipv6
+}
+
 no_use_passwd(){
     # 禁用密码登陆
     sed -i "s/PasswordAuthentication.*/PasswordAuthentication no/g"    /etc/ssh/sshd_config
@@ -93,7 +99,8 @@ hide_menu(){
     echo -e ">  3. frps_iptables 防火墙规则"
     echo -e ">  4. 菜单项1-2-3全功能开放"
     echo -e ">  5. 使用临时${GreenBG} srgb18.ga ${Font}${Green}域名(更新脚本)"
-    echo -e ">  6. ${RedBG}禁止使用密码远程SSH登陆${Font}"
+    echo -e ">  6. ${GreenBG} 恢复网卡IPV6功能 ${Font}"
+    echo -e ">  7. ${RedBG} 禁止使用密码远程SSH登陆 ${Font}"
     echo
     read -p "请输入数字(1-6):" num_x
     case "$num_x" in
@@ -114,6 +121,9 @@ hide_menu(){
         srgb18_ga_ddns
         ;;
         6)
+        enable_ipv6
+        ;;
+        7)
         no_use_passwd
         ;;
         *)
@@ -183,7 +193,7 @@ safe_iptables(){
     iptables -A INPUT -p tcp -m tcp --dport 22  -j ACCEPT
     iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
     iptables -A INPUT -j DROP
-    iptables -P FORWARD DROP
+    iptables -P FORWARD  DROP
     iptables -P OUTPUT  ACCEPT
 }
 
@@ -249,10 +259,13 @@ no_ping(){
     iptables -D INPUT -p icmp --icmp-type echo-request -j ACCEPT
 }
 
+# 关闭防火墙命令 iptables -F
 no_iptables(){
-    # Debian 和 Centos 关闭防火墙命令分别是
-    iptables -F  && iptables-save > /etc/iptables/rules.v4   >/dev/null 2>&1
-    iptables -F  && service iptables save                    >/dev/null 2>&1
+    iptables -P INPUT ACCEPT
+    iptables -P FORWARD ACCEPT
+    iptables -F
+
+    save_iptables
 }
 
 # 设置菜单

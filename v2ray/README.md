@@ -1,3 +1,5 @@
+- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
+
 ### V2Ray官方提供了一个在 Linux 服务端 自动化安装脚本。
 ```
 ###  V2Ray官方一键脚本

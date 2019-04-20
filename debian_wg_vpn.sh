@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://www.wireguard.com/install/
+
 # 高速新VPN协议WireGuard服务端一键脚本
 # GCP香港  和 Vutrl  搬瓦工 测试可用，已经添加自动判断网卡名
 # OpenVZ  PVE 不能用
@@ -8,8 +10,6 @@
 # https://tunsafe.com/download
 
 # Debian9  安装 WireGuard 步骤
-# 详细参考逗比  https://doub.io/wg-jc1/
-
 
 debian_wireguard_install(){
 

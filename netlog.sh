@@ -74,7 +74,7 @@ vnstat_install(){
 		systemctl restart crond
 	fi
 	rm -f crontab.txt
-
+    echo "vnstat conf @ /etc/vnstat.conf"
 }
 
 # 首次运行脚本需要安装

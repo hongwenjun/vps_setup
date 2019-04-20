@@ -286,7 +286,7 @@ udp2raw_update()
     mv speederv2_amd64 /usr/bin/speederv2
     rm speederv2* -rf
     rm version.txt
-    
+
     systemctl restart rc-local
     ps aux | grep -e kcp -e udp -e speed
 }
@@ -295,7 +295,7 @@ rc-local_remove(){
    echo -e "${RedBG}   卸载Udp2Raw套接服务配置 /etc/rc.local ${Font}"
    systemctl stop rc-local
    rm /usr/bin/udp2raw  /usr/bin/kcp-server  /usr/bin/speederv2
-   ps aux | grep -e kcp -e udp -e speed 
+   ps aux | grep -e kcp -e udp -e speed
    mv  /etc/rc.local  ~/rc.local
    echo -e "${RedBG}   卸载完成，备份在 /root/rc.local  ${Font}"
 }
@@ -459,6 +459,9 @@ start_menu(){
     echo -e ">  7. Vps_Setup 一键脚本 藏经阁"
     echo -e ">  8. ${RedBG}  IPTABLES 防火墙设置脚本  ${Font}"
     echo
+    echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
+    echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
+    echo
     read -p "请输入数字(1-8):" num
     case "$num" in
         1)
@@ -496,7 +499,15 @@ start_menu(){
         esac
 }
 
-# WireGuard 管理使用命令 bash wgmtu
+wgmtu_help(){
+    echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
+    echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
+    echo
+    echo_Yellow "[setup 惊喜 | remove 卸载 | vps 脚本 | bench 基准测试 | -U 更新]"
+    echo_Yellow "[v2ray 你懂 | vnstat 流量 | log 信息 | trace 网络回程 | -h 帮助]"
+}
+
+# WireGuard 管理命令 bash wgmtu 命令行参数
 if [[ $# > 0 ]]; then
     key="$1"
     case $key in
@@ -511,11 +522,28 @@ if [[ $# > 0 ]]; then
         scp_conf
         ;;
         -U)
-        update_remove_menu
         update_self
         ;;
         -h)
-        echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | -U | -h ] "
+        wgmtu_help
+        ;;
+        vps)
+        bash <(curl -L -s https://git.io/vps.sh)
+        ;;
+        vnstat)
+        wget -qO- git.io/fxxlb | bash
+        ;;
+        bench)
+        wget -qO- git.io/superbench.sh | bash
+        ;;
+        trace)
+        wget -qO- git.io/fp5lf | bash
+        ;;
+        v2ray)
+        bash <(curl -L -s https://git.io/v2ray.ss)
+        ;;
+        log)
+        cat vps_setup.log
         ;;
     esac
 else

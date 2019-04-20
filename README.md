@@ -3,7 +3,7 @@
     # curl脚本可以使用菜单，方便选择 # wget脚本是静默安装 # 目前 WireGuard 脚本支持 IPV6，稳定有待测试
     # wget -qO- git.io/vps.sh | bash
 
-- [蘭雅sRGB YouTube频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) 可以看到更多相关工具的演示视频!
+- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
 
 | [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |

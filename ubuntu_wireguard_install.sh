@@ -7,7 +7,6 @@
 # https://tunsafe.com/download
 
 # Ubuntu  安装 WireGuard 步骤
-# 详细参考逗比  https://doub.io/wg-jc1/
 
 # 更新软件包源
 apt update
@@ -45,7 +44,7 @@ echo "[Interface]
 PrivateKey = $(cat sprivatekey)
 
 # VPN中本机的内网IP，一般默认即可，除非和你服务器或客户端设备本地网段冲突
-Address = 10.0.0.1/24 
+Address = 10.0.0.1/24
 
 # 运行 WireGuard 时要执行的 iptables 防火墙规则，用于打开NAT转发之类的。
 # 如果你的服务器主网卡名称不是 eth0 ，那么请修改下面防火墙规则中最后的 eth0 为你的主网卡名称。
@@ -111,7 +110,7 @@ PersistentKeepalive = 25"|sed '/^#/d;/^\s*$/d' > client.conf
 
 # 赋予配置文件夹权限
 chmod 777 -R /etc/wireguard
- 
+
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
     sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
@@ -140,5 +139,5 @@ wg
 
 # 以上配置文本只是参考文档使用，实际调用另一脚本生成配置
 
-# 一键 WireGuard 多用户配置共享脚本 
+# 一键 WireGuard 多用户配置共享脚本
 wget -qO- https://git.io/fpnQt | bash

@@ -1,3 +1,5 @@
+- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
+
 # 一键安装shadowsocks-libev脚本 For Debian_9  Ubuntu  Centos_7
 ```
 # 一键安装shadowsocks-libev
@@ -14,7 +16,7 @@ ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/s
 ```
 ### 基于alipine构建的shadowsocks-libev服务 -- Docker安装
   https://hub.docker.com/r/taterli/shadowsocks-tiny
-  
+
 ### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
 
