@@ -122,3 +122,6 @@ vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYyUmF5IiwNCiAgImFkZCI6ICIxODguMTg4LjE4
 wget https://github.com/2dust/v2rayN/releases/download/2.22/v2rayN-Core.zip
 python -m SimpleHTTPServer 8000
 ```
+
+### V2RAY 基于 NGINX 的 VMESS+WS+TLS+Website 手工配置原理
+- 短网址: https://git.io/v2ray.nginx

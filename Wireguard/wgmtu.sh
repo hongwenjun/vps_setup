@@ -490,9 +490,46 @@ start_menu(){
         8)
         safe_iptables
         ;;
+
+    # 菜单输入 管理命令 bash wgmtu 命令行参数
+        setup)
+        ss_kcp_udp2raw_wg_speed
+        ;;
+        remove)
+        wireguard_remove
+        rc-local_remove
+        ;;
         88)
         scp_conf
         ;;
+        9999)
+        bash <(curl -L -s https://git.io/fpnQt) 9999
+        ;;
+        -U)
+        update_self
+        ;;
+        -h)
+        wgmtu_help
+        ;;
+        vps)
+        bash <(curl -L -s https://git.io/vps.sh)
+        ;;
+        vnstat)
+        wget -qO- git.io/fxxlb | bash
+        ;;
+        bench)
+        wget -qO- git.io/superbench.sh | bash
+        ;;
+        trace)
+        wget -qO- git.io/fp5lf | bash
+        ;;
+        v2ray)
+        bash <(curl -L -s https://git.io/v2ray.ss)
+        ;;
+        log)
+        cat vps_setup.log
+        ;;
+
         *)
         display_peer
         ;;
@@ -520,6 +557,9 @@ if [[ $# > 0 ]]; then
         ;;
         88)
         scp_conf
+        ;;
+        9999)
+        bash <(curl -L -s https://git.io/fpnQt) 9999
         ;;
         -U)
         update_self
