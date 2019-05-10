@@ -22,7 +22,7 @@
 - 此项目仅限于技术交流和探讨，在您测试完毕后必须在1秒钟内彻底删除项目副本。此项目为bash一键脚本，其中涉及到的任何软件版权和责任归原作者所有。
 - 在中国境内使用、传播、售卖、免费分享等任何翻墙服务，都是违法的。如果你在中国境内使用、测试此项目脚本，或者使用此脚本搭建服务器发生以上违法行为，都有违作者意愿！你必须立刻停止此行为！并删除脚本！
 
-### [OpenWRT 安装 WireGuard， 配置 Udp2Raw + UdpSpeeder + WireGuard](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/README.md)
+### [OpenWRT安装WireGuard 配置 Udp2Raw+UdpSpeeder+WireGuard](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/README.md)
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/openwrt-18.06.2/openwrt_udptools.png)
 
 ### V2Ray 和 Shadowsocks 配置显示二维码  短网址: https://git.io/v2ray.ss
@@ -41,7 +41,11 @@ ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/s
 ```
 cat /etc/v2ray/config.json
 ```
----
+
+### V2RAY基于NGINX的[VMESS+WS+TLS+Website](https://git.io/v2ray.nginx)手工配置原理
+- 短网址: https://git.io/v2ray.nginx
+
+----
 
 ### 一键安装wireguard 参考演示视频集合
 
@@ -139,7 +143,7 @@ tar -czv -T filelist -f ss_frp.tar.gz
 -T 选项可以指定包含要备份的文件列表
 ```
 
-## 搬迁备份文件，使用wget
+### 搬迁备份文件，使用wget
 - 可以先不删除原来机器，新建立机器使用wget把备份文件挪过去
 - 本笔记，由于使用Vultr_IPV6的机器，所以使用wget先下载到本地电脑了
 

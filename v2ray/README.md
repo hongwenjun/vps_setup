@@ -6,6 +6,9 @@
 bash <(curl -L -s https://install.direct/go.sh)
 ```
 
+- V2RAY 基于 NGINX 的 VMESS+WS+TLS+Website 手工配置原理
+- 短网址: https://git.io/v2ray.nginx
+
 ### 显示官方服务端默认配置(TCP协议vmess)
 ```
 cat /etc/v2ray/config.json
@@ -117,11 +120,8 @@ vmess://ew0KICAidiI6ICIyIiwNCiAgInBzIjogIlYyUmF5IiwNCiAgImFkZCI6ICIxODguMTg4LjE4
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray_set.gif)
 
 ### 下载v2ray for Windows 客户端地址如果被墙，可以先用vps下载
-### 借用vps中转，开临时网页服务器 访问 http://1.2.3.4:8000  (1.2.3.4实际vps的ip)
+- 借用vps中转，开临时网页服务器 访问 http://1.2.3.4:8000  (1.2.3.4实际vps的ip)
 ```
 wget https://github.com/2dust/v2rayN/releases/download/2.22/v2rayN-Core.zip
 python -m SimpleHTTPServer 8000
 ```
-
-### V2RAY 基于 NGINX 的 VMESS+WS+TLS+Website 手工配置原理
-- 短网址: https://git.io/v2ray.nginx
