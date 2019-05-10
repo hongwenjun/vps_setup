@@ -266,13 +266,14 @@ udp2raw_update()
 	systemctl stop rc-local
 
     # 下载 UDP2RAW
-    wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/20181113.0/udp2raw_binaries.tar.gz
+    udp2raw_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/wangyu-/udp2raw-tunnel/releases/latest | grep 'tag_name' | cut -d\" -f4)
+    wget https://github.com/wangyu-/udp2raw-tunnel/releases/download/${udp2raw_ver}/udp2raw_binaries.tar.gz
     tar xf udp2raw_binaries.tar.gz
     mv udp2raw_amd64 /usr/bin/udp2raw
     rm udp2raw* -rf
     rm version.txt
 
-    # 下载更新 KCPTUN
+    # 下载 KCPTUN
     kcp_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/xtaci/kcptun/releases/latest | grep 'tag_name' | cut -d\" -f4)
     kcp_gz_ver=${kcp_ver:1:8}
 
@@ -284,14 +285,17 @@ udp2raw_update()
     rm client_linux_amd64
 
     # 下载 UDPspeeder
-    wget https://github.com/wangyu-/UDPspeeder/releases/download/20190121.0/speederv2_binaries.tar.gz
+    udpspeeder_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/wangyu-/UDPspeeder/releases/latest | grep 'tag_name' | cut -d\" -f4)
+    wget https://github.com/wangyu-/UDPspeeder/releases/download/${udpspeeder_ver}/speederv2_binaries.tar.gz
     tar xf speederv2_binaries.tar.gz
     mv speederv2_amd64 /usr/bin/speederv2
     rm speederv2* -rf
     rm version.txt
 
     systemctl restart rc-local
-    ps aux | grep -e kcp -e udp -e speed
+    ps aux | grep -e kcp -e udp -e speed -e ss-server
+    ss-server -h | head -2  && kcp-server -v && udp2raw -h | head -2 && speederv2 -h | head -2
+
 }
 
 rc-local_remove(){
