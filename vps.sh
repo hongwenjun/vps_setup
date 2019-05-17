@@ -1,6 +1,9 @@
 #!/bin/bash
+# WireGuard Shadowsocks V2Ray 服务端三合一脚本  短网址 https://git.io/vps.sh
 
-# 默认安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本  短网址 https://git.io/vps.sh
+# Usage:  bash <(curl -L -s https://git.io/vps.sh)
+
+# 默认安装三合一  Usage:  wget -qO- git.io/vps.sh | bash
 default_install(){
 
     # 一键安装wireguard 脚本

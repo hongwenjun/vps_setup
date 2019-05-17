@@ -1,6 +1,8 @@
 #!/bin/bash
 # WireGuard 管理使用命令 bash wgmtu    短网址: https://git.io/wgmtu
 
+# Usage:  wget https://git.io/wgmtu && bash wgmtu
+
 # 修改mtu数值
 setmtu(){
     echo -e "${GreenBG}WireGuard 修改服务器端MTU值,提高效率;默认值MTU=1420${Font}"

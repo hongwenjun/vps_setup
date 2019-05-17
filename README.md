@@ -1,7 +1,15 @@
 ## 一键安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本 [IPV6](https://github.com/hongwenjun/vps_setup/blob/master/ipv6/README.md)
-    bash <(curl -L -s https://git.io/vps.sh)
-    # curl脚本可以使用菜单，方便选择 # wget脚本是静默安装 # 目前 WireGuard 脚本支持 IPV6，稳定有待测试
-    # wget -qO- git.io/vps.sh | bash
+```
+bash <(curl -L -s https://git.io/vps.sh)
+# curl脚本可以使用菜单，方便选择 # wget脚本是静默安装
+# wget -qO- git.io/vps.sh | bash
+
+# vps 管理使用命令 bash wgmtu
+wget https://git.io/wgmtu && bash wgmtu
+
+# Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码
+bash <(curl -L -s https://git.io/v2ray.ss)
+```
 
 - [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
 
