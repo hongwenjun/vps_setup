@@ -50,6 +50,13 @@ wget_curl(){
     fi
 }
 
+vps_remove(){
+    bash <(curl -L -s https://install.direct/go.sh) --remove
+    bash wgmtu remove
+    cd /root && rm -f v2ray_ss.log vps_setup.log wg5 wgmtu /var/ip_addr /etc/v2ray/config.json \
+        base64_shadowsocks.conf base64_v2ray_vmess.json
+}
+
 # 设置菜单
 start_menu(){
     clear
@@ -63,7 +70,7 @@ start_menu(){
     echo_Yellow  ">  6. 退出"
     echo_Yellow  ">  7. WireGuard 管理命令 ${RedBG} bash wgmtu "
     echo_Yellow  ">  8. 选择安装 ${GreenBG} Shadowsocks 和 V2Ray ${Yellow} 配置显示二维码"
-    read -p "请输入数字:" num
+    read -p "请输入数字:"  -t 30 num
     case "$num" in
         1)
         default_install
@@ -75,8 +82,7 @@ start_menu(){
         bash <(curl -L -s git.io/fhExJ) update
         ;;
         4)
-        bash <(curl -L -s https://install.direct/go.sh) --remove
-        bash wgmtu remove
+        vps_remove
         ;;
         5)
         display_conf
