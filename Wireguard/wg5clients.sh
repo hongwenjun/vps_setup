@@ -192,17 +192,18 @@ echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7  
 echo -e "${GreenBG}     开源项目：https://github.com/hongwenjun/vps_setup    ${Font}"
 echo
 echo -e "# ${Info} 新手使用${GreenBG} bash wg5 ${Font} 命令，使用临时网页下载配置和手机客户端二维码配置"
-echo -e "# ${Info} 大佬使用${GreenBG} bash wgmtu ${Font} 命令，WireGuard 配置管理支持IPV6，稳定有待测试"
-echo -e "# ${Info} 个性端口${RedBG} bash <(curl -L -s https://git.io/fpnQt) ${GreenBG}9999 ${Font} 参数是端口号"
+echo -e "# ${Info} 推荐使用${GreenBG} bash wgmtu ${Font} 命令，WireGuard 配置管理支持IPV6，稳定有待测试"
+echo -e "# ${Info} 自定端口${RedBG} bash <(curl -L -s https://git.io/fpnQt) ${GreenBG} 9999 ${Font}"
+echo -e "# ${Info} WG+SS域名分流升级命令 ${GreenBG} bash wgmtu setup ${Font}"
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
 # python -m SimpleHTTPServer 8000 &
 echo ""
 # echo -e "# ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
 
-echo -e "WireGuard是VPN协议，如果连上而没有回程流量，请使用 WG+SS 分流方案"
-echo -e "客户端配置 AllowedIPs = 0.0.0.0/0, ::0/0 改成{RedBG}AllowedIPs = 10.0.0.1/32 ${Font}"
+echo -e "# ${Info} WireGuard是VPN协议，如果连上而没有回程流量，请使用 WG+SS 分流方案"
+echo -e "客户端配置 AllowedIPs = 0.0.0.0/0, ::0/0 改成${RedBG}AllowedIPs = 10.0.0.1/32 ${Font}"
 echo -e "WG服务器相当于一个远程路由器，IP: 10.0.0.1,再开启一个SS，IP填 {RedBG} IP: 10.0.0.1 ${Font}"
-echo -e "${RedBG} WG+SS域名分流升级命令 ${GreenBG} bash wgmtu setup ${Font}"
+
 
 EOF
 
