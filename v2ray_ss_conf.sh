@@ -37,8 +37,8 @@ sysctl_config() {
 
 ss_enable(){
     cat <<EOF >/etc/rc.local
-#!/bin/sh -e
-ss-server -s 0.0.0.0 -p 40000 -k ${ss_passwd} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+#!/bin/sh -e                                          # ipv6 支持 -s ::0
+ss-server -s 0.0.0.0 -p 40000 -k ${ss_passwd} -m aes-256-gcm -t 300 -s ::0  >> /var/log/ss-server.log &
 
 exit 0
 EOF
