@@ -97,10 +97,11 @@ hide_menu(){
     echo -e "${Green}>  1. ss_kcp_speed_udp2raw 端口开放 防火墙规则"
     echo -e ">  2. ss brook 电报代理端口开放 防火墙规则"
     echo -e ">  3. frps_iptables 防火墙规则"
-    echo -e ">  4. 菜单项1-2-3全功能开放"
-    echo -e ">  5. 使用临时${GreenBG} srgb18.ga ${Font}${Green}域名(更新脚本)"
+    echo -e ">  4. 使用临时${GreenBG} srgb18.ga ${Font}${Green}域名(更新脚本)"
+    echo -e ">  5. ${RedBG} 禁止网卡IPV6功能 ${Font}"
     echo -e ">  6. ${GreenBG} 恢复网卡IPV6功能 ${Font}"
     echo -e ">  7. ${RedBG} 禁止使用密码远程SSH登陆 ${Font}"
+    echo -e ">  8. 菜单项 1.-2.-3. 防火墙规则"
     echo
     read -p "请输入数字(1-6):" num_x
     case "$num_x" in
@@ -114,11 +115,10 @@ hide_menu(){
         frps_iptables
         ;;
         4)
-        ss_bk_tg_frps_iptables
-        ss_kcp_speed_udp2raw
+        srgb18_ga_ddns
         ;;
         5)
-        srgb18_ga_ddns
+        disable_ipv6
         ;;
         6)
         enable_ipv6
@@ -126,10 +126,19 @@ hide_menu(){
         7)
         no_use_passwd
         ;;
+        8)
+        ss_bk_tg_frps_iptables
+        ss_kcp_speed_udp2raw
+        ;;
         *)
         ;;
         esac
 }
+
+# udp2raw 转接端口 1999和2999 ; ss_bk_tg和frps端口
+raw_port="1999,2999"
+ss_bk_tg="2018,7731,7979"
+frps_port="7000,7500,8080,4443,11122,2222"
 
 # ss_kcp_speed_udp2raw 端口防火墙规则
 ss_kcp_speed_udp2raw(){
@@ -137,10 +146,7 @@ ss_kcp_speed_udp2raw(){
     iptables -I INPUT -s 127.0.0.1 -p tcp  --dport 40000 -j ACCEPT
     iptables -I INPUT -s 127.0.0.1 -p udp -m multiport --dport 4000,8888,9999 -j ACCEPT
 
-    # udp2raw 转接端口 1999 和 2999
-    iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
-    tcp_port="80,443,1999,2999"
-    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
+    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${raw_port} -j ACCEPT
 
     RELATED_ESTABLISHED
     wg-quick down wg0   >/dev/null 2>&1
@@ -152,7 +158,6 @@ ss_kcp_speed_udp2raw(){
 
 # ss brook 电报代理端口开放 防火墙规则
 ss_bk_tg(){
-    ss_bk_tg="2018,7731,7979"
     iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
     iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${ss_bk_tg} -j ACCEPT
 
@@ -162,7 +167,6 @@ ss_bk_tg(){
 
 # frps_iptables 防火墙规则
 frps_iptables(){
-    frps_port="7000,7500,8080,4443,11122,2222"
     iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
     iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${frps_port} -j ACCEPT
 
@@ -172,14 +176,14 @@ frps_iptables(){
 
 # 菜单项1-2-3全功能开放
 ss_bk_tg_frps_iptables(){
-    ss_bk_tg="2018,7731,7979"
-    frps_port="7000,7500,8080,4443,11122,2222"
     iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
-    tcp_port="80,443,1999,2999"
     iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${ss_bk_tg},${frps_port} -j ACCEPT
 
     RELATED_ESTABLISHED
     save_iptables
+
+    sed -i '/^:udp2rawDwrW.*/d'  /etc/iptables/rules.v4
+    iptables-restore < /etc/iptables/rules.v4
 }
 
 # 安全防火墙规则: 只能Ping和SSH
@@ -207,7 +211,6 @@ RELATED_ESTABLISHED(){
 init_iptables(){
     # 清除防火墙规则
     iptables -F
-    disable_ipv6
 
     # 添加 预置 tcp 和 udp端口
     iptables -I INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT

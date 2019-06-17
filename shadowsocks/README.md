@@ -11,8 +11,8 @@ bash <(curl -L -s git.io/fhExJ) update
 ```
 ### 使用: 添加命令行到 /etc/rc.local
 ```
-# -p 端口 -k 密码 -m 协议 -s 服务IP
-ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+# -p 端口 -k 密码 -m 协议 -s 服务IP                # IPv6 支持参数 -s ::0
+ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 -s ::0 >> /var/log/ss-server.log &
 ```
 ### 基于alipine构建的shadowsocks-libev服务 -- Docker安装
   https://hub.docker.com/r/taterli/shadowsocks-tiny
