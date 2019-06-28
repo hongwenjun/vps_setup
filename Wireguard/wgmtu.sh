@@ -317,7 +317,7 @@ update_remove_menu(){
     echo -e ">  4. 卸载 Udp2Raw KCPTUN UDPspeeder 服务套件"
     echo -e ">  5. 退出${Font}"
     echo
-    read -p "请输入数字(1-4):" num_x
+    read -p "请输入数字(1-5):" num_x
     case "$num_x" in
         1)
         wireguard_update
@@ -325,7 +325,7 @@ update_remove_menu(){
         2)
         wireguard_remove
         ;;
-	3)
+	    3)
         udp2raw_update
         ;;
         4)
@@ -465,7 +465,7 @@ start_menu(){
     echo    "----------------------------------------------------------"
     echo -e "${SkyBlue}>  5. 添加/删除 WireGuard Peer 客户端管理"
     echo -e ">  6. 更新/卸载 WireGuard服务端和Udp2Raw"
-    echo -e ">  7. Vps_Setup 一键脚本 藏经阁"
+    echo -e ">  7. Replace the Script itself with Simplified Chinese to English"
     echo -e ">  8. ${RedBG}  IPTABLES 防火墙设置脚本  ${Font}"
     echo
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
@@ -494,6 +494,12 @@ start_menu(){
         exit 1
         ;;
         7)
+        wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wgmtu.sh
+        bash wgmtu
+        exit 1
+        ;;
+        777)
+        # Vps_Setup 一键脚本 藏经阁
         onekey_plus
         ;;
         8)
