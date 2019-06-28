@@ -4,7 +4,12 @@
 bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/vps.sh)
 ```
 ------
-### wireguard-install
+### WireGuard
+
+```
+# One-Step Automated Install WireGuard Script
+bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wireguard-install.sh)
+```
 
 [WireGuard](https://www.wireguard.com) installer for Ubuntu 18.04 LTS, Debian 9 and CentOS 7.
 
@@ -14,8 +19,18 @@ This script will let you setup your own VPN server in no more than a minute, eve
 
 ### shadowsocks-libev
 
-[![Travis CI](https://travis-ci.org/shadowsocks/shadowsocks-libev.svg?branch=master)](https://travis-ci.org/shadowsocks/shadowsocks-libev) [![Snap Status](https://build.snapcraft.io/badge/shadowsocks/shadowsocks-libev.svg)](https://build.snapcraft.io/user/shadowsocks/shadowsocks-libev)
+[Shadowsocks-libev](https://shadowsocks.org) is a lightweight secured SOCKS5
+proxy for embedded devices and low-end boxes.
+
+It is a port of [Shadowsocks](https://github.com/shadowsocks/shadowsocks)
+created by [@clowwindy](https://github.com/clowwindy), and maintained by
+[@madeye](https://github.com/madeye) and [@linusyang](https://github.com/linusyang).
 
 ------
 ### Project V  (V2Ray)
 Project V is a set of network tools that help you to build your own computer network. It secures your network connections and thus protects your privacy. See [our website](https://www.v2ray.com/) for more information.
+
+```
+# Easy Install Shadowsocks & V2Ray : Generate and display QR code
+bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/v2ray_ss_conf.sh)
+```

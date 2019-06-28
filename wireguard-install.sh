@@ -1,30 +1,69 @@
 #!/bin/bash
-
-# wireguard-install
 # WireGuard  installer for Ubuntu 18.04 LTS, Debian 9 and CentOS 7.
 
-# This script will let you setup your own VPN server in no more than a minute, even if you haven't used WireGuard before. 
+# This script will let you setup your own VPN server in no more than a minute, even if you haven't used WireGuard before.
 # It has been designed to be as unobtrusive and universal as possible.
 
+# wireguard-install
+wireguard_install(){
+    if [ -e /etc/centos-release ]; then
+        DISTRO="CentOS"
+    elif [ -e /etc/debian_version ]; then
+        DISTRO=$( lsb_release -is )
+    else
+        echo "Your distribution is not supported (yet)"
+        exit
+    fi
 
-# Ò»¼ü°²×°wireguard ½Å±¾
-wget -qO- git.io/fptwc | bash
+    if [ "$DISTRO" == "Ubuntu" ]; then
+        apt update
+        apt install software-properties-common -y
+        echo .read | add-apt-repository ppa:wireguard/wireguard
+        apt update
+        apt install wireguard resolvconf qrencode -y
 
+    elif [ "$DISTRO" == "Debian" ]; then
+        echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
+        printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
+        apt update
+        apt install wireguard resolvconf qrencode -y
 
-# WireGuard VPN¶àÓÃ»§·şÎñ¶Ë ×Ô¶¯ÅäÖÃ½Å±¾ Ö§³ÖIPV6
+    elif [ "$DISTRO" == "CentOS" ]; then
+        curl -Lo /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
+        yum install -y epel-release
+        yum install -y wireguard-dkms wireguard-tools
+        yum -y install qrencode iptables-services
 
+        systemctl stop firewalld  && systemctl disable firewalld
+        systemctl enable iptables && systemctl start iptables
+        iptables -F  && service iptables save && service iptables restart
+
+    fi
+
+    mkdir -p /etc/wireguard
+    cd /etc/wireguard
+    wg genkey | tee sprivatekey | wg pubkey > spublickey
+    wg genkey | tee cprivatekey | wg pubkey > cpublickey
+    chmod 777 -R /etc/wireguard
+    systemctl enable wg-quick@wg0
+}
+
+if [ ! -f '/usr/bin/wg' ]; then
+    wireguard_install
+fi
+
+# WireGuard VPN  Multi-user Configuration Script, Support IPV6
 #############################################################
-
 let port=$RANDOM/2+9999
 mtu=1420
 ip_list=(2 5 8 178 186 118 158 198 168 9)
 ipv6_range="fd08:620c:4df0:65eb::"
 
 
-# °²×° bash wgmtu ½Å±¾ÓÃÀ´ÉèÖÃ·şÎñÆ÷
+#  Get WireGuard Management Command : bash wgmtu
 wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wgmtu.sh
 
-# ¶¨ÒåÎÄ×ÖÑÕÉ«
+# å®šä¹‰æ–‡å­—é¢œè‰²
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
 Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
 
@@ -51,7 +90,7 @@ if [[ $# > 0 ]]; then
 fi
 
 host=$(hostname -s)
-# »ñµÃ·şÎñÆ÷ip£¬×Ô¶¯»ñÈ¡
+# è·å¾—æœåŠ¡å™¨ipï¼Œè‡ªåŠ¨è·å–
 if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
 fi
@@ -61,14 +100,9 @@ if [ ! -e '/var/ip_addr' ]; then
 fi
 serverip=$(cat /var/ip_addr)
 
-# °²×°¶şÎ¬Âë²å¼ş
-if [ ! -f '/usr/bin/qrencode' ]; then
-    apt -y install qrencode
-fi
-
 #############################################################
 
-# ´ò¿ªip4/ipv6·À»ğÇ½×ª·¢¹¦ÄÜ
+# æ‰“å¼€ip4/ipv6é˜²ç«å¢™è½¬å‘åŠŸèƒ½
 sysctl_config() {
     sed -i '/net.ipv4.ip_forward/d' /etc/sysctl.conf
     sed -i '/net.ipv6.conf.all.forwarding/d' /etc/sysctl.conf
@@ -82,16 +116,16 @@ sysctl_config() {
 }
 sysctl_config
 
-# wgÅäÖÃÎÄ¼şÄ¿Â¼ /etc/wireguard
+# wgé…ç½®æ–‡ä»¶ç›®å½• /etc/wireguard
 mkdir -p /etc/wireguard
 chmod 777 -R /etc/wireguard
 cd /etc/wireguard
 
-# È»ºó¿ªÊ¼Éú³É ÃÜ³×¶Ô(¹«³×+Ë½³×)¡£
+# ç„¶åå¼€å§‹ç”Ÿæˆ å¯†åŒ™å¯¹(å…¬åŒ™+ç§åŒ™)ã€‚
 wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-# Éú³É·şÎñ¶ËÅäÖÃÎÄ¼ş
+# ç”ŸæˆæœåŠ¡ç«¯é…ç½®æ–‡ä»¶
 cat <<EOF >wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
@@ -108,7 +142,7 @@ AllowedIPs = 10.0.0.188/32,  ${ipv6_range}188
 
 EOF
 
-# Éú³É¼ò½àµÄ¿Í»§¶ËÅäÖÃ
+# ç”Ÿæˆç®€æ´çš„å®¢æˆ·ç«¯é…ç½®
 cat <<EOF >client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
@@ -126,7 +160,7 @@ PersistentKeepalive = 25
 
 EOF
 
-# Ìí¼Ó 2-9 ºÅ¶àÓÃ»§ÅäÖÃ
+# æ·»åŠ  2-9 å·å¤šç”¨æˆ·é…ç½®
 for i in {2..9}
 do
     ip=10.0.0.${ip_list[$i]}
@@ -157,20 +191,24 @@ EOF
 done
 
 
-# ÖØÆôwg·şÎñÆ÷
+# restart WG server
 wg-quick down wg0
 wg-quick up wg0
-
+wg
 
 next() {
     printf "# %-70s\n" "-" | sed 's/\s/-/g'
 }
 
-echo -e  "# Windows ¿Í»§¶ËÅäÖÃ£¬Çë¸´ÖÆÅäÖÃÎÄ±¾"
+echo
+echo_SkyBlue  ":: Windows Client configuration, Please copy the conf text."
 cat /etc/wireguard/client.conf       && next
 cat /etc/wireguard/wg_${host}_2.conf   && next
 cat /etc/wireguard/wg_${host}_3.conf   && next
 
-echo_GreenBG  "#  WireGuard Management Command."
+echo_RedBG   " One-Step Automated Install WireGuard Script For Debian_9 Ubuntu Centos_7 "
+echo_GreenBG "      Open Source Project: https://github.com/hongwenjun/vps_setup        "
+
+echo_Yellow  ":: WireGuard Management Command."
 echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
 echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
