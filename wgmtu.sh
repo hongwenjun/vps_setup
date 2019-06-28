@@ -1,12 +1,11 @@
 #!/bin/bash
-# WireGuard 管理使用命令 bash wgmtu    短网址: https://git.io/wgmtu
+#  Get WireGuard Management Command : bash wgmtu
+#  wget -O ~/wgmtu https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wgmtu.sh
 
-# Usage:  wget https://git.io/wgmtu && bash wgmtu
-
-# 修改mtu数值
+# Modify WireGuard Server MTU Number
 setmtu(){
-    echo -e "${GreenBG}WireGuard 修改服务器端MTU值,提高效率;默认值MTU=1420${Font}"
-    read -p "请输入数字(1200--1500): " num
+    echo -e "${GreenBG}Modify WireGuard Server MTU Number, Default=1420${Font}"
+    read -p "Please Enter the Number(1200--1500): " num
 
     if [[ ${num} -ge 1200 ]] && [[ ${num} -le 1500 ]]; then
        mtu=$num
@@ -16,26 +15,26 @@ setmtu(){
 
     ip link set mtu $num up dev wg0
     wg-quick save wg0
-    echo -e "${SkyBlue}:: 服务器端MTU值已经修改!${Font}"
+    echo -e "${SkyBlue}:: WireGuard Server MTU Number Changed!${Font}"
 }
 
-# 修改端口号
+# Modify WireGuard Server Port
 setport(){
-    echo -e "${GreenBG}修改 WireGuard 服务器端端口号，客户端要自行修改${Font}"
-    read -p "请输入数字(100--60000): " num
+    echo -e "${GreenBG}Modify WireGuard Server Port${Font}"
+    read -p "Please Enter the Number(100--60000): " num
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        port=$num
        wg set wg0 listen-port $port
        wg-quick save wg0
 
-       echo -e "${SkyBlue}:: 端口号已经修改, 客户端请手工修改! ${Font}"
+       echo -e "${SkyBlue}::  WireGuard Server Port Number Changed!${Font}"
     else
-       echo -e "${Red}:: 没有修改端口号!${Font}"
+       echo -e "${Red}:: Port Number Not Change!${Font}"
     fi
 }
 
-# 显示客户端配置和手机二维码
+# Display Client Configuration and Mobile Phone QR code
 conf_QRcode(){
     echo -e "${Yellow}:: 显示客户端配置和手机二维码 (默认2号),请输入数字${Font}\c"
     read -p "(2-9): " x
@@ -161,34 +160,6 @@ ss_kcp_udp2raw_wg_speed(){
     rm ~/ss_wg_set_raw
 }
 
-# 常用工具和配置
-get_tools_conf(){
-    apt update
-    apt install -y htop tmux screen iperf3  >/dev/null 2>&1
-    yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
-    wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
-    wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
-    wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
-}
-
-# 主菜单输入数字 88      # 隐藏功能:从源VPS克隆服务端配置，获得常用工具和配置
-scp_conf(){
-    echo -e "${RedBG}:: 警告: 警告: 警告:${Yellow} VPS服务器已经被GFW防火墙关照，按 Ctrl+ C 可以紧急逃离！  ${Font}"
-    echo_SkyBlue  ":: 隐藏功能: 从源VPS克隆服务端配置，共用客户端配置"
-    read -p ":: 请输入源VPS的IP地址(域名):"  vps_ip
-    cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
-    echo -e "${GreenBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，源vps的root密码"
-    ${cmd}
-
-    wg-quick down wg0   >/dev/null 2>&1
-    wg-quick up wg0     >/dev/null 2>&1
-    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
-
-    if [ ! -e '/root/.tmux.conf' ]; then
-        get_tools_conf
-    fi
-}
-
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
 Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
@@ -206,35 +177,6 @@ echo_RedBG(){
     echo -e "${RedBG}$1${Font}"
 }
 
-#  Vps_Setup 一键脚本 藏经阁
-onekey_plus(){
-    echo_RedBG   "           一键安装设置全家桶    by 蘭雅sRGB             "
-    echo_GreenBG "    开源项目：https://github.com/hongwenjun/vps_setup    "
-
-    echo_SkyBlue "  # 一键安装 WireGuard Shadowsocks V2Ray 服务端三合一脚本"
-    echo_Yellow  "  bash <(curl -L -s https://git.io/vps.sh)"
-    echo_SkyBlue "  # 下载 IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB"
-    echo_Yellow  "  wget -qO safe_iptables.sh git.io/fhUSe && bash safe_iptables.sh"
-    echo_SkyBlue "  # Google Cloud Platform GCP实例开启密码与root用户登陆"
-    echo_Yellow  "  wget -qO- git.io/fpQWf | bash"
-    echo_SkyBlue "  # 一键安装 vnstat 流量检测   by 蘭雅sRGB"
-    echo_Yellow  "  wget -qO- git.io/fxxlb | bash"
-    echo_SkyBlue "  # 一键安装wireguard 脚本 For Debian_9 Ubuntu Centos_7"
-    echo_Yellow  "  wget -qO- git.io/fptwc | bash"
-    echo_SkyBlue "  # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9"
-    echo_Yellow  "  wget -qO- git.io/fpZIW | bash"
-    echo_SkyBlue "  # 一键安装 SS+Kcp+Udp2Raw 脚本 for Debian 9  Ubuntu (编译安装)"
-    echo_Yellow  "  wget -qO- git.io/fx6UQ | bash"
-    echo_SkyBlue "  # Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)"
-    echo_Yellow  "  wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh"
-    echo_SkyBlue "  # linux下golang环境搭建自动脚本  by 蘭雅sRGB"
-    echo_Yellow  "  wget -qO- https://git.io/fp4jf | bash"
-    echo_SkyBlue "  # SuperBench.sh 一键测试服务器的基本参数"
-    echo_Yellow  "  wget -qO- git.io/superbench.sh | bash"
-    echo_SkyBlue "  # 使用BestTrace查看VPS的去程和回程"
-    echo_Yellow  "  wget -qO- git.io/fp5lf | bash"
-
-}
 
 safe_iptables(){
    # IPTABLES 设置防火墙规则 脚本 By 蘭雅sRGB  特别感谢 TaterLi 指导
@@ -243,8 +185,8 @@ safe_iptables(){
 
 # 更新wgmtu脚本
 update_self(){
-    # 安装 bash wgmtu 脚本用来设置服务器
-    wget -O ~/wgmtu  https://git.io/wgmtu >/dev/null 2>&1
+    #  Get WireGuard Management Command : bash wgmtu
+    wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wgmtu.sh
 }
 
 # 更新 WireGuard
@@ -420,15 +362,15 @@ EOF
 }
 
 wg_clients_menu(){
-    echo -e "${RedBG}   添加/删除 WireGuard Peer 客户端管理  ${Font}"
-    echo -e "${Green}>  1. 添加一个 WireGuard Peer 客户端配置"
-    echo -e ">  2. 删除末尾 WireGuard Peer 客户端配置"
-    echo -e ">  3. 指定删除 WireGuard Peer 客户端配置"
+    echo -e "${RedBG}   Add/Delete WireGuard Client Peer Management ${Font}"
+    echo -e "${Green}>  1. Add One WireGuard Client Peer "
+    echo -e ">  2. Delete Last WireGuard Client Peer "
+    echo -e ">  3. Delete Choose WireGuard Client Peer "
     echo    "------------------------------------------------------"
-    echo -e "${SkyBlue}>  4. 退出"
-    echo -e ">  5.${RedBG} 重置 WireGuard 客户端 Peer 数量 ${Font}"
+    echo -e "${SkyBlue}>  4. Exit"
+    echo -e ">  5.${RedBG} Reset WireGuard All Client Peer${Font}"
     echo
-    read -p "请输入数字(1-5):" num_x
+    read -p "Please Enter the Number(1-5):" num_x
     case "$num_x" in
         1)
         add_peer
@@ -456,22 +398,22 @@ wg_clients_menu(){
 # 设置菜单
 start_menu(){
     clear
-    echo -e "${RedBG}   一键安装 WireGuard 脚本 For Debian_9 Ubuntu Centos_7   ${Font}"
-    echo -e "${GreenBG}     开源项目: https://github.com/hongwenjun/vps_setup    ${Font}"
-    echo -e "${Green}>  1. 显示客户端配置和二维码 (手机支持纯IPV6,稳定性有待测试)"
-    echo -e ">  2. 修改 WireGuard 服务器端 MTU 值"
-    echo -e ">  3. 修改 WireGuard 端口号"
-    echo -e ">  4. 安装 WireGuard+Speeder+Udp2Raw 和 SS+Kcp+Udp2RAW 一键脚本"
+echo_RedBG   " One-Step Automated Install WireGuard Script For Debian_9 Ubuntu Centos_7 "
+echo_GreenBG "      Open Source Project: https://github.com/hongwenjun/vps_setup        "
+    echo -e "${Green}>  1. Display Client Configuration and QR code for Mobile Phone "
+    echo -e ">  2. Modify WireGuard Server MTU Number"
+    echo -e ">  3. Modify WireGuard Server Port"
+    echo -e ">  4. WireGuard+Speeder+Udp2Raw and SS+Kcp+Udp2RAW Automated Configuration"
     echo    "----------------------------------------------------------"
-    echo -e "${SkyBlue}>  5. 添加/删除 WireGuard Peer 客户端管理"
-    echo -e ">  6. 更新/卸载 WireGuard服务端和Udp2Raw"
-    echo -e ">  7. Vps_Setup 一键脚本 藏经阁"
-    echo -e ">  8. ${RedBG}  IPTABLES 防火墙设置脚本  ${Font}"
+    echo -e "${SkyBlue}>  5. Add/Delete WireGuard Client Peer Management"
+    echo -e ">  6. Update/Remove WireGuard and Udp2Raw Service"
+    echo -e ">  7. Replace English to Simplified Chinese(中文)"
+    echo -e ">  8. ${RedBG}  IPTABLES Firewall Setup Script  ${Font}"
     echo
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
     echo
-    read -p "请输入数字(1-8):" num
+    read -p "Please Enter the Number(1-8):" num
     case "$num" in
         1)
         conf_QRcode
@@ -494,13 +436,14 @@ start_menu(){
         exit 1
         ;;
         7)
-        onekey_plus
+        wget -O wgmtu https://git.io/wgmtu && bash wgmtu
+        exit 1
         ;;
         8)
         safe_iptables
         ;;
 
-    # 菜单输入 管理命令 bash wgmtu 命令行参数
+    #  Manage menu input command line parameters
         setup)
         ss_kcp_udp2raw_wg_speed
         ;;
@@ -508,11 +451,8 @@ start_menu(){
         wireguard_remove
         rc-local_remove
         ;;
-        88)
-        scp_conf
-        ;;
         9999)
-        bash <(curl -L -s https://git.io/fpnQt) 9999
+        bash <(curl -L -s https://git.io/wireguard.sh) 9999
         ;;
         -U)
         update_self
@@ -521,7 +461,7 @@ start_menu(){
         wgmtu_help
         ;;
         vps)
-        bash <(curl -L -s https://git.io/vps.sh)
+        bash <(curl -L -s https://git.io/vps.setup)
         ;;
         vnstat)
         wget -qO- git.io/fxxlb | bash
@@ -533,7 +473,7 @@ start_menu(){
         wget -qO- git.io/fp5lf | bash
         ;;
         v2ray)
-        bash <(curl -L -s https://git.io/v2ray.ss)
+        bash <(curl -L -s https://git.io/v2ray_ss.sh)
         ;;
         log)
         cat vps_setup.log

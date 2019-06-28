@@ -1,10 +1,11 @@
 #!/bin/bash
 # WireGuard  installer for Ubuntu 18.04 LTS, Debian 9 and CentOS 7.
 
+# Usage:  wget -qO- https://git.io/wireguard.sh | bash
+
 # This script will let you setup your own VPN server in no more than a minute, even if you haven't used WireGuard before.
 # It has been designed to be as unobtrusive and universal as possible.
 
-# wireguard-install
 wireguard_install(){
     if [ -e /etc/centos-release ]; then
         DISTRO="CentOS"

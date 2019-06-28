@@ -1,7 +1,7 @@
 #!/bin/bash
-# Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  短网址: https://git.io/v2ray.ss
+# Easy Install Shadowsocks & V2Ray : Generate and display QR_code  URL: https://git.io/v2ray_ss.sh
 
-# Usage:  bash <(curl -L -s https://git.io/v2ray.ss)
+# Usage:  bash <(curl -L -s https://git.io/v2ray_ss.sh)
 
 let v2ray_port=$RANDOM+9999
 UUID=$(cat /proc/sys/kernel/random/uuid)
@@ -15,10 +15,10 @@ if [ ! -e '/var/ip_addr' ]; then
 fi
 serverip=$(cat /var/ip_addr)
 
-# 修改端口号
+# Modify Port Number
 setport(){
-    echo_SkyBlue ":: 1.请修改 V2ray 服务器端端口号，随机端口:${RedBG} ${v2ray_port} "
-    read -p "请输入数字(100--60000): " num
+    echo_SkyBlue ":: 1. Please Modify the V2ray Server Port Number, Random Port: ${RedBG} ${v2ray_port} "
+    read -p "Please Enter the Number, Press Enter to not Modify(100--60000): " num
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        v2ray_port=$num
@@ -38,7 +38,7 @@ sysctl_config() {
 ss_enable(){
     cat <<EOF >/etc/rc.local
 #!/bin/sh -e
-ss-server -s 0.0.0.0 -p 40000 -k ${ss_passwd} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+ss-server -s 0.0.0.0 -p 40000 -k ${ss_passwd} -m aes-256-gcm -t 300  -s ::0 >> /var/log/ss-server.log &
 
 exit 0
 EOF
@@ -46,22 +46,22 @@ EOF
 
 conf_shadowsocks(){
 
-    echo_SkyBlue ":: 2.请修改 Shadowsocks 服务器端端口号，随机端口: ${RedBG} ${ss_port} "
-    read -p "请输入数字(100--60000): " num
+    echo_SkyBlue ":: 2. Please Modify the Shadowsocks Server Port Number, Random Port: ${RedBG} ${ss_port} "
+    read -p "Please Enter the Number, Press Enter to not Modify(100--60000): " num
 
     if [[ ${num} -ge 100 ]] && [[ ${num} -le 60000 ]]; then
        ss_port=$num
     fi
 
-    echo_SkyBlue ":: 3.请修改 Shadowsocks 的密码，随机密码: ${RedBG} ${ss_passwd} "
-    read -p "请输入你要的密码(按回车不修改): "  new
+    echo_SkyBlue ":: 3. Please Modify the Password of Shadowsocks, Random Password: ${RedBG} ${ss_passwd} "
+    read -p "Now, You can change the Password, Press Enter to not Modify: "  new
 
     if [[ ! -z "${new}" ]]; then
         ss_passwd="${new}"
-        echo -e "修改密码: ${GreenBG} ${ss_passwd} ${Font}"
+        echo -e "Now, New Password: ${GreenBG} ${ss_passwd} ${Font}"
     fi
 
-    # 如果 Shadowsocks 没有安装，安装Shadowsocks
+    # If Shadowsocks not install, Now install.
     if [ ! -e '/usr/local/bin/ss-server' ]; then
         sysctl_config
         ss_enable
@@ -77,7 +77,7 @@ conf_shadowsocks(){
 	sed -i "s/ss-server -s 127.0.0.1/ss-server -s 0.0.0.0/g"  "/etc/rc.local"
 
     systemctl stop rc-local
-    # 简化判断系统 debian/centos 族群
+    # Simple Judgment System:  Debian / Centos
     if [ -e '/etc/redhat-release' ]; then
         mv /etc/rc.local /etc/rc.d/rc.local
         ln -s /etc/rc.d/rc.local /etc/rc.local
@@ -90,18 +90,19 @@ conf_shadowsocks(){
 
 	systemctl restart rc-local
 
-    echo_Yellow ":: Shadowsocks 服务 加密协议/密码/IP/端口 信息!"
+    echo_Yellow ":: Info: Shadowsocks Server, Encrypt_Method / Password / IP / Port"
 	# ss://<<base64_shadowsocks.conf>>
 	echo "${method}:${ss_passwd}@${serverip}:${ss_port}" | tee ${cur_dir}/base64_shadowsocks.conf
+	echo
 }
 
 conf_v2ray(){
-    # 如果 v2ray 没有安装，安装v2ray
+    # If V2ray not install, Now install.
     if [ ! -e '/etc/v2ray/config.json' ]; then
         bash <(curl -L -s https://install.direct/go.sh)
     fi
 
-    echo_SkyBlue ":: V2ray 服务 IP/端口/UUID等信息!"
+    echo_SkyBlue ":: Info: V2ray Server, IP / Port / UUID"
     # vmess://<<base64_v2ray_vmess.json>>
     cat <<EOF | tee ${cur_dir}/base64_v2ray_vmess.json
 {
@@ -119,7 +120,9 @@ conf_v2ray(){
 }
 EOF
 
-# v2ray服务端mKcp配 /etc/v2ray/config.json
+echo
+
+# v2ray Server mKcp config_file: /etc/v2ray/config.json
 cat <<EOF >/etc/v2ray/config.json
 {
   "inbounds": [
@@ -216,7 +219,7 @@ echo_Yellow(){
     echo -e "${Yellow}$1${Font}"
 }
 
-# 显示手机客户端二维码
+# Display mobile client QR_code
 conf_QRcode(){
 
      st="$(cat ${cur_dir}/base64_shadowsocks.conf)"
@@ -226,16 +229,16 @@ conf_QRcode(){
      v2_b64=$(base64 -w0 ${cur_dir}/base64_v2ray_vmess.json)
      v2ray_vmess="vmess://${v2_b64}"
 
-     echo_SkyBlue ":: Shadowsocks 服务器二维码,请手机扫描!"
+     echo_SkyBlue ":: Shadowsocks Client Configuration for Mobile QR_code!"
      echo -n $shadowsocks_ss | qrencode -o - -t UTF8
      echo_Yellow $shadowsocks_ss
      echo
-     echo_SkyBlue ":: V2rayNG 手机配置二维码,请手机扫描!"
+     echo_SkyBlue ":: V2rayNG Client Configuration for Mobile QR_code!"
      echo -n $v2ray_vmess  | qrencode -o - -t UTF8
-     echo_SkyBlue  ":: V2rayN Windows 客户端 Vmess 协议配置"
+     echo_SkyBlue  ":: V2rayN Windows Client Vmess Protocol Configuration"
      echo $v2ray_vmess
-     echo_SkyBlue ":: SSH工具推荐Git-Bash 2.20; GCP_SSH(浏览器)字体Courier New 二维码显示正常!"
-     echo_Yellow  ":: 命令${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) setup ${Font}设置修改端口密码和UUID"
+     echo
+     echo_Yellow  ":: Usage: ${RedBG} bash <(curl -L -s https://git.io/v2ray_ss.sh) setup ${Font} to Modified Port Password and UUID"
 }
 
 # 设置 v2ray 端口和UUID
@@ -269,8 +272,8 @@ if [[ $# > 0 ]]; then
     esac
 fi
 
-echo_SkyBlue  ":: Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码  By 蘭雅sRGB "
-echo_Yellow   ":: 一键命令 ${RedBG} bash <(curl -L -s https://git.io/v2ray.ss) "
+echo_SkyBlue  ":: Easy Install Shadowsocks & V2Ray : Generate and display QR_code  By 蘭雅sRGB "
+echo_Yellow   ":: Usage:  bash <(curl -L -s https://git.io/v2ray_ss.sh) "
 
 # 输出ss和v2ray配置和二维码
 conf_QRcode 2>&1 | tee ${cur_dir}/v2ray_ss.log
