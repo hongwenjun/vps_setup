@@ -327,7 +327,7 @@ add_peer(){
     # Server IP port, new client serial number and IP
     port=$(wg show wg0 listen-port)
     get_serverip && host=$(hostname -s) && cd /etc/wireguard
-    wg genkey | tee cprivatekey | wg pubkey `> cpublickey
+    wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
     ipnum=$(wg show wg0 allowed-ips  | tail -1 | awk '{print $2}' | awk -F '[./]' '{print $4}')
     i=$((10#${ipnum}+1))  &&  ip=10.0.0.${i}  ip6=${ipv6_range}${i}
