@@ -25,7 +25,7 @@ setport(){
     fi
 }
 
-# debian 9 bbr 设置打开
+# debian 9 bbr Setting open
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
     sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
@@ -208,7 +208,7 @@ systemctl restart v2ray
 }
 
 
-# 定义文字颜色
+# Definition Display Text Color
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
 Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
 
@@ -219,7 +219,7 @@ echo_Yellow(){
     echo -e "${Yellow}$1${Font}"
 }
 
-# Display mobile client QR_code
+# Display Mobile client QR_code
 conf_QRcode(){
 
      st="$(cat ${cur_dir}/base64_shadowsocks.conf)"
@@ -241,7 +241,7 @@ conf_QRcode(){
      echo_Yellow  ":: Usage: ${RedBG} bash <(curl -L -s https://git.io/v2ray_ss.sh) setup ${Font} to Modified Port Password and UUID"
 }
 
-# 设置 v2ray 端口和UUID
+# Set v2ray port and UUID
 set_v2ray_ss(){
     setport
     conf_shadowsocks
@@ -249,10 +249,10 @@ set_v2ray_ss(){
 }
 
 clear
-# 首次运行脚本，设置 端口和UUID
+# Run the script for the first time, set the port and UUID
 if [ ! -e 'base64_v2ray_vmess.json' ]; then
 
-    # 简化判断系统 debian/centos 族群
+    # Simple Judgment System:  Debian / Centos
     if [ -e '/etc/redhat-release' ]; then
         yum update -y && yum install -y  qrencode wget vim
     else
@@ -262,7 +262,7 @@ if [ ! -e 'base64_v2ray_vmess.json' ]; then
     set_v2ray_ss
 fi
 
-# 命令 bash v2ray_ss_conf.sh setup 设置 端口和UUID
+# Parameter 'setup' setting port and UUID
 if [[ $# > 0 ]]; then
     key="$1"
     case $key in
@@ -275,6 +275,6 @@ fi
 echo_SkyBlue  ":: Easy Install Shadowsocks & V2Ray : Generate and display QR_code  By 蘭雅sRGB "
 echo_Yellow   ":: Usage:  bash <(curl -L -s https://git.io/v2ray_ss.sh) "
 
-# 输出ss和v2ray配置和二维码
+# Output ss and v2ray configuration and QR code
 conf_QRcode 2>&1 | tee ${cur_dir}/v2ray_ss.log
 

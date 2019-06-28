@@ -9,11 +9,12 @@ default_install(){
     # WireGuard installer
     wget -qO- https://git.io/wireguard.sh | bash
 
+    # Install WireGuard+Speeder+Udp2Raw and SS+Kcp+Udp2RAW Configuration
+    bash wgmtu setup
+
     # Install Shadowsocks & V2Ray
     bash <(curl -L -s https://git.io/v2ray_ss.sh)
 
-    # Install WireGuard+Speeder+Udp2Raw and SS+Kcp+Udp2RAW Configuration
-    bash wgmtu setup
 }
 
 display_conf(){
@@ -59,7 +60,7 @@ start_menu(){
     echo_Yellow  ">  5. Display WireGuard V2ray and rc.local Configuration"
     echo_Yellow  ">  6. Exit"
     echo_Yellow  ">  7. WireGuard Management Command: ${RedBG} bash wgmtu "
-    echo_Yellow  ">  8. Choose to install ${GreenBG} Shadowsocks 和 V2Ray ${Yellow} Generate and Display QR_code"
+    echo_Yellow  ">  8. Choose to install ${GreenBG} Shadowsocks and V2Ray ${Yellow} Generate and Display QR_code"
     read -p "Please Enter the Number to Choose (Press Enter to Default):" num
     case "$num" in
         1)

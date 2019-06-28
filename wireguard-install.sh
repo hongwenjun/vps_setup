@@ -64,7 +64,7 @@ ipv6_range="fd08:620c:4df0:65eb::"
 #  Get WireGuard Management Command : bash wgmtu
 wget -O ~/wgmtu  https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wgmtu.sh
 
-# 定义文字颜色
+# Definition Display Text Color
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
 Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
 
@@ -91,11 +91,11 @@ if [[ $# > 0 ]]; then
 fi
 
 host=$(hostname -s)
-# 获得服务器ip，自动获取
+
 if [ ! -f '/usr/bin/curl' ]; then
     apt update && apt install -y curl
 fi
-
+# Auto Get Server IP addr
 if [ ! -e '/var/ip_addr' ]; then
    echo -n $(curl -4 ip.sb) > /var/ip_addr
 fi
@@ -103,7 +103,7 @@ serverip=$(cat /var/ip_addr)
 
 #############################################################
 
-# 打开ip4/ipv6防火墙转发功能
+# Open ip4/ipv6 firewall forwarding function
 sysctl_config() {
     sed -i '/net.ipv4.ip_forward/d' /etc/sysctl.conf
     sed -i '/net.ipv6.conf.all.forwarding/d' /etc/sysctl.conf
@@ -117,16 +117,16 @@ sysctl_config() {
 }
 sysctl_config
 
-# wg配置文件目录 /etc/wireguard
+# Wg configuration Path:  /etc/wireguard
 mkdir -p /etc/wireguard
 chmod 777 -R /etc/wireguard
 cd /etc/wireguard
 
-# 然后开始生成 密匙对(公匙+私匙)。
+# Start generating a key pair (public key + private key)
 wg genkey | tee sprivatekey | wg pubkey > spublickey
 wg genkey | tee cprivatekey | wg pubkey > cpublickey
 
-# 生成服务端配置文件
+# Generate a server configuration file
 cat <<EOF >wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
@@ -143,7 +143,7 @@ AllowedIPs = 10.0.0.188/32,  ${ipv6_range}188
 
 EOF
 
-# 生成简洁的客户端配置
+# Generate a clean client configuration
 cat <<EOF >client.conf
 [Interface]
 PrivateKey = $(cat cprivatekey)
@@ -161,7 +161,7 @@ PersistentKeepalive = 25
 
 EOF
 
-# 添加 2-9 号多用户配置
+# Add 2-9 multi-user configuration
 for i in {2..9}
 do
     ip=10.0.0.${ip_list[$i]}
@@ -195,7 +195,10 @@ done
 # restart WG server
 wg-quick down wg0
 wg-quick up wg0
+
+# WG Operating status &
 wg
+ls /etc/wireguard/wg_*
 
 next() {
     printf "# %-70s\n" "-" | sed 's/\s/-/g'
