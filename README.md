@@ -1,14 +1,17 @@
 # Three-in-One-Step Automated Install WireGuard Shadowsocks V2Ray on Server
 
 ```
-bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/vps.sh)
+bash <(curl -L -s https://git.io/vps.setup)
 ```
 ------
-### WireGuard
+### WireGuard Install
 
 ```
 # One-Step Automated Install WireGuard Script
-bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/wireguard-install.sh)
+wget -qO- https://git.io/wireguard.sh | bash
+
+# Custom Port Install WireGuard Script, Number set Port
+bash <(curl -L -s https://git.io/wireguard.sh) 9999
 ```
 
 [WireGuard](https://www.wireguard.com) installer for Ubuntu 18.04 LTS, Debian 9 and CentOS 7.
@@ -32,5 +35,5 @@ Project V is a set of network tools that help you to build your own computer net
 
 ```
 # Easy Install Shadowsocks & V2Ray : Generate and display QR code
-bash <(curl -L -s https://raw.githubusercontent.com/hongwenjun/vps_setup/english/v2ray_ss_conf.sh)
+bash <(curl -L -s https://git.io/v2ray_ss.sh)
 ```
