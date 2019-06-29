@@ -3,7 +3,13 @@
 ```
 bash <(curl -L -s https://git.io/vps.setup)
 ```
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/vps.english.png)
 ------
+
+![](https://www.wireguard.com/img/wireguard.svg)
+
+WireGuard® is an extremely simple yet fast and modern VPN that utilizes state-of-the-art cryptography. It aims to be faster, simpler, leaner, and more useful than IPsec, while avoiding the massive headache. It intends to be considerably more performant than OpenVPN. WireGuard is designed as a general purpose VPN for running on embedded interfaces and super computers alike, fit for many different circumstances. Initially released for the Linux kernel, it is now cross-platform (Windows, macOS, BSD, iOS, Android) and widely deployable. It is currently under heavy development, but already it might be regarded as the most secure, easiest to use, and simplest VPN solution in the industry.
+
 ### WireGuard Install
 
 ```
@@ -20,6 +26,7 @@ This script will let you setup your own VPN server in no more than a minute, eve
 
 ------
 
+![](https://github.com/teddysun/shadowsocks_install/raw/master/shadowsocks.png)
 ### shadowsocks-libev
 
 [Shadowsocks-libev](https://shadowsocks.org) is a lightweight secured SOCKS5
