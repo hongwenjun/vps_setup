@@ -20,6 +20,8 @@ udp2raw -c -l127.0.0.1:21333 -r34.80.188.188:2999 --raw-mode faketcp -a -k passw
 # luci-udptools 工具默认: udpspeeder 不用密码，所以VPS服务端 udpspeeder 改成不用密码
 # vim /etc/init.d/udptools   # 或者编辑 luci-udptools 的脚本 第21行添加 -k $password
 # vim /etc/config/udptools   # UDP工具 参数配置
+
+# 还有一种方法下载修改版: OpenWRT luci KcpTun Udp2Raw 软件包  https://git.io/openwrt
 ```
 - UDP工具脚本: [/etc/init.d/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/init.d/udptools)
 - UDP参数配置: [/etc/config/udptools](https://github.com/atrandys/luci-udptools/blob/master/src/etc/config/udptools)

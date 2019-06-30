@@ -3,9 +3,8 @@
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-echo -e "${Green}:: 快速安装 shadowsocks-libev 脚本 For Debian_9 Centos_7 Ubuntu_18 ${Font}"
-echo -e "${Red}:: 如果运行运行库不匹配，请编译安装/更新 ${RedBG} shadowsocks-libev ${Font}"
-echo -e "${Green}$  bash <(curl -L -s git.io/fhExJ) update  ${Font}"
+echo -e "${Green}:: Quick install Shadowsocks-libev  For Debian_9 Centos_7 Ubuntu_18 ${Font}"
+echo -e "${Green}:: Compile/Update: ${RedBG} bash <(curl -L -s git.io/fhExJ) update ${Font}"
 
 def_install(){
     if [[ ${release} == "centos" ]]; then
@@ -37,7 +36,7 @@ centos7_dev(){
 
 inst_ss-server(){
     # 下载shadowsocks代码
-    git clone https://github.com/shadowsocks/shadowsocks-libev.git
+    git clone --recursive https://github.com/shadowsocks/shadowsocks-libev --depth=1
     cd shadowsocks-libev
     git submodule update --init --recursive
 
@@ -47,7 +46,7 @@ inst_ss-server(){
     make
     make install
     cd ..
-    rm shadowsocks-libev -rf
+    # rm shadowsocks-libev -rf
 }
 
 # 检查系统
@@ -113,4 +112,11 @@ else
     if [ ! -f '/usr/local/bin/ss-server' ]; then
         def_install
     fi
+
+    # 如果运行库错误,编译/更新安装
+    /usr/local/bin/ss-server -v  >/dev/null 2>&1
+    if [ $? == 127 ]; then
+        update_ss-server
+    fi
+
 fi

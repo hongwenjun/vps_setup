@@ -15,7 +15,7 @@ bash <(curl -L -s git.io/fhExJ) update
 ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 -s ::0 >> /var/log/ss-server.log &
 ```
 ### 基于alipine构建的shadowsocks-libev服务 -- Docker安装
-  https://hub.docker.com/r/taterli/shadowsocks-tiny
+    https://hub.docker.com/r/taterli/shadowsocks-tiny
 
 ### V2Ray和Shadowsocks配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
@@ -48,5 +48,5 @@ git submodule update --init --recursive
 make
 make install
 cd ..
-rm shadowsocks-libev -rf
+# rm shadowsocks-libev -rf
 ```
