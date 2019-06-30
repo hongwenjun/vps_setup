@@ -6,7 +6,7 @@ if [ -e /etc/debian_version ];then
     apt update && apt install -y ca-certificates wget curl unzip vim htop tmux
 
     ## Debian / Ubuntu   build-essential
-    apt install -y git gettext build-essential autoconf libtool libpcre3-dev automake
+    apt install -y git gettext build-essential autoconf libtool automake
 else
     echo "       Centos 7 Usage another Script!         "
     echo "Usage: bash <(curl -L -s git.io/fhExJ) update "
@@ -19,6 +19,15 @@ mkdir -p ~/libev_ss  &&  cd ~/libev_ss
 wget https://jaist.dl.sourceforge.net/project/asciidoc/asciidoc/8.6.9/asciidoc-8.6.9.zip
 unzip asciidoc-8.6.9.zip
 cd asciidoc-8.6.9
+./configure
+make
+make install
+
+cd ~/libev_ss
+
+wget http://deb.debian.org/debian/pool/main/p/pcre3/pcre3_8.35.orig.tar.gz
+tar xf pcre3_8.35.orig.tar.gz
+cd pcre-8.35
 ./configure
 make
 make install
