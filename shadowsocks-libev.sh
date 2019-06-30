@@ -1,8 +1,8 @@
 #!/bin/bash
 # Pure Compilation of Shadowsocks-libev for Debian / Ubuntu
 
-if [ -e /etc/debian_version ]; then
-    # install base soft
+if [ -e /etc/debian_version ];then
+    ## install base soft
     apt update && apt install -y ca-certificates wget curl unzip xz vim htop tmux
 
     ## Debian / Ubuntu   build-essential
@@ -83,3 +83,4 @@ make
 make install
 
 /usr/local/bin/ss-server -v
+############################
