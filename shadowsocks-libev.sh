@@ -1,9 +1,9 @@
 #!/bin/bash
 # Pure Compilation of Shadowsocks-libev for Debian / Ubuntu
 
-if [ -e /etc/debian_version ]; then
-    # install base soft
-    apt update && apt install -y ca-certificates wget curl unzip xz vim htop tmux
+if [ -e /etc/debian_version ];then
+    ## install base soft
+    apt update && apt install -y ca-certificates wget curl unzip vim htop tmux
 
     ## Debian / Ubuntu   build-essential
     apt install -y git gettext build-essential autoconf libtool libpcre3-dev automake
@@ -17,7 +17,7 @@ fi
 mkdir -p ~/libev_ss  &&  cd ~/libev_ss
 
 wget https://jaist.dl.sourceforge.net/project/asciidoc/asciidoc/8.6.9/asciidoc-8.6.9.zip
-unzip -o asciidoc-8.6.9.zip
+unzip asciidoc-8.6.9.zip
 cd asciidoc-8.6.9
 ./configure
 make
@@ -83,3 +83,4 @@ make
 make install
 
 /usr/local/bin/ss-server -v
+############################
