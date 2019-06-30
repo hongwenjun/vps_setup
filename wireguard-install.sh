@@ -21,13 +21,13 @@ wireguard_install(){
         apt install software-properties-common -y
         echo .read | add-apt-repository ppa:wireguard/wireguard
         apt update
-        apt install wireguard resolvconf qrencode -y
+        apt install linux-headers-$(uname -r) wireguard resolvconf qrencode -y
 
     elif [ "$DISTRO" == "Debian" ]; then
         echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable.list
         printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/preferences.d/limit-unstable
         apt update
-        apt install wireguard resolvconf qrencode -y
+        apt install linux-headers-$(uname -r) wireguard resolvconf qrencode -y
 
     elif [ "$DISTRO" == "CentOS" ]; then
         curl -Lo /etc/yum.repos.d/wireguard.repo https://copr.fedorainfracloud.org/coprs/jdoss/wireguard/repo/epel-7/jdoss-wireguard-epel-7.repo
