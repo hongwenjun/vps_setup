@@ -2,13 +2,16 @@
 
 # 一键安装shadowsocks-libev脚本 For Debian_9  Ubuntu  Centos_7
 ```
+#  极速安装脚本，纯净编译支持多种Linux系统
+wget -qO- git.io/ss.inst | bash
+
 # 一键安装shadowsocks-libev
 wget -qO- git.io/fhExJ | bash
 
-# 一键安装shadowsocks-libev脚本(编译安装)
-bash <(curl -L -s git.io/fhExJ) update
-
+# 纯净编译脚本 For Debian / Ubuntu
+https://git.io/ss.ss
 ```
+
 ### 使用: 添加命令行到 /etc/rc.local
 ```
 # -p 端口 -k 密码 -m 协议 -s 服务IP                # IPv6 支持参数 -s ::0
@@ -50,3 +53,4 @@ make install
 cd ..
 # rm shadowsocks-libev -rf
 ```
+
