@@ -25,7 +25,7 @@ ss-server -s 0.0.0.0 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 -s ::0 >> /va
 
 ----
 
-# ---------------- 手工编译安装 --------------------------
+## 手工编译安装命令行方法
 ### Debian 9 & Ubuntu 18 安装编译环境和运行库
 ```
 apt update
@@ -53,4 +53,34 @@ make install
 cd ..
 # rm shadowsocks-libev -rf
 ```
+----
+## 极速安装脚本，纯净编译支持多种Linux系统 源码示例
+```
+#!/bin/bash
+# ss-libev  install.sh   URL: https://git.io/ss.inst
+# Usage: wget -qO- git.io/ss.inst | bash
 
+# Pure Compilation Script For Debian / Ubuntu.     URL: https://git.io/ss.ss
+# Download the binary release of Pure Compilation. URL: https://git.io/ss.tgz
+
+wget -O ~/ss.tgz https://git.io/ss.tgz
+cd / && tar xvf  ~/ss.tgz
+
+echo "/usr/local/lib" > /etc/ld.so.conf.d/ss-libev.conf
+ldconfig
+
+export PATH=$PATH:/usr/local/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+
+ss-server -h
+
+function print_info {
+        echo -n -e '\e[1;36m'
+        echo -n $1
+        echo -e '\e[0m'
+}
+
+echo -e ":: Usage: \c"
+print_info " ss-server -s 0.0.0.0 -p 8888 -k pw1234  -m aes-256-gcm -t 300 -s ::0 &  "
+
+```
