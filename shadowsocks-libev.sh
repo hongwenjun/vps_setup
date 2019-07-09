@@ -1,5 +1,5 @@
 #!/bin/bash
-# Pure Compilation of Shadowsocks-libev for Debian / Ubuntu
+# Pure Compilation of Shadowsocks-libev for Debian / Ubuntu / Centos 7
 
 if [ -e /etc/debian_version ];then
     ## install base soft
@@ -8,9 +8,10 @@ if [ -e /etc/debian_version ];then
     ## Debian / Ubuntu   build-essential
     apt install -y git gettext build-essential autoconf libtool automake
 else
-    echo "       Centos 7 Usage another Script!         "
-    echo "Usage: bash <(curl -L -s git.io/fhExJ) update "
-    exit
+    ## Centos  Development Tools
+    yum update -y  && yum install -y ca-certificates wget curl unzip vim htop tmux
+    yum groupinstall "Development Tools" -y
+    yum install -y git gettext autoconf libtool automake
 fi
 
 # Installation of [ asciidoc xmlto c-ares-devel libev-devel ]
