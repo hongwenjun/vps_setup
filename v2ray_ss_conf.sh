@@ -6,7 +6,7 @@
 let v2ray_port=$RANDOM+9999
 UUID=$(cat /proc/sys/kernel/random/uuid)
 
-let ss_port=$RANDOM+8888
+ss_port=40000
 ss_passwd=$(date | md5sum  | head -c 6)
 cur_dir=$(pwd)
 
@@ -28,9 +28,9 @@ setport(){
 # debian 9 bbr 设置打开
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
-    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    sed -i '/net.all.tcp_congestion_control/d' /etc/sysctl.conf
     echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    echo "net.all.tcp_congestion_control = bbr" >> /etc/sysctl.conf
     sysctl -p >/dev/null 2>&1
 }
 

@@ -1,14 +1,11 @@
 - [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
 
-# 一键安装shadowsocks-libev脚本 For Debian_9  Ubuntu  Centos_7
+### 一键安装shadowsocks-libev脚本 For Linux X64 (Debian 8/9/10 Ubuntu 16/18/19 Centos 7)
 ```
 #  极速安装脚本，纯净编译支持多种Linux系统
-wget -qO- git.io/ss.inst | bash
-
-# 一键安装shadowsocks-libev
 wget -qO- git.io/fhExJ | bash
 
-# 纯净编译脚本 For Debian / Ubuntu
+# 纯净编译脚本 For Debian / Ubuntu / Centos
 https://git.io/ss.ss
 ```
 

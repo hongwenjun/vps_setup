@@ -163,7 +163,6 @@ ss_kcp_udp2raw_wg_speed(){
 
 # 常用工具和配置
 get_tools_conf(){
-    apt update
     apt install -y htop tmux screen iperf3  >/dev/null 2>&1
     yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
@@ -184,9 +183,7 @@ scp_conf(){
     wg-quick up wg0     >/dev/null 2>&1
     echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
-    if [ ! -e '/root/.tmux.conf' ]; then
-        get_tools_conf
-    fi
+    get_tools_conf
 }
 
 # 定义文字颜色

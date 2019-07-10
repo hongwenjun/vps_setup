@@ -3,16 +3,27 @@
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m" && Font="\033[0m"
 
-echo -e "${Green}:: Quick install Shadowsocks-libev  For Debian_9 Centos_7 Ubuntu_18 ${Font}"
+echo -e "${Green}:: Quick install Shadowsocks-libev For Linux X64 (Debian 8/9/10 Ubuntu 16/18/19 Centos 7) ${Font}"
 echo -e "${Green}:: Compile/Update: ${RedBG} bash <(curl -L -s git.io/fhExJ) update ${Font}"
 
 def_install(){
+    # Download the binary release of Pure Compilation.
+    wget -O /tmp/ss.tgz https://git.io/ss.tgz
+    tar xvf  /tmp/ss.tgz -C /
+
+    echo "/usr/local/lib" > /etc/ld.so.conf.d/ss-libev.conf
+    ldconfig
+    export PATH=$PATH:/usr/local/bin
+    rm /tmp/ss.tgz
+}
+
+old_def_install(){
     if [[ ${release} == "centos" ]]; then
-        # 安装所需运行库 Centos
+        # 安装所需运行库 Centos 7
         yum update -y
         yum install -y  libev-devel c-ares-devel  mbedtls-devel libsodium-devel
     else
-        # 安装所需运行库 Debian 9 & Ubuntu
+        # 安装所需运行库 Debian 9 & Ubuntu 18
         apt update
         apt install -y  libev-dev libc-ares-dev  libmbedtls-dev libsodium-dev
     fi
@@ -31,6 +42,7 @@ debian_ubuntu_dev(){
 centos7_dev(){
     # Cetons 安装编译环境和运行库
     yum install epel-release git -y
+    yum groupinstall "Development Tools" -y
     yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
 }
 
@@ -71,9 +83,9 @@ check_sys(){
 
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
-    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    sed -i '/net.all.tcp_congestion_control/d' /etc/sysctl.conf
     echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    echo "net.all.tcp_congestion_control = bbr" >> /etc/sysctl.conf
     sysctl -p >/dev/null 2>&1
 }
 

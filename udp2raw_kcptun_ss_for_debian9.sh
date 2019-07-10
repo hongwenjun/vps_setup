@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PASSWORD=srgb.xyz
+PASSWORD=$(date | md5sum  | head -c 6)
 
 # 客户端配置参考(前两个可以路由运行,但是最后一个最好不要,路由性能有限,会让你觉得网络卡炸的.)
 # 在本地windows 运行udp2raw 和 kcp-client，假设server ip是144.202.95.95：
@@ -35,13 +35,13 @@ git submodule update --init --recursive
 make
 make install
 cd ..
-rm shadowsocks-libev -rf
+# rm shadowsocks-libev -rf
 
 #下载KCPTUN
 wget https://github.com/xtaci/kcptun/releases/download/v20190109/kcptun-linux-amd64-20190109.tar.gz
-tar xf kcptun-linux-amd64-20190109.tar.gz 
+tar xf kcptun-linux-amd64-20190109.tar.gz
 mv server_linux_amd64 /usr/bin/kcp-server
-rm kcptun-linux-amd64-20190109.tar.gz 
+rm kcptun-linux-amd64-20190109.tar.gz
 rm client_linux_amd64
 rm server_linux_amd64
 
@@ -55,9 +55,9 @@ rm version.txt
 
 sysctl_config() {
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf
-    sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf
+    sed -i '/net.all.tcp_congestion_control/d' /etc/sysctl.conf
     echo "net.core.default_qdisc = fq" >> /etc/sysctl.conf
-    echo "net.ipv4.tcp_congestion_control = bbr" >> /etc/sysctl.conf
+    echo "net.all.tcp_congestion_control = bbr" >> /etc/sysctl.conf
     sysctl -p >/dev/null 2>&1
 }
 
@@ -83,7 +83,7 @@ cat <<EOF >/etc/rc.local
 # By default this script does nothing.
 
 #  SS+KCP+UDP2RAW 加速  端口  8855
-ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300 >> /var/log/ss-server.log &
+ss-server -s 127.0.0.1 -p 40000 -k ${PASSWORD} -m aes-256-gcm -t 300  -s ::0 >> /var/log/ss-server.log &
 kcp-server -t "127.0.0.1:40000" -l ":4000" -mode fast2 -mtu 1300  >> /var/log/kcp-server.log &
 udp2raw -s -l0.0.0.0:8855 -r 127.0.0.1:4000 -k "passwd" --raw-mode faketcp  >> /var/log/udp2raw.log &
 
