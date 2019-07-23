@@ -460,7 +460,7 @@ echo_GreenBG "      Open Source Project: https://github.com/hongwenjun/vps_setup
         bash <(curl -L -s https://git.io/vps.setup)
         ;;
         vnstat)
-        wget -qO- git.io/fxxlb | bash
+        bash <(curl -L -s https://git.io/fxxlb) setup
         ;;
         bench)
         wget -qO- git.io/superbench.sh | bash
@@ -513,7 +513,7 @@ if [[ $# > 0 ]]; then
         bash <(curl -L -s https://git.io/vps.setup)
         ;;
         vnstat)
-        wget -qO- git.io/fxxlb | bash
+        bash <(curl -L -s https://git.io/fxxlb) setup
         ;;
         bench)
         wget -qO- git.io/superbench.sh | bash
