@@ -37,7 +37,7 @@ output_html(){
     vnstat -h >> ${INDEX_HTML}
 
     echo ' ' >> ${INDEX_HTML}
-    echo '    netlog.sh Source code:  https://git.io/fxxlb' >> ${INDEX_HTML}
+    echo '    Usage:  bash <(curl -L -s https://git.io/fxxlb) setup ' >> ${INDEX_HTML}
 }
 
 # 安装 vnstat 添加定期运行
@@ -77,11 +77,18 @@ vnstat_install(){
     echo "vnstat conf @ /etc/vnstat.conf"
 }
 
-# 首次运行脚本需要安装
-if [ ! -f '/usr/bin/vnstat' ]; then
-    vnstat_install
+
+    # 首次运行脚本需要安装
+    # bash <(curl -L -s https://git.io/fxxlb) setup
+if [[ $# > 0 ]]; then
+    key="$1"
+    case $key in
+        setup)
+        vnstat_install
+        ;;
+
+    esac
+else
+	# 输出网络流量信息到html文件
+    output_html
 fi
-
-# 输出网络流量信息到html文件
-output_html
-

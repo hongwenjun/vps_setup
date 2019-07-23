@@ -33,9 +33,6 @@ bash <(curl -L -s https://git.io/v2ray.ss)
 ### WireGuard 管理使用命令 bash wgmtu    短网址: https://git.io/wgmtu
 [![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
 
-### [OpenWRT安装WireGuard 配置 Udp2Raw+UdpSpeeder+WireGuard](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/README.md)
-![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/openwrt-18.06.2/openwrt_udptools.png)
-
 ### V2Ray 和 Shadowsocks 配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
 
@@ -62,12 +59,8 @@ cat /etc/v2ray/config.json
 | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/iptables_ytb.jpg)](https://youtu.be/Jb3b8SbFQLM) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/winkcp_ytb.jpg)](https://youtu.be/HjGO2sAPOFM) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/gcp_ssh_key.jpg)](https://youtu.be/qhwK5XUJeWE)|
 | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wg5clients.jpg)](https://youtu.be/TOaihmhrYQY) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/tel_pc.jpg)](https://youtu.be/O__RsZewA60) | [![ScreenShot](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/ss_wg.jpg)](https://youtu.be/-cfuQSaJb5w)|
 
-
-### Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
-```
-# Telegram 代理 MTProxy Go版 一键脚本(源:逗比网)
-wget -qO mtproxy_go.sh  git.io/fpWo4 && bash mtproxy_go.sh
-```
+### [OpenWRT安装WireGuard 配置 Udp2Raw+UdpSpeeder+WireGuard](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/README.md)
+![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/openwrt-18.06.2/openwrt_udptools.png)
 
 ### 使用BestTrace查看VPS的去程和回程
 ```
@@ -83,7 +76,7 @@ wget -qO- https://raw.githubusercontent.com/hongwenjun/vps_setup/master/autoBest
 ### 使用 vnstat 检测VPS流量使用
 ```
 # 一键安装 vnstat 流量检测
-wget -qO- git.io/fxxlb | bash
+bash <(curl -L -s https://git.io/fxxlb) setup
 ```
 ### linux下golang环境搭建自动脚本
 ```

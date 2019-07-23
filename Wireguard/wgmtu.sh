@@ -527,7 +527,7 @@ start_menu(){
         bash <(curl -L -s https://git.io/vps.sh)
         ;;
         vnstat)
-        wget -qO- git.io/fxxlb | bash
+        bash <(curl -L -s https://git.io/fxxlb) setup
         ;;
         bench)
         wget -qO- git.io/superbench.sh | bash
@@ -583,7 +583,7 @@ if [[ $# > 0 ]]; then
         bash <(curl -L -s https://git.io/vps.sh)
         ;;
         vnstat)
-        wget -qO- git.io/fxxlb | bash
+        bash <(curl -L -s https://git.io/fxxlb) setup
         ;;
         bench)
         wget -qO- git.io/superbench.sh | bash
