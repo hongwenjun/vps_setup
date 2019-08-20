@@ -2,8 +2,8 @@
 - 短网址: https://git.io/wrt.wg  &nbsp;&nbsp;&nbsp; [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
 
 - OpenWRT luci KcpTun Udp2Raw 软件包(编译文本教程)  https://git.io/openwrt
-- OpenWRT-18.06.2 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
-- [openwrt_udptools.zip](https://github.com/hongwenjun/vps_setup/blob/master/openwrt-18.06.2/openwrt_udptools.zip)
+- OpenWRT-18.06.2 编译完成的 udp2raw-tunne udpspeeder luci-udptools [安装包下载](https://github.com/hongwenjun/img/raw/master/openwrt/openwrt_udptools.zip)
+
 -----------------
 - 编译openwrt版udpspeeder和udp2raw [文章链接](https://www.atrandys.com/2018/1255.html)
 - luci-udptools：在路由器页面管理udp2raw+udpspeeder [文章链接](https://www.atrandys.com/2018/1247.html)
