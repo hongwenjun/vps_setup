@@ -8,12 +8,12 @@
 ```
 server {
         listen 443 ssl http2;
-        ssl_certificate         ss.srgb.work.crt;
-        ssl_certificate_key     ss.srgb.work.key;
+        ssl_certificate         ssl.srgb888.ga.crt;
+        ssl_certificate_key     ssl.srgb888.ga.key;
         ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
         ssl_ciphers             HIGH:!aNULL:!MD5;
-        server_name             ss.srgb.work;
-        root            /var/www;
+        server_name             ssl.srgb888.ga;
+        root            /var/www/html;
 
         location / {
 	        proxy_redirect off;
@@ -29,11 +29,11 @@ server {
 
 server {
         listen 80;
-        server_name ss.srgb.work;
-        return 301 https://ss.srgb.work:443;
+        server_name ssl.srgb888.ga;
+        return 301 https://ssl.srgb888.ga:443;
 }
 ```
-- ss.srgb.work.crt和ss.srgb.work.key为域名的证书文件，保存目录为  /etc/nginx
+- ssl.srgb888.ga.crt和ssl.srgb888.ga.key为域名的证书文件，保存目录为  /etc/nginx
 - nginx 反代原理: v2ray 访问服务器数据流里包含域名 www.baidu_bing.com，就代理到8000端口,而这个端口正好是v2ray的端口号
 
 
@@ -87,24 +87,24 @@ server {
 
 # https://github.com/Neilpang/acme.sh/wiki/说明
 
-# 设置域名
-DOMAIN=srgb.vicp.net
-
-
 # 安装ssl依赖 和 acme.sh工具
 apt-get install socat netcat -y
 curl  https://get.acme.sh | sh
 
+# 设置域名
+DOMAIN=ssl.srgb888.ga
+
 # 生成域名ssl证书
-~/.acme.sh/acme.sh  --issue -d ${DOMAIN}  --webroot  /var/www/  --standalone -k ec-256 --force
+~/.acme.sh/acme.sh  --issue -d ${DOMAIN}  --webroot  /var/www/html --standalone -k ec-256 --force
 
 
 ####  生成的证书存放地方
-#### /root/.acme.sh/sky.srgb.xyz_ecc/sky.srgb.xyz.cer
-#### /root/.acme.sh/sky.srgb.xyz_ecc/sky.srgb.xyz.key
+#### /root/.acme.sh/ssl.srgb888.ga_ecc/ssl.srgb888.ga.cer
+#### /root/.acme.sh/ssl.srgb888.ga_ecc/ssl.srgb888.ga.key
 ```
 
 - 使用acme协议免费证书，要先配置好DNS和安装好Nginx，参数 --webroot 要按实际填写正确
+
 ```
 # debian 系安装
 apt -y install nginx
