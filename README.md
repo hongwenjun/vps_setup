@@ -26,3 +26,28 @@
 
 - 白话文档: [OpenWRT配置](https://git.io/wrt.wg) 　 [Nginx反代配置原理](https://git.io/v2ray.nginx)
 - 网友视频: [三剑客](https://youtu.be/BHZhU8wxf9A) 　 [PC_MAC_手机客户端](https://youtu.be/dkXWicxak3w)
+
+---
+
+### [acme协议从letsencrypt生成免费的证书](http://srgb.vicp.net/2018/11/05/acme_sh/) 简易使用脚本
+```
+#!/usr/bin/env sh
+
+# https://github.com/Neilpang/acme.sh/wiki/说明
+
+# 安装ssl依赖 和 acme.sh工具
+apt-get install socat netcat -y
+curl  https://get.acme.sh | sh
+
+# 设置域名
+DOMAIN=ssl.srgb888.ga
+
+# 生成域名ssl证书
+~/.acme.sh/acme.sh  --issue -d ${DOMAIN}  --webroot  /var/www/html --standalone -k ec-256 --force
+
+```
+
+### 如果你用的nginx服务器，以后可以使用一行命令更新证书
+```
+~/.acme.sh/acme.sh  --issue -d ssl.srgb888.ga  --nginx  --standalone -k ec-256 --force
+```
