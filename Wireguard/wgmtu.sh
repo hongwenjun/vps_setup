@@ -215,7 +215,7 @@ onekey_plus(){
     echo_SkyBlue "  # Google Cloud Platform GCP实例开启密码与root用户登陆"
     echo_Yellow  "  wget -qO- git.io/fpQWf | bash"
     echo_SkyBlue "  # 一键安装 vnstat 流量检测   by 蘭雅sRGB"
-    echo_Yellow  "  wget -qO- git.io/fxxlb | bash"
+    echo_Yellow  "  bash <(curl -L -s https://git.io/fxxlb) setup"
     echo_SkyBlue "  # 一键安装wireguard 脚本 For Debian_9 Ubuntu Centos_7"
     echo_Yellow  "  wget -qO- git.io/fptwc | bash"
     echo_SkyBlue "  # 一键安装 SS+Kcp+Udp2Raw 脚本 快速安装 for Debian 9"

@@ -70,6 +70,7 @@ start_menu(){
     echo_Yellow  ">  6. 退出"
     echo_Yellow  ">  7. WireGuard 管理命令 ${RedBG} bash wgmtu "
     echo_Yellow  ">  8. 选择安装 ${GreenBG} Shadowsocks 和 V2Ray ${Yellow} 配置显示二维码"
+    echo_Yellow  ">  9. 选择安装 ${RedBG} Trojan 傻瓜一键版 ${Yellow}"
     read -p "请输入数字:"  -t 30 num
     case "$num" in
         1)
@@ -96,6 +97,9 @@ start_menu(){
         ;;
         8)
         bash <(curl -L -s https://git.io/v2ray.ss)
+        ;;
+        9)
+        bash <(curl -L -s https://git.io/trojan.sh)
         ;;
         *)
         default_install
