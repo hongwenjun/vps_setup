@@ -1,41 +1,41 @@
-# TrojanÉµ¹ÏÒ»¼ü°æ£¬Ã»ÓÐÓòÃûÒ²¿ÉÒÔ²âÊÔÑ§Ï°
+# Trojanå‚»ç“œä¸€é”®ç‰ˆï¼Œæ²¡æœ‰åŸŸåä¹Ÿå¯ä»¥æµ‹è¯•å­¦ä¹ 
 
 	bash <(curl -L -s https://git.io/trojan.sh)
 
-### ÏÂÔØ trojan windows ¿Í»§¶Ë
+### ä¸‹è½½ trojan windows å®¢æˆ·ç«¯
 
 - https://github.com/trojan-gfw/trojan/releases/download/v1.13.0/trojan-1.13.0-win.zip
 
-- Windows°æÐèÒª°²×° vc_redist.x64.exe (Visual C++ Redistributable for VS 2015)
+- Windowsç‰ˆéœ€è¦å®‰è£… vc_redist.x64.exe (Visual C++ Redistributable for VS 2015)
 
 - https://aka.ms/vs/16/release/vc_redist.x64.exe
 
-#### ±à¼­ ±¾µØ¿Í»§¶Ë config.json ÎÄ¼þ
+#### ç¼–è¾‘ æœ¬åœ°å®¢æˆ·ç«¯ config.json æ–‡ä»¶
 
-- example.com ¸Ä³É ssl.srgb.work ; ÔÙÐÞ¸Ä trojan ÑéÖ¤ÃÜÂë
+- example.com æ”¹æˆ ssl.srgb.work ; å†ä¿®æ”¹ trojan éªŒè¯å¯†ç 
 
-### Chrome ä¯ÀÀÆ÷ÉèÖÃ£¬Ê¹ÓÃSwitchyOmega²å¼þ£¬·½·¨Í¬SSºÍBrook
+### Chrome æµè§ˆå™¨è®¾ç½®ï¼Œä½¿ç”¨SwitchyOmegaæ’ä»¶ï¼Œæ–¹æ³•åŒSSå’ŒBrook
 
-- ´úÀíÐ­Òé SOCKS5 µØÀí·þÎñÆ÷ 127.0.0.1 ´úÀí¶Ë¿Ú 1080
+- ä»£ç†åè®® SOCKS5 åœ°ç†æœåŠ¡å™¨ 127.0.0.1 ä»£ç†ç«¯å£ 1080
 
 
-### ±à¼­±¾µØÓòÃû¹ÜÀíÎÄ¼þ
+### ç¼–è¾‘æœ¬åœ°åŸŸåç®¡ç†æ–‡ä»¶
 
 - C:\Windows\System32\drivers\etc\hosts
 
-### Ìí¼Ó±¾µØÓòÃû¹ÜÀí (°´Êµ¼ÊIPÐÞ¸Ä)
+### æ·»åŠ æœ¬åœ°åŸŸåç®¡ç† (æŒ‰å®žé™…IPä¿®æ”¹)
 
 	188.188.188.188  ssl.srgb.work
 
 ----------
 
-## Èç¹ûÄãÓÐ×Ô¼ºµÄÓòÃûÖ¤Êé£¬Ìæ»»ÃÜÔ¿ºóÖØÆô·þÎñ
-- ¹«Ô¿: /var/certificate.crt
-- Ë½Ô¿: /var/private.key
+## å¦‚æžœä½ æœ‰è‡ªå·±çš„åŸŸåè¯ä¹¦ï¼Œæ›¿æ¢å¯†é’¥åŽé‡å¯æœåŠ¡
+- å…¬é’¥: /var/certificate.crt
+- ç§é’¥: /var/private.key
 ```
-# ÖØÆô trojan
+# é‡å¯ trojan
 systemctl restart trojan
 
-# ²é¿´ trojan
+# æŸ¥çœ‹ trojan
 systemctl status trojan
 ```

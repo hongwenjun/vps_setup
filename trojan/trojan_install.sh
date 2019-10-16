@@ -1,8 +1,12 @@
+#!/bin/bash
+# Trojanå‚»ç“œä¸€é”®ç‰ˆ
+
+# bash <(curl -L -s https://git.io/trojan.sh)
 
 # Trojan Server Quickstart Script
 sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
 
-# Ìî³äÓòÃûÖ¤Êé ¹«Ô¿
+# å¡«å……åŸŸåè¯ä¹¦ å…¬é’¥
 cat <<EOF > /var/certificate.crt
 
 -----BEGIN CERTIFICATE-----
@@ -68,7 +72,7 @@ rMKWaBFLmfK/AHNF4ZihwPGOc7w6UHczBZXH5RFzJNnww+WnKuTPI0HfnVH8lg==
 EOF
 
 
-# Ìî³äÓòÃûÖ¤Êé Ë½Ô¿
+# å¡«å……åŸŸåè¯ä¹¦ ç§é’¥
 cat <<EOF > /var/private.key
 
 -----BEGIN RSA PRIVATE KEY-----
@@ -102,20 +106,20 @@ GbtNmdbxUImyGHkLR/chUl5pnKI1kZMK9hSQbRuRHcTbqR9qmDH9CQ==
 EOF
 
 
-# Éè¶¨Ö¤ÊéÎÄ¼şÃû
+# è®¾å®šè¯ä¹¦æ–‡ä»¶å
 cd /usr/local/etc/trojan/
 sed -i "s/\/path\/to\/certificate.crt/\/var\/certificate.crt/g"  config.json
 sed -i "s/\/path\/to\/private.key/\/var\/private.key/g"  config.json
 
 change_passwd(){
-    read -p ":: 1. ÇëÊäÈë Trojan ÓÃÓÚÑéÖ¤µÄ 1ºÅÃÜÂë: " password1
-    read -p ":: 2. ÇëÊäÈë Trojan ÓÃÓÚÑéÖ¤µÄ 2ºÅÃÜÂë: " password2
+    read -p ":: 1. è¯·è¾“å…¥ Trojan ç”¨äºéªŒè¯çš„ 1å·å¯†ç : " password1
+    read -p ":: 2. è¯·è¾“å…¥ Trojan ç”¨äºéªŒè¯çš„ 2å·å¯†ç : " password2
     sed -i "s/password1/${password1}/g"  config.json
     sed -i "s/password2/${password2}/g"  config.json
-    echo -e ":: ÑéÖ¤µÄÃÜÂëÒÑ¾­ĞŞ¸Ä, 1ºÅÃÜÂë: ${password1}  2ºÅÃÜÂë: ${password2}"
+    echo -e ":: éªŒè¯çš„å¯†ç å·²ç»ä¿®æ”¹, 1å·å¯†ç : ${password1}  2å·å¯†ç : ${password2}"
 }
 
-echo -e ":: ÊÇ·ñĞŞ¸Ä Trojan ÓÃÓÚÑéÖ¤µÄÃÜÂë: \c"  passwd
+echo -e ":: æ˜¯å¦ä¿®æ”¹ Trojan ç”¨äºéªŒè¯çš„å¯†ç : \c"  passwd
 read -p "(Y/n): " key
 case $key in
     Y)
@@ -126,7 +130,7 @@ case $key in
     ;;
 esac
 
-# Æô¶¯ trojan
+# å¯åŠ¨ trojan
 systemctl enable trojan
 systemctl restart trojan
 
@@ -138,6 +142,6 @@ ssl_domain=ssl.srgb.work
 
 echo
 
-echo ":: ±à¼­ C:\Windows\System32\drivers\etc\hosts ÎÄ¼ş£¬Ìí¼Ó : ${myip}  ${ssl_domain}"
+echo ":: ç¼–è¾‘ C:\Windows\System32\drivers\etc\hosts æ–‡ä»¶ï¼Œæ·»åŠ  : ${myip}  ${ssl_domain}"
 
 
