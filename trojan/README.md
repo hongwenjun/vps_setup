@@ -1,4 +1,4 @@
-# Trojan傻瓜一键版，没有域名也可以测试学习
+## Trojan傻瓜一键版，没有域名也可以测试学习
 
 	bash <(curl -L -s https://git.io/trojan.sh)
 
@@ -9,6 +9,10 @@
 - Windows版需要安装 vc_redist.x64.exe (Visual C++ Redistributable for VS 2015)
 
 - https://aka.ms/vs/16/release/vc_redist.x64.exe
+
+###  Start_Trojan.zip 使用C/C++语言编译生成的简易启动器
+
+- 和trojan.exe官方程序放一起使用；源码见压缩包
 
 #### 编辑 本地客户端 config.json 文件
 
