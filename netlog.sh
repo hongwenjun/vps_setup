@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# Usage:  bash <(curl -L -s https://git.io/fxxlb) setup
 
 ####### 安装使用原理 本脚本实现自动安装################
 #  apt-get install vnstat
@@ -10,8 +10,8 @@
 
 #  crontab -e   修改定时任务, 添加运行脚本
 
-#  # netlog.sh  定时执行转html脚本，每3小时一次，为了修改方便和多台机器用，直接到github更新
-#  * */3   *   *  *    wget -qO- git.io/fxxlb | bash
+#  # netlog.sh  定时执行转html脚本，每小时一次，为了修改方便和多台机器用，直接到github更新
+#  59  *   *   *  *    wget -qO- git.io/fxxlb | bash
 
 ######################################################
 
@@ -65,7 +65,7 @@ vnstat_install(){
 
     # 设置定时运行脚本
     crontab -l >> crontab.txt
-	echo "*  */3   *   *  *    wget -qO- git.io/fxxlb | bash" >> crontab.txt
+	echo "59  *   *   *  *    wget -qO- git.io/fxxlb | bash" >> crontab.txt
 	crontab crontab.txt
 	sleep 2
 	if [ ! -e '/etc/redhat-release' ]; then
@@ -77,9 +77,6 @@ vnstat_install(){
     echo "vnstat conf @ /etc/vnstat.conf"
 }
 
-
-    # 首次运行脚本需要安装
-    # bash <(curl -L -s https://git.io/fxxlb) setup
 if [[ $# > 0 ]]; then
     key="$1"
     case $key in
