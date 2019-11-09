@@ -1,5 +1,5 @@
 #!/bin/bash
-# Trojan傻瓜一键版
+# Trojan傻瓜一键版  使用说明: https://git.io/trojan.help
 
 # bash <(curl -L -s https://git.io/trojan.sh)
 
@@ -140,8 +140,9 @@ ps aux | grep trojan
 myip=$(cat /var/ip_addr)
 ssl_domain=ssl.srgb.work
 
+RedBG="\033[41;37m"  && Font="\033[0m"  && SkyBlue="\033[0;36m"
 echo
-
-echo ":: 编辑 C:\Windows\System32\drivers\etc\hosts 文件，添加 : ${myip}  ${ssl_domain}"
+echo -e "${SkyBlue}:: Trojan傻瓜一键版${Font}  使用说明: ${RedBG} https://git.io/trojan.help ${Font}"
+echo -e ":: 编辑 C:\Windows\System32\drivers\etc\hosts 文件，添加 :${SkyBlue}  ${myip}  ${ssl_domain} ${Font}"
 
 
