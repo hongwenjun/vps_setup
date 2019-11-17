@@ -4,7 +4,7 @@
 
 # 下载释放go语言安装包
 
-go_tar_gz="go1.12.7.linux-amd64.tar.gz"
+go_tar_gz="go1.13.4.linux-amd64.tar.gz"
 
 go_url="https://dl.google.com/go/${go_tar_gz}"
 
@@ -30,7 +30,7 @@ mkdir -p /root/go/work
 mkdir -p ~/helloworld
 cd ~/helloworld
 
-cat <<EOF >> helloworld.go
+cat <<EOF > helloworld.go
 
 // Test that we can do page 1 of the C book.
 

@@ -16,7 +16,7 @@
 
 #### 编辑 本地客户端 config.json 文件
 
-- example.com 改成 ssl.srgb.work ; 再修改 trojan 验证密码
+- example.com 改成 www.live88.tech ; 再修改 trojan 验证密码
 
 ### Chrome 浏览器设置，使用SwitchyOmega插件，方法同SS和Brook
 
@@ -29,7 +29,7 @@
 
 ### 添加本地域名管理 (按实际IP修改)
 
-	188.188.188.188  ssl.srgb.work
+	188.188.188.188   www.live88.tech 
 
 ----------
 

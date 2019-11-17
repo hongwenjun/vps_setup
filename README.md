@@ -9,6 +9,10 @@ wget https://git.io/wgmtu && bash wgmtu
 
 # Shadowsocks 和 V2Ray 简易配置: 生成和显示二维码
 bash <(curl -L -s https://git.io/v2ray.ss)
+
+# Trojan傻瓜一键版，没有域名也可以测试学习
+bash <(curl -L -s https://git.io/trojan.sh)
+
 ```
 
 - [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
@@ -32,6 +36,9 @@ bash <(curl -L -s https://git.io/v2ray.ss)
 
 ### WireGuard 管理使用命令 bash wgmtu    短网址: https://git.io/wgmtu
 [![点击图片链接视频演示](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/wgmtu.png)](https://youtu.be/iOnAeWRvSQI)
+
+<details>
+<summary>点击展开内容</summary>
 
 ### V2Ray 和 Shadowsocks 配置显示二维码  短网址: https://git.io/v2ray.ss
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/v2ray/v2ray.ss.png)
@@ -202,3 +209,9 @@ git merge origin/master
 git merge origin/master --allow-unrelated-histories
 git diff
 ```
+</details>
+
+- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道]
+
+## :bell: 我們雖然窮，但是不能說謊，也不能打人；不是我們的東西，我們不能拿；
+## :100: 要好好讀書，長大要做個對社會有用的人。
