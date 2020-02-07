@@ -70,7 +70,7 @@ if [ ! -f '/usr/bin/qrencode' ]; then
 fi
 
 # 安装 bash wgmtu 脚本用来设置服务器
-wget -O ~/wgmtu  https://git.io/wgmtu 
+wget -O ~/wgmtu  https://git.io/wgmtu
 #############################################################
 
 # 打开ip4/ipv6防火墙转发功能
@@ -101,8 +101,8 @@ cat <<EOF >wg0.conf
 [Interface]
 PrivateKey = $(cat sprivatekey)
 Address = 10.0.0.1/24,  ${ipv6_range}1/64
-PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -A FORWARD -o wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -D FORWARD -o wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp   = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE; ip6tables -D FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $port
 DNS = 8.8.8.8, 2001:4860:4860::8888
 MTU = $mtu
@@ -162,7 +162,7 @@ EOF
 done
 
 # vps网卡如果不是eth0，修改成实际网卡
-ni=$(ls /sys/class/net | awk {print} | grep -e eth. -e ens. -e venet.)
+ni=$(ip -4 route ls | grep default | grep -Po '(?<=dev )(\S+)' | head -1)
 if [ $ni != "eth0" ]; then
     sed -i "s/eth0/${ni}/g"  /etc/wireguard/wg0.conf
 fi
