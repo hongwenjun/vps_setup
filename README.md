@@ -15,7 +15,9 @@ bash <(curl -L -s https://git.io/trojan.sh)
 
 ```
 
-- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
+- 欢迎加入编程语言群 Telegram 电报群：https://t.me/codeblocks
+- [![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/sRGB18/videos) &nbsp;&nbsp;www.youtube.com/sRGB18 &nbsp;&nbsp;[![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/paypal.png)赞赏支持!](https://paypal.me/sRGB18)&nbsp;&nbsp;https://paypal.me/sRGB18
+----
 
 | [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
@@ -210,8 +212,6 @@ git merge origin/master --allow-unrelated-histories
 git diff
 ```
 </details>
-
-- [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道]
 
 ## :bell: 我們雖然窮，但是不能說謊，也不能打人；不是我們的東西，我們不能拿；
 ## :100: 要好好讀書，長大要做個對社會有用的人。
