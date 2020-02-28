@@ -196,7 +196,7 @@ echo -e "# ${Info} 推荐使用${GreenBG} bash wgmtu ${Font} 命令，WireGuard 
 echo -e "# ${Info} 自定端口${RedBG} bash <(curl -L -s https://git.io/fpnQt) ${GreenBG} 9999 ${Font}"
 echo -e "# ${Info} WG+SS域名分流升级命令 ${GreenBG} bash wgmtu setup ${Font}"
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
-# python -m SimpleHTTPServer 8000 &
+# python3 -m SimpleHTTPServer 8000 &
 echo ""
 # echo -e "# ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
 
@@ -209,5 +209,5 @@ EOF
 
 # 显示管理脚本信息
 bash ~/wg5
-sed -i "s/# python -m/python -m/g"  ~/wg5
+sed -i "s/# python3 -m/python3 -m/g"  ~/wg5
 sed -i "s/# echo -e/echo -e/g"  ~/wg5
