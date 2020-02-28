@@ -199,8 +199,7 @@ echo -e "# ${Info} WG+SS域名分流升级命令 ${GreenBG} bash wgmtu setup ${F
 # python3 -m http.server 8000 &
 echo ""
 # echo -e "# ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
-
-echo -e "# ${Info} 使用WireGuard真正作用做全球虚拟内网: 客户端配置 AllowedIPs = 0.0.0.0/0, ::0/0 改成${RedBG} AllowedIPs = 10.0.0.1/24 ${Font}"
+echo -e "# ${Info} WireGuard 组建全球虚拟内网: 客户端配置 AllowedIPs 请改成${RedBG} AllowedIPs = 10.0.0.0/24 ${Font}"
 
 EOF
 
