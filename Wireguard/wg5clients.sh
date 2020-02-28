@@ -196,14 +196,11 @@ echo -e "# ${Info} 推荐使用${GreenBG} bash wgmtu ${Font} 命令，WireGuard 
 echo -e "# ${Info} 自定端口${RedBG} bash <(curl -L -s https://git.io/fpnQt) ${GreenBG} 9999 ${Font}"
 echo -e "# ${Info} WG+SS域名分流升级命令 ${GreenBG} bash wgmtu setup ${Font}"
 # echo -e "# ${Info} 请网页打开 ${GreenBG}${conf_url}${Font} 下载配置文件 wg5clients.tar ，${RedBG}注意: 完成后请重启VPS.${Font}"
-# python3 -m SimpleHTTPServer 8000 &
+# python3 -m http.server 8000 &
 echo ""
 # echo -e "# ${Info} 访问 ${GreenBG}${conf_url}${Font} 点PNG二维码， ${RedBG}手机扫描二维码后请立即重启VPS。${Font}"
 
-echo -e "# ${Info} WireGuard是VPN协议，如果连上而没有回程流量，请使用 WG+SS 分流方案"
-echo -e "# ${Info} 客户端配置 AllowedIPs = 0.0.0.0/0, ::0/0 改成${RedBG} AllowedIPs = 10.0.0.1/32 ${Font}"
-echo -e "# ${Info} WG服务器相当于一个远程路由器，IP: 10.0.0.1,再开启一个SS，IP填 ${RedBG} IP: 10.0.0.1 ${Font}"
-
+echo -e "# ${Info} 使用WireGuard真正作用做全球虚拟内网: 客户端配置 AllowedIPs = 0.0.0.0/0, ::0/0 改成${RedBG} AllowedIPs = 10.0.0.1/24 ${Font}"
 
 EOF
 
