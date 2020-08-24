@@ -3,7 +3,7 @@
 ### V2Ray官方提供了一个在 Linux 服务端 自动化安装脚本。
 ```
 ###  V2Ray官方一键脚本
-bash <(curl -L -s https://install.direct/go.sh)
+bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 ```
 
 - V2RAY 基于 NGINX 的 VMESS+WS+TLS+Website 手工配置原理

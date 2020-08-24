@@ -98,7 +98,7 @@ conf_shadowsocks(){
 conf_v2ray(){
     # 如果 v2ray 没有安装，安装v2ray
     if [ ! -e '/etc/v2ray/config.json' ]; then
-        bash <(curl -L -s https://install.direct/go.sh)
+        bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
     fi
 
     echo_SkyBlue ":: V2ray 服务 IP/端口/UUID等信息!"

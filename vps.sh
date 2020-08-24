@@ -10,7 +10,7 @@ default_install(){
     wget -qO- git.io/fptwc | bash
 
     # V2Ray官方一键脚本
-    bash <(curl -L -s https://install.direct/go.sh)
+    bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 
     # 一键安装shadowsocks-libev脚本
     wget -qO- git.io/fhExJ | bash
@@ -51,7 +51,7 @@ wget_curl(){
 }
 
 vps_remove(){
-    bash <(curl -L -s https://install.direct/go.sh) --remove
+    bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove
     bash wgmtu remove
     cd /root && rm -f v2ray_ss.log vps_setup.log wg5 wgmtu /var/ip_addr /etc/v2ray/config.json \
         base64_shadowsocks.conf base64_v2ray_vmess.json

@@ -21,14 +21,14 @@ bash <(curl -L -s https://git.io/trojan.sh)
 
 | [一键安装 WireGuard 脚本](https://github.com/hongwenjun/vps_setup/blob/master/Wireguard/README.md) |[一键安装 Shadowsocks 脚本](https://github.com/hongwenjun/vps_setup/blob/master/shadowsocks/README.md) | [V2Ray 官方一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/v2ray/README.md) |
 | :------:| :------: | :------: |
-| wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://install.direct/go.sh) |
+| wget -qO- git.io/fptwc \| bash | bash <(curl -L -s git.io/fhExJ) update | bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) |
 
 ![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/vps.sh.png)
 
 | WireGuard 管理 | bash wgmtu | 卸载命令 | bash wgmtu remove |
 | :------:| :------: | :------:| :------: |
 
-|V2Ray 卸载命令 | bash <(curl -L -s https://install.direct/go.sh) --remove |
+|V2Ray 卸载命令 | bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove |
 | :------:| :------: |
 
 
