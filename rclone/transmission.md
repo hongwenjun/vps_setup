@@ -2,7 +2,7 @@
 
 # 一键安装 transmission 服务脚本
 ```bash
-wget https://github.com/hongwenjun/vps_setup/blob/master/rclone/transmission.sh
+wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/rclone/transmission.sh
 bash transmission.sh
 ```
 ### 程序安装
