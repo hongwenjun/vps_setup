@@ -1,5 +1,10 @@
-# Debian 安装transmission
+# Debian 安装 Transmission 教程和一键脚本
 
+# 一键安装 transmission 服务脚本
+```bash
+wget https://github.com/hongwenjun/vps_setup/blob/master/rclone/transmission.sh
+bash transmission.sh
+```
 ### 程序安装
 	apt install transmission transmission-daemon
 
@@ -33,9 +38,6 @@ cp -r transmission-web-control/src/*   $TransmissionWeb
 rm transmission-web-control -rf
 
 ```
-
-# 一键安装 transmission 服务脚本
-https://github.com/hongwenjun/vps_setup/blob/master/rclone/transmission.sh
 
 ### 使用 transmission-create 建立种子
 ```
