@@ -119,8 +119,8 @@ conf_v2ray(){
 }
 EOF
 
-# v2ray服务端mKcp配 /etc/v2ray/config.json
-cat <<EOF >/etc/v2ray/config.json
+# v2ray服务端mKcp配 /usr/local/etc/v2ray/config.json
+cat <<EOF > /usr/local/etc/v2ray/config.json
 {
   "inbounds": [
     {
