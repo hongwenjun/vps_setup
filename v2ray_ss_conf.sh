@@ -99,7 +99,7 @@ conf_shadowsocks(){
 conf_v2ray(){
     # If V2ray not install, Now install.
     if [ ! -e '/etc/v2ray/config.json' ]; then
-        bash <(curl -L -s https://install.direct/go.sh)
+        bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
     fi
 
     echo_SkyBlue ":: Info: V2ray Server, IP / Port / UUID"

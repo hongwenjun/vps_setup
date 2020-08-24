@@ -73,7 +73,7 @@ start_menu(){
         bash <(curl -L -s git.io/fhExJ) update
         ;;
         4)
-        bash <(curl -L -s https://install.direct/go.sh) --remove
+        bash <(curl -L -s https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh) --remove
         bash wgmtu remove
         ;;
         5)
