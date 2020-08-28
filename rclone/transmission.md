@@ -1,10 +1,17 @@
 # Debian 安装 Transmission 教程和一键脚本
+![](https://img.linux.net.cn/data/attachment/album/201411/20/143117zzl9cwa0fza093v3.png)
 
-# 一键安装 transmission 服务脚本
+### 一键安装 transmission 服务脚本
 ```bash
 wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/rclone/transmission.sh
 bash transmission.sh
 ```
+### 桌面版管理软件 Transmission Remote GUI
+![](https://camo.githubusercontent.com/262dda501114cb91dceee1a738b6e3679cf37160/687474703a2f2f692e696d6775722e636f6d2f584262463456682e706e67)
+
+---
+## 爱学习的网友，可以按以前命令行手工学习安装
+
 ### 程序安装
 	apt install transmission transmission-daemon
 
