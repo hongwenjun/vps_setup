@@ -4,7 +4,7 @@
 # bash <(curl -L -s https://git.io/trojan.sh)
 
 # Trojan Server Quickstart Script
-sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh)"
+wget -qO- https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh | bash
 
 # 填充域名证书 公钥
 cat <<EOF > /var/certificate.crt
