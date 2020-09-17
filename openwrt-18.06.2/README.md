@@ -1,3 +1,10 @@
+### 更新:安装 OpenWRT-19.07.4 x86 固件 下载地址和文件名
+https://downloads.openwrt.org/releases/19.07.4/targets/x86/generic/
+- openwrt-19.07.4-x86-generic-combined-ext4.img.gz
+- 把固件写到U盘     # physdiskwrite.exe -u  openwrt.img
+- 设置OP路由器网络  # vi etc/config/network
+- 重启网络设置      # ifup lan
+
 ## OpenWRT 安装 WireGuard 配置 Udp2Raw + UdpSpeeder + WireGuard 文档教程
 - 短网址: https://git.io/wrt.wg  &nbsp;&nbsp;&nbsp; [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
 
