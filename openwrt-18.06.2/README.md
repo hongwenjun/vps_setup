@@ -4,6 +4,34 @@ https://downloads.openwrt.org/releases/19.07.4/targets/x86/generic/
 - 把固件写到U盘     # physdiskwrite.exe -u  openwrt.img
 - 设置OP路由器网络  # vi etc/config/network
 - 重启网络设置      # ifup lan
+- 浏览器登陆  192.168.1.X  配置网络 添加DNS 取消 桥接接口 设置
+
+### openwrt如何修改为国内软件源
+- cat /etc/opkg/distfeeds.conf
+```
+src/gz openwrt_core http://downloads.openwrt.org/releases/19.07.4/targets/x86/generic/packages
+src/gz openwrt_base http://downloads.openwrt.org/releases/19.07.4/packages/i386_pentium4/base
+src/gz openwrt_luci http://downloads.openwrt.org/releases/19.07.4/packages/i386_pentium4/luci
+src/gz openwrt_packages http://downloads.openwrt.org/releases/19.07.4/packages/i386_pentium4/packages
+src/gz openwrt_routing http://downloads.openwrt.org/releases/19.07.4/packages/i386_pentium4/routing
+src/gz openwrt_telephony http://downloads.openwrt.org/releases/19.07.4/packages/i386_pentium4/telephony
+```
+- vi /etc/opkg/distfeeds.conf
+```
+src/gz openwrt_core http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/targets/x86/generic/packages
+src/gz openwrt_base http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/packages/i386_pentium4/base
+src/gz openwrt_luci http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/packages/i386_pentium4/luci
+src/gz openwrt_packages http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/packages/i386_pentium4/packages
+src/gz openwrt_routing http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/packages/i386_pentium4/routing
+src/gz openwrt_telephony http://mirrors.ustc.edu.cn/openwrt/releases/19.07.4/packages/i386_pentium4/telephony
+```
+
+### 安装中文语言包和常用工具
+```
+opkg update
+opkg install luci-i18n-base-zh-cn
+opkg install wget tmux ca-certificates htop
+```
 
 ## OpenWRT 安装 WireGuard 配置 Udp2Raw + UdpSpeeder + WireGuard 文档教程
 - 短网址: https://git.io/wrt.wg  &nbsp;&nbsp;&nbsp; [蘭雅sRGB![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/channel/UCupRwki_4n87nrwP0GIBUXA/videos) &nbsp;&nbsp;&nbsp;可以观看相关脚本工具的演示视频!
@@ -38,10 +66,6 @@ udp2raw -c -l127.0.0.1:21333 -r34.80.188.188:2999 --raw-mode faketcp -a -k passw
 opkg list | grep wireguard
 opkg install wireguard wireguard-tools luci-i18n-wireguard-zh-cn
 
-# 安装中文语言包和常用工具
-opkg update
-opkg install luci-i18n-base-zh-cn
-opkg install wget tmux ca-certificates htop
 ```
 
 ![](https://raw.githubusercontent.com/hongwenjun/img/master/openwrt-wg_udp2raw.png)
