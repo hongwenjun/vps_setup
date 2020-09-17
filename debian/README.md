@@ -242,6 +242,18 @@ https://www.howtoing.com/parted-command-to-create-resize-rescue-linux-disk-parti
   
   umount -a  全卸载挂载
 ```
+## debian buster不能启动docker守护进程（dockerd）的解决办法
+## iptables v1.8.2 (nf_tables): Chain already exists 解决办法
+
+- 故障原因是Docker用iptables初始化NAT网络，而Debian buster使用 nftables 而不是 iptables，导致dockerd不能正常完成NAT初始化，出错退出。
+- 处理方法是调用update-alternatives强制Debian用iptables而不是nftables。
+
+```
+sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
+# for ipv6
+sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+```
+
 ## Debian 语言设置
 -   vim /etc/default/locale
 ```
