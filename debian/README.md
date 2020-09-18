@@ -21,6 +21,10 @@ deb http://mirrors.ustc.edu.cn/debian/ buster-updates main
 deb-src http://mirrors.ustc.edu.cn/debian/ buster-updates main
 ```
 
+### 设置时区为北京时间
+
+	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
+
 ## dd 命令是备份Linux系统，或者是linux系统杀手
 - 所以建立虚拟vmdk磁盘只分配了2G，方便DD，或者写U盘镜像 
 ```
