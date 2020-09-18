@@ -83,6 +83,48 @@ DOMAIN=ssl.srgb888.ga
 ~/.acme.sh/acme.sh  --issue -d ssl.srgb888.ga  --nginx  --standalone -k ec-256 --force
 ```
 
+## Linux 使用代理 加速git 和安装软件
+
+```
+#!/bin/bash
+# socks5tohttp.sh
+
+brook socks5tohttp -s 127.0.0.1:1080 -l 0.0.0.0:8010 &
+
+export http_proxy="http://127.0.0.1:8010"
+export https_proxy="http://127.0.0.1:8010"
+```
+
+## 安装 brook 用来 Socks5 转 HTTP 代理
+- brook 其他更多使用方法访问 [官方网站](https://txthinking.github.io/brook/#/zh-cn/brook-socks5tohttp)
+```
+$ curl -L https://github.com/txthinking/brook/releases/download/v20200909/brook_linux_amd64 -o /usr/bin/brook
+$ chmod +x /usr/bin/brook
+
+# 32位系统安装
+$ curl -L https://github.com/txthinking/brook/releases/download/v20200909/brook_linux_386 -o /usr/bin/brook
+
+```
+- Socks5 转 HTTP 代理      
+```
+$ brook socks5tohttp -s 127.0.0.1:1080  -l 127.0.0.1:8010
+```
+	
+- 中继: 可以将地址中继到远程地址。 它可以中继任何tcp和udp服务器
+```
+$ brook relay -f :9999 -t 1.2.3.4:9999
+```
+
+- brook socks5  运行一个独立的标准socks5服务器（TCP和UDP）
+```
+$ brook socks5 --socks5 1.2.3.4:1080
+```
+
+## Linux 让终端走代理的几种方法
+- https://zhuanlan.zhihu.com/p/46973701
+
+
+
 </details>
 
 ### Debian 10 Buster 管理员手册  [在线阅读](https://debian-handbook.info/browse/zh-CN/stable/)
