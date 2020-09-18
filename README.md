@@ -5,6 +5,7 @@
 
 - 欢迎加入编程语言群 Telegram 电报群：https://t.me/codeblocks
 - [![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/sRGB18/videos) &nbsp;&nbsp;www.youtube.com/sRGB18 &nbsp;&nbsp;[![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/paypal.png)赞赏支持!](https://paypal.me/sRGB18)&nbsp;&nbsp;https://paypal.me/sRGB18
+- 推荐新手两个性价比:100很按时计费VPS:　  [vultr.com](https://www.vultr.com/?ref=7425413)	　  [skysilk.com](https://www.skysilk.com/ref/Xmr9xL1Bnf) 　:100按需开启，不用不浪费！
 ----
 
 - :gift: 项目: https://git.io/vps.us 　　 https://git.io/winkcp 　　 https://git.io/vps.english
