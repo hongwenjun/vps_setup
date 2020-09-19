@@ -90,9 +90,17 @@ DOMAIN=ssl.srgb888.ga
 # socks5tohttp.sh
 
 brook socks5tohttp -s 127.0.0.1:1080 -l 0.0.0.0:8010 &
+ps aux | grep -E brook
 
 export http_proxy="http://127.0.0.1:8010"
 export https_proxy="http://127.0.0.1:8010"
+```
+- Windows 系统脚本  VPN --> socks5 --> http代理 给手机使用
+```
+::  Brook 开启 socks5  再转http
+start /b  brook socks5 -l :1080 -i 0.0.0.0
+sleep 1
+start /b  brook socks5tohttp -s 127.0.0.1:1080 -l 0.0.0.0:8010
 ```
 
 ## 安装 brook 用来 Socks5 转 HTTP 代理
@@ -117,7 +125,7 @@ $ brook relay -f :9999 -t 1.2.3.4:9999
 
 - brook socks5  运行一个独立的标准socks5服务器（TCP和UDP）
 ```
-$ brook socks5 --socks5 1.2.3.4:1080
+$ brook socks5 -l :1080 -i 0.0.0.0
 ```
 
 ## Linux 让终端走代理的几种方法
