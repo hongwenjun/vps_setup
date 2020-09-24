@@ -188,6 +188,18 @@ iface lo inet loopback
 allow-hotplug enp0s3
 iface enp0s3 inet dhcp
 
+###  --------修改成固定IP------------- ####
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface
+allow-hotplug enp0s3
+iface enp0s3 inet static
+  address 192.168.1.111
+  netmask 255.255.255.0
+  gateway 192.168.1.1
+  dns-nameserver 8.8.8.8
 
 vim /etc/network/interfaces
 ### 修改interfaces中的网卡名字enp0s3同 ip addr获得的网卡名字相同
