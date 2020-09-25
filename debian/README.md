@@ -1,13 +1,13 @@
 # Oracle VM VirtualBox  安装虚拟机 Debian 10  挖坑填坑笔记
 
 ###  VirtualBox 安装虚拟机 Debian 系统 省略
-- 下载 mini.iso 网络安装，或者 debian-10.5.0-amd64-xfce-CD-1.iso 图形安装
+- 下载 **mini.iso** 网络安装，或者 **debian-10.5.0-amd64-xfce-CD-1.iso** 图形GUI安装
 
 - 注意: 选择中文语言，使用中国大陆镜像，推荐中科大软件源，如果选择默认的官方站速度会很慢；即使选对中科大镜像源在安装过程中
 还是会从官方下载证书文件卡住，可以ctrl+alt+f4 切换到后台，ctrl+c停止从官方源下载资源包，不影响系统安装。安装软件选择SSH
 方便远程登陆，不要选择xfce或者KDE图形桌面，安装完成后，按下面修改 软件源
 
--  sources.list  修改 apt 中科大软件源 配置
+-  **sources.list**  修改 apt 中科大软件源 配置
 ```
 # vim /etc/apt/sources.list
 
@@ -140,7 +140,7 @@ ddb.uuid.parentmodification="00000000-0000-0000-0000-000000000000"
 ```
 
 ## 使用 VBoxManage 将vmdk文件转换成IMG文件
-- 语法:VBoxManage clonehd  源文件.vmdk  目标文件.img  --format RAW
+- 语法: **VBoxManage clonehd**  源文件.vmdk  目标文件.img  --format RAW
 ```
 VBoxManage clonehd  debian-disk001.vmdk   debian10.img --format RAW
 
@@ -241,6 +241,40 @@ root@debian:~$ parted
 https://www.howtoing.com/parted-command-to-create-resize-rescue-linux-disk-partitions/
 
 ```
+## Vbox增加虚拟磁盘大小方法
+- **VBoxManage** 只支持VDI格式，不支持vmdk格式，所以要先转换磁盘格式VDI，在扩容
+```
+VBoxManage clonehd  debian.vmdk  debian.vdi  --format VDI
+
+VBoxManage modifyhd  debian.vdi  -resize 8192
+```
+- 使用 **parted** 工具 调整磁盘系统分区后，**df -h** 空间没有增大，需要 **resize2fs* /dev/sda1  调整文件系统大小
+```
+root@debian:~$ parted /dev/sda
+
+(parted) print free
+
+Number  Start   End     Size    Type     File system  Flags
+        32.3kB  1049kB  1016kB           Free Space
+ 1      1049kB  8590MB  8589MB  primary  ext4         boot
+
+
+root@debian:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       2.0G  1.4G  486M  74% /
+
+root@debian:~$ resize2fs /dev/sda1
+resize2fs 1.44.5 (15-Dec-2018)
+Filesystem at /dev/sda1 is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/sda1 is now 2096896 (4k) blocks long.
+
+root@debian:~$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1       7.9G  1.4G  6.2G  19% /
+
+```
+
 ## debian 使用 ntfs-3g 挂载读取Windows NTFS系统文件
 ```
   apt search ntfs-3g     # 搜索工具在哪个安装包
