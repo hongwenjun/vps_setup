@@ -406,3 +406,61 @@ D:\Program Files\VirtualBox> .\VBoxManage.exe  startvm  master --type headless
 Headless模式是系统的一种配置模式。在该模式下，系统缺少了显示设备、键盘或鼠标。
 Headless模式针对在该模式下工作，尤其是服务器端程序开发者。因为服务器（如提供Web服务的主机）往往可能缺少前述设备，但又需要使用他们提供的功能，生成相应的数据，以提供给客户端（如浏览器所在的配有相关的显示设备、键盘和鼠标的主机）。
 ```
+
+## Debian中匿名挂载Samba服务器中的目录
+
+- 1、在Debian中安装Samba的相应组件：
+
+	apt install cifs-utils
+
+Debian中匿名挂载Samba服务器中的目录
+
+- 2、查看其上已经共享的目录，假设Samba服务器的IP地址为192.168.1.135
+
+	smbclient -L 192.168.1.135 -N
+
+Debian中匿名挂载Samba服务器中的目录
+
+其中-N即为匿名的意义。
+
+- 3、在本地新建一个目录用于挂载
+
+	mkdir /mnt/samba 
+
+Debian中匿名挂载Samba服务器中的目录
+
+- 4、使用mount挂载：
+
+	mount -t cifs //192.168.1.135/netlogon    /mnt/samba/ -o guest
+
+Debian中匿名挂载Samba服务器中的目录
+
+其中-t cifs意义为使用SMB文件系统，-o guest意义为匿名访问，即使用guest来宾账户，之后不会再要求输入密码。
+命令执行完毕后即将远程主机上的netlogon 目录挂载到本地的/mnt/samba目录。
+
+
+## 安装EMBY 打造多媒体中心，刮削GD网盘影视库,在本地做影视索引服务
+- 下载最新版本的 Emby Server，当前版本为 4.4.3.0，新版查阅地址：https://emby.media/linux-server.html
+
+```
+# 下载Emby安装包和安装
+wget https://github.com/MediaBrowser/Emby.Releases/releases/download/4.4.3.0/emby-server-deb_4.4.3.0_amd64.deb
+dpkg -i emby-server-deb_4.4.3.0_amd64.deb
+
+
+#  使用网页打开 emby 服务器  配置EMBY
+#  http://192.168.1.111:8096/
+
+# 停止 emby 服务
+systemctl stop  emby-server
+
+# 恢复emby刮削数据
+sudo rm -rf /var/lib/emby/*
+cd /var/lib && tar -xvf "/mnt/EmbyMedia/EmbyData/emby200925.tar
+sudo chown -R emby:emby /var/lib/emby
+
+# 重新启动 emby 服务
+systemctl start emby-server
+systemctl status emby-server
+
+```
