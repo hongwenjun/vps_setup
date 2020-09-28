@@ -481,14 +481,18 @@ def getText():
 def setText(aString):
     w.OpenClipboard()
     w.EmptyClipboard()
-    w.SetClipboardData(win32con.CF_TEXT, aString)
+    w.SetClipboardText(aString)
     w.CloseClipboard()
     
 url = getText()
-# print(url)
+print(url)
 
 # 替换 EmbyMedia 路径 到URL 给PotPlayer播放视频
-url = url.replace( "/mnt/EmbyMedia/" , "http://192.168.1.11/")
+emby_path = "/mnt/EmbyMedia/"
+http_url = "http://192.168.1.11/"
+
+url = url.replace( emby_path , http_url )
 setText(url)
-# print(url)
+print(url)
+
 ```
