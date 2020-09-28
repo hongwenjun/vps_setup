@@ -464,3 +464,31 @@ systemctl start emby-server
 systemctl status emby-server
 
 ```
+## emby2url.py   # 替换EmbyMedia路径到URL给PotPlayer播放视频
+```python
+# python 读写剪切板内容
+# pip3 install pywin32
+
+import win32clipboard as w
+import win32con
+
+def getText():
+    w.OpenClipboard()
+    d = w.GetClipboardData(win32con.CF_TEXT)
+    w.CloseClipboard()
+    return(d).decode('GBK')
+
+def setText(aString):
+    w.OpenClipboard()
+    w.EmptyClipboard()
+    w.SetClipboardData(win32con.CF_TEXT, aString)
+    w.CloseClipboard()
+    
+url = getText()
+# print(url)
+
+# 替换 EmbyMedia 路径 到URL 给PotPlayer播放视频
+url = url.replace( "/mnt/EmbyMedia/" , "http://192.168.1.11/")
+setText(url)
+# print(url)
+```
