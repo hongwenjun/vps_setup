@@ -471,6 +471,7 @@ systemctl status emby-server
 
 import win32clipboard as w
 import win32con
+import os
 
 def getText():
     w.OpenClipboard()
@@ -483,16 +484,22 @@ def setText(aString):
     w.EmptyClipboard()
     w.SetClipboardText(aString)
     w.CloseClipboard()
-    
+
+# 获取剪贴板文本
 url = getText()
 print(url)
 
 # 替换 EmbyMedia 路径 到URL 给PotPlayer播放视频
 emby_path = "/mnt/EmbyMedia/"
-http_url = "http://192.168.1.11/"
+http_url = "http://192.168.1.111/"
 
 url = url.replace( emby_path , http_url )
+
+# 把文本写回剪贴板
 setText(url)
 print(url)
+
+# 调用系统暂停
+os.system("pause")
 
 ```
