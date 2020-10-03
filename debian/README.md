@@ -464,6 +464,37 @@ systemctl start emby-server
 systemctl status emby-server
 
 ```
+---
+## fstab 使用UUID自动挂载emby数据盘
+```
+#  挂载 emby 数据盘
+mkdir /mnt/emby -p
+mount /dev/sdb5 /mnt/emby/
+chown -R emby:emby /mnt/emby/
+
+
+#  挂载玩客云samba
+mount -t cifs //192.168.1.90/1aab /mnt/smb/ -o guest
+cd /mnt/emby
+tar xf /mnt/smb/onecloud/tddownload/emby201003.tar
+
+#  修改emby数据到数据盘 
+ln -s /mnt/emby/var/lib/emby   /var/lib/emby
+chown -R emby:emby /var/lib/emby
+systemctl start emby-server
+
+#  fstab 使用UUID自动挂载  emby 数据盘
+cat /etc/fstab  #查看当前系统已经存在的挂载信息
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+UUID=8a2aa399-0f5a-4cc1-bc77-5cb008f9a754 /               ext4    errors=remount-ro 0       1
+UUID=231a3535-73c5-4245-8e3e-bf546f034d98 /mnt/emby/      ext4    defaults          0       2
+
+blkid  ### 查看磁盘分区的 UUID
+blkid /dev/sdb5
+/dev/sdb5: UUID="231a3535-73c5-4245-8e3e-bf546f034d98" TYPE="ext4" PARTUUID="aeb779b9-05"
+
+```
+
 ## emby2url.py   # 替换EmbyMedia路径到URL给PotPlayer播放视频
 ```python
 # python 读写剪切板内容
