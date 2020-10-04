@@ -23,17 +23,6 @@ deb-src http://mirrors.ustc.edu.cn/debian/ buster-updates main
 
 ### 设置时区为北京时间
 
-	ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
-
-## dd 命令是备份Linux系统，或者是linux系统杀手
-- 所以建立虚拟vmdk磁盘只分配了2G，方便DD，或者写U盘镜像 
-```
-#  dd指令 语法格式
-dd  [option] if=file：输入文件名，缺省为标准输入  of=file：输出文件名，缺省为标准输出
-
-测试纯写入性能
-dd if=/dev/zero of=test bs=8k count=10000 oflag=direct
-测试纯读取性能
 dd if=test of=/dev/null bs=8k count=10000 iflag=direct
 
 root@debian:~$ fdisk -l
@@ -494,6 +483,18 @@ blkid /dev/sdb5
 /dev/sdb5: UUID="231a3535-73c5-4245-8e3e-bf546f034d98" TYPE="ext4" PARTUUID="aeb779b9-05"
 
 ```
+
+## VirtualBox压缩VDI文件 VDI文件瘦身方法
+- 瘦身原理：操作系统删除文件，不会填充0，所以磁盘镜像不能释放空间，所以使用dd把剩余空间用zero全零填充，然后删除 free这个文件
+- 再用VBoxManage就能瘦身了；Vbox 建立镜像可以分配空间小点，也可以把系统盘和数据盘分开建立
+```
+dd if=/dev/zero of=/free bs=1M
+rm /free
+
+cd "C:\Program Files\Oracle\VirtualBox\"
+VBoxManage modifyvdi  --compact  debian-disk.vdi
+```
+
 
 ## emby2url.py   # 替换EmbyMedia路径到URL给PotPlayer播放视频
 ```python
