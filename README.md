@@ -158,6 +158,7 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 
 ---
 ### Oracle VM VirtualBox  安装虚拟机 Debian 10  挖坑填坑笔记 [在线阅读](https://github.com/hongwenjun/vps_setup/tree/remove/debian)
+### 黑五变态机有救，可以用NFS挂载一个僚机 [在线阅读](https://github.com/hongwenjun/vps_setup/blob/remove/debian/nfsdir.md)
 ---
 ### 网友视频和白话文档
 
