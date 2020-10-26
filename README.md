@@ -19,6 +19,24 @@
 ### :heart_eyes:Linux 简单命令工具和简易脚本
 <details>
 <summary>点击展开内容</summary>
+
+## grep ip 并计数
+```
+grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sort | uniq -c| sort -nrk 1
+
+# 应用: 统计自己电信服务商IP动态变化
+cat /var/log/udp2raw.log \
+  | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sort | uniq -c| sort -nrk 1
+
+# 统计哪些IP在扫描你的vps
+cat /var/log/auth.log \
+  | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sort | uniq -c| sort -nrk 1
+
+# 查询IP信息
+https://www.ipip.net/ipquery.html
+```
+
+
   
 #### 一些表情例子 EMOJI
 - :smile: :laughing: :dizzy_face: :sob: :cold_sweat: :sweat_smile:  :cry: :triumph: :heart_eyes: :relieved:
