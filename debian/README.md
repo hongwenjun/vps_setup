@@ -545,3 +545,18 @@ print(url)
 os.system("pause")
 
 ```
+
+## 使用rsync同步目录
+```
+同步命令：
+rsync -avzP --delete root@{remoteHost}:{remoteDir} {localDir}
+
+参数说明：
+-a 参数，相当于-rlptgoD（-r 是递归 -l 是链接文件，意思是拷贝链接文件；-p 表示保持文件原有权限；-t 保持文件原有时间；-g 保持文件原有用户组；-o 保持文件原有属主；-D 相当于块设备文件）；
+-z 传输时压缩；
+-P 传输进度；
+-v 传输时的进度等信息；
+
+rsync -avzP --delete   root@us.myvps.xyz:/var/lib/emby   /var/lib/emby
+
+```
