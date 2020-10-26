@@ -1,3 +1,5 @@
+[![GitHub stars](https://img.shields.io/github/stars/hongwenjun/vps_setup)](https://github.com/hongwenjun/vps_setup/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/hongwenjun/vps_setup)](https://github.com/hongwenjun/vps_setup/network)
 - :smile: [简体中文](https://github.com/hongwenjun/vps_setup/blob/master/README.md) 　:cry: [English](https://git.io/vps.english)
 
 ## :bell: 我們雖然窮，但是不能說謊，也不能打人；不是我們的東西，我們不能拿；
