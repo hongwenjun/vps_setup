@@ -236,7 +236,7 @@ cat /var/log/auth.log \
     echo -e
     echo_GreenBG  ":: 查询IP信息和物理地址 https://www.ipip.net/ipquery.html"
     echo -e
-    echo_Yellow  ":: 当前${RedBG} 服务器IP: ${Green} $(cat /var/ip_addr) ${Font} ::"
+    echo_Yellow  ":: 当前${RedBG} 服务器IP: ${Yellow} $(cat /var/ip_addr) ${Font} ::"
 }
 
 # 创建容器: qbittorrent
@@ -253,6 +253,12 @@ docker_qb(){
     -v /mnt/downloads:/downloads \
     --restart unless-stopped \
     -d linuxserver/qbittorrent
+
+    #  浏览器中输入网址管理
+    echo -e    http://$(curl -4 ip.sb):8080
+    echo -e "${GreenBG}:: qbittorrent 网页管理地址和密码   ${Yellow}"
+    echo -e "${SkyBlue}:: 默认用户名  ${RedBG} admin ${SkyBlue} 密码  ${RedBG} adminadmin ${Font} "
+    echo -e ":: 请登陆配置Peer端口(59902)和密码, 重启命令: ${GreenBG} docker restart qbittorrent ${Font}"
 }
 
 # 定义文字颜色
