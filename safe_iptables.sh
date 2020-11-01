@@ -143,8 +143,8 @@ frps_port="7000,7500,8080,4443,11122,2222"
 # ss_kcp_speed_udp2raw 端口防火墙规则
 ss_kcp_speed_udp2raw(){
     # ss+kcp+udp2raw  和  # wg+speed+udp2raw  环路设置
-    iptables -I INPUT -s 127.0.0.1 -p tcp  --dport 40000 -j ACCEPT
-    iptables -I INPUT -s 127.0.0.1 -p udp -m multiport --dport 4000,8888,9999 -j ACCEPT
+#   iptables -I INPUT -s 127.0.0.1 -p tcp  --dport 40000 -j ACCEPT
+#   iptables -I INPUT -s 127.0.0.1 -p udp -m multiport --dport 4000,8888,9999 -j ACCEPT
 
     iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${raw_port} -j ACCEPT
 
@@ -189,6 +189,7 @@ ss_bk_tg_frps_iptables(){
 # 安全防火墙规则: 只能Ping和SSH
 safe_iptables(){
     iptables -I INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
+    iptables -A INPUT -s 127.0.0.1 -d 127.0.0.1 -j ACCEPT
 
     ssh_port=$(cat /etc/ssh/sshd_config | grep -e 'Port ' | awk '{print $2}')
     if [ ${ssh_port} != '22' ]; then
