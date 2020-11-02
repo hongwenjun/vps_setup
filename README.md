@@ -1,6 +1,6 @@
 [![GitHub stars](https://img.shields.io/github/stars/hongwenjun/vps_setup)](https://github.com/hongwenjun/vps_setup/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/hongwenjun/vps_setup)](https://github.com/hongwenjun/vps_setup/network)
-- :smile: [简体中文](https://github.com/hongwenjun/vps_setup/blob/master/README.md) 　:cry: [English](https://git.io/vps.english)   蘭雅sRGB 龙芯2F服务器 https://262235.xyz/
+- :smile: [简体中文](https://github.com/hongwenjun/vps_setup/blob/master/README.md) 　:cry: [English](https://git.io/vps.english)    　 　 　 　 　 　 　 　 　龙芯2F服务器 https://262235.xyz/
 
 ## :bell: 我們雖然窮，但是不能說謊，也不能打人；不是我們的東西，我們不能拿；
 ## :100: 要好好讀書，長大要做個對社會有用的人。
