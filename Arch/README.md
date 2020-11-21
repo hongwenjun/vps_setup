@@ -18,7 +18,7 @@ mount /dev/sda1 /mnt
 - vim编辑找到China源[** 9yyggp <Esc>:wq **]
 ```
 vim /etc/pacman.d/mirrorlist
-``
+```
 
 ### 安装必须的软件包到硬盘中，如果虚拟机 linux-firmware 可以不装
 ```
