@@ -69,3 +69,15 @@ ssh root@192.168.1.110
 
 ### arch 安装命令参考中文文档
 - https://wiki.archlinux.org/index.php/Installation_guide_(简体中文)
+
+
+### start_VM_Headless 简易 VirtualBox Headless 模式启动器
+- VBoxManage.exe 建立2个快捷方式，分别启动和关闭 ArchLinux
+```
+# Oracle VM VirtualBox 默认安装目录   C:\Program Files\Oracle\VirtualBox\
+
+"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"  startvm   ArchLinux  --type headless
+
+"C:\Program Files\Oracle\VirtualBox\VBoxManage.exe"  controlvm  ArchLinux  acpipowerbutton
+
+```
