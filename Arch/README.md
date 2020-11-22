@@ -242,8 +242,23 @@ index index.html index.htm index.nginx-debian.html index.php;
             include snippets/fastcgi-php.conf;
     #
     #       # With php-fpm (or other unix sockets):
-            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;  # 注意版本号要对应，不然 520 网关错误
+            fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;  # 注意版本号要对应，不然 520 网关错误
     #       # With php-cgi (or other tcp sockets):
     #       fastcgi_pass 127.0.0.1:9000;                     # apt 安装的 php-fpm 直接开这个是不行的
     }
+```
+
+### Debian 系统 Nginx + PHP-FPM 设置排查方案步骤
+```
+1.  php  ./index.php             # 测试 php 是否正确
+2.  systemctl status php7.3-fpm  # 检查 php-fpm 是否启动
+3.  vim /etc/nginx/nginx.conf    # http用户名 user www-data; 站点配置 include /etc/nginx/sites-enabled/*;
+    vim /etc/nginx/sites-enabled/default
+    nginx -t                     # 检查配置是否有问题
+4.  vim /etc/php/7.3/fpm/php-fpm.conf   # 判断 www.conf 所在目录
+5.  cd /etc/php/php-fpm.d/       # 找到文件  /etc/php/php-fpm.d/www.conf
+6.  cat /etc/php/7.3/fpm/pool.d/www.conf | grep -e  'fpm\.sock'  
+    # 查到 listen = /run/php/php7.3-fpm.sock  判断 php-fpm 正确的监听端口
+7.  修改nginx配置:  fastcgi_pass  unix:/run/php/php7.3-fpm.sock;
+8.  systemctl restart nginx      #  重启nginx 测试是否能正确php
 ```
