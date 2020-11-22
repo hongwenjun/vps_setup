@@ -229,10 +229,9 @@ location ~ \.php$ {
 8.  systemctl restart nginx      #  重启nginx 测试是否能正确php，不行就网络查资料再排查
 ```
 
-- Debian 系统 Nginx 的配置文件
+### 附: Debian 系统 Nginx 默认配置文件:  /etc/nginx/sites-enabled/default
+- 作为参考比较， Debian Nginx + PHP-FPM 设置好像简单点
 ```
-
-
  # Add index.php to the list if you are using PHP
 index index.html index.htm index.nginx-debian.html index.php;
 ```
