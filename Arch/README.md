@@ -165,6 +165,7 @@ systemctl restart php-fpm
 
 ### 网上找了N个方法，终于找到一个能用的
 ```
+ # pass PHP scripts to FastCGI server
 location ~ \.php$ {
 	root           /usr/share/nginx/html;
 	fastcgi_pass   unix:/run/php-fpm/php-fpm.sock;
@@ -183,10 +184,14 @@ location / {
    root   /usr/share/nginx/html;
    index  index.html index.htm;
 }
-
-# 解决方法 root 移出来，或者在 php-fpm 配置里复制一份
+```
+-----
+- 解决方法 root 移出来，或者在 php-fpm 配置里复制一份
+```
+# 解决方法 root 移出来
 root /usr/share/nginx/html;  
 
+ # pass PHP scripts to FastCGI server
 location ~ \.php$ {
     # 404
     try_files $fastcgi_script_name =404;
@@ -211,7 +216,8 @@ location ~ \.php$ {
 
 - 参考链接: https://wiki.archlinux.org/index.php/Nginx_(简体中文)
 
-### 还是一个比较坑的 fastcgi_pass 变量怎么设置，网上有N种配置，你不知道怎么设置和测试 
+### 还有一个比较坑的 fastcgi_pass 变量怎么设置，网上有N种配置
+- 网上有N种配置，你不知道怎么设置和测试；我也是花了N个小时整理出来的方法，应该也适用于debian系统
 ```
 1.  php  ./index.php             # 测试 php 是否正确
 2.  systemctl status php-fpm     # 检查 php-fpm 是否启动
@@ -223,3 +229,22 @@ location ~ \.php$ {
 8.  systemctl restart nginx      #  重启nginx 测试是否能正确php，不行就网络查资料再排查
 ```
 
+- Debian 系统 Nginx 的配置文件
+```
+
+
+ # Add index.php to the list if you are using PHP
+index index.html index.htm index.nginx-debian.html index.php;
+```
+```
+    # pass PHP scripts to FastCGI server
+    #
+    location ~ \.php$ {
+            include snippets/fastcgi-php.conf;
+    #
+    #       # With php-fpm (or other unix sockets):
+            fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;  # 注意版本号要对应，不然 520 网关错误
+    #       # With php-cgi (or other tcp sockets):
+    #       fastcgi_pass 127.0.0.1:9000;                     # apt 安装的 php-fpm 直接开这个是不行的
+    }
+```
