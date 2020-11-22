@@ -15,7 +15,7 @@ mount /dev/sda1 /mnt
 ```
 
 ### 如果是国内,选择镜像推荐清华中科大，
-- vim编辑找到China源[** 9yyggp <Esc>:wq **]
+- vim编辑找到China源  9yyggp <Esc>:wq
 ```
 vim /etc/pacman.d/mirrorlist
 ```
@@ -91,7 +91,7 @@ gdisk /dev/sda
 - 接下来，打n，新建分区,EFI分区用来储存引导文件,分区代码 EF00 表示efi分区
 - 再建立Linux分区，直到Hex code这行，打8300，8300是linux的文件系统。
 
-- 检查,看到文件系统 GPT，2个分区分别是EFI
+- 检查,看到文件系统 GPT，2个分区分别是EFI system partition 和 Linux filesystem
 ```
 # gdisk -l /dev/sda
 
@@ -99,9 +99,19 @@ Found valid GPT with protective MBR; using GPT.
 Disk /dev/sda: 16777216 sectors, 8.0 GiB
 Disk identifier (GUID): B60E27F0-F574-4AAB-B0C1-BAEC5377DDFD
 Number  Start (sector)    End (sector)  Size       Code  Name
-   1            2048         1050623   512.0 MiB   EF00  EFI system partition
+   1            2048         1050623   512.0 MiB   EF00  EFI system partition  # EFI分区主要放引导文件其实128M够用了
    2         1050624        16777182   7.5 GiB     8300  Linux filesystem
 ```
+
+### 格式化分区和挂载分区有相应修改，再按上面安装Arch系统
+```
+mkfs.vfat -F 32  /dev/sda1
+mkfs.ext4 /dev/sda2
+mount /dev/sda2 /mnt
+mkdir -p  /mnt/boot
+mount /dev/sda1 /mnt/boot
+```
+
 
 ## 不装GRUB，使用系统自带的systemd bootctl
 
@@ -136,3 +146,80 @@ NR   START      END  SECTORS SIZE NAME                 UUID
  2 1050624 16777182 15726559 7.5G Linux filesystem     470b42a8-69bf-4822-ad1a-8164c741b17c
 
 ```
+
+## Arch Linux 安装 Nginx + PHP-FPM 配置填坑笔记
+- 安装nginx和php-fpm挺简单，启用服务 systemctl enable
+```
+pacman -S nginx php php-fpm
+systemctl enable nginx
+systemctl enable php-fpm
+
+# 生成index.php
+echo "<?php echo phpinfo(); ?>"   >  /usr/share/nginx/html/index.php
+
+# 调试配置比较坑，会用到重启命令
+systemctl restart nginx
+systemctl restart php-fpm
+
+```
+
+### 网上找了N个方法，终于找到一个能用的
+```
+location ~ \.php$ {
+	root           /usr/share/nginx/html;
+	fastcgi_pass   unix:/run/php-fpm/php-fpm.sock;
+	fastcgi_index  index.php;
+	fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+	include        fastcgi_params;
+}
+```
+
+### Arch Wiki 找到的配置,因为 nginx.conf 默认配置 root变量移到了location空间里，导致SCRIPT_FILENAME失效
+```
+# vim /etc/nginx/nginx.conf
+
+# 默认 nginx.conf 配置 root变量移到了location空间里
+location / {
+   root   /usr/share/nginx/html;
+   index  index.html index.htm;
+}
+
+# 解决方法 root 移出来，或者在 php-fpm 配置里复制一份
+root /usr/share/nginx/html;  
+
+location ~ \.php$ {
+    # 404
+    try_files $fastcgi_script_name =404;
+
+  #  root /usr/share/nginx/html;    ###  在 php-fpm 配置里复制一份 root
+
+    # default fastcgi_params
+    include fastcgi_params;
+
+    # fastcgi settings
+    fastcgi_pass			unix:/run/php-fpm/php-fpm.sock;
+    fastcgi_index			index.php;
+    fastcgi_buffers			8 16k;
+    fastcgi_buffer_size		32k;
+
+    # fastcgi params
+    fastcgi_param DOCUMENT_ROOT	    $realpath_root;
+    fastcgi_param SCRIPT_FILENAME	$realpath_root$fastcgi_script_name;
+    #fastcgi_param PHP_ADMIN_VALUE	"open_basedir=$base/:/usr/lib/php/:/tmp/";
+}
+```
+
+- 参考链接: https://wiki.archlinux.org/index.php/Nginx_(简体中文)
+
+### 还是一个比较坑的 fastcgi_pass 变量怎么设置，网上有N种配置，你不知道怎么设置和测试 
+```
+1.  php  ./index.php             # 测试 php 是否正确
+2.  systemctl status php-fpm     # 检查 php-fpm 是否启动
+3.  nginx -t                     # 检查配置是否有问题
+4.  vim  /etc/php/php-fpm.conf/  # 找到 include=/etc/php/php-fpm.d/*.conf 这行，判断 www.conf 所在目录
+5.  cd /etc/php/php-fpm.d/       # 找到文件  /etc/php/php-fpm.d/www.conf
+6.  cat www.conf | grep 'php-fpm'  # 查到 listen = /run/php-fpm/php-fpm.sock  判断 php-fpm 正确的监听端口
+7.  修改nginx配置:  fastcgi_pass	 unix:/run/php-fpm/php-fpm.sock;     # 各个linux 默认各不相同
+8.  systemctl restart nginx      #  重启nginx 测试是否能正确php，不行就网络查资料再排查
+```
+
