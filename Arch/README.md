@@ -262,3 +262,26 @@ index index.html index.htm index.nginx-debian.html index.php;
 7.  修改nginx配置:  fastcgi_pass  unix:/run/php/php7.3-fpm.sock;
 8.  systemctl restart nginx      #  重启nginx 测试是否能正确php
 ```
+
+### 修正 Arch Linux locale 無法 generate 以及 tmux mosh 出現錯誤
+```
+pacman -S tmux
+
+tmux: invalid LC_ALL, LC_CTYPE or LANG
+
+locale -a
+locale: Cannot set LC_CTYPE to default locale: No such file or directory
+locale: Cannot set LC_MESSAGES to default locale: No such file or directory
+locale: Cannot set LC_COLLATE to default locale: No such file or directory
+```
+### 解法 沒有把 /etc/locale.gen 內的 comment 拿掉
+```
+vim /etc/locale.gen
+#en_US.UTF-8 UTF-8 删除 注释#
+
+locale-gen "en_US.UTF-8"
+
+Generating locales...
+  en_US.UTF-8...
+done
+```
