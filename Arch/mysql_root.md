@@ -48,5 +48,17 @@ Or
 
 mkdir -p /var/run/mysqld && chown mysql:mysql /var/run/mysqld  
 (thanks to @Peter Dvukhrechensky)
+```
 
-``
+### 下载WordPress安装包并解压，添加wp用户名
+```
+wget http://wordpress.org/latest.tar.gz
+tar -xzvf latest.tar.gz
+
+mysql -u root
+
+mysql> CREATE DATABASE wp2020;
+mysql> GRANT ALL PRIVILEGES ON wp2020.* TO "wp2020"@"127.0.0.1"  IDENTIFIED BY "wp2020passwd";
+FLUSH PRIVILEGES;
+
+```
