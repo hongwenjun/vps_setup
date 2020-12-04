@@ -285,3 +285,23 @@ Generating locales...
   en_US.UTF-8...
 done
 ```
+
+### Alpine Linux 实现开机自启脚本
+```
+cd /etc/local.d
+
+vi sskcp.start
+
+#!/bin/bash
+ip link set eth0 up
+ip addr add 192.168.1.111/24 dev eth0
+ip route add default via 192.168.1.1
+exec /root/sskcp.sh start
+
+
+# 赋予脚本可执行权限：
+chmod +x sskcp.start
+
+# 设置 local 服务开机启动：
+rc-update add local
+```
