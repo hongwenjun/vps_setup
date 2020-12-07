@@ -222,22 +222,34 @@ init_iptables(){
 }
 
 add_tcp_chain(){
+    CIDR="0.0.0.0/0"
     echo -e "${GreenBG} 追加TCP端口段到 Chain INPUT ( multiport dports) ${Font}"
     read -p "请输入TCP端口段(示例: 7000,7500:7510 ): " port
+    read -p "请输入授权网段(按 <Enter> 默认: 0.0.0.0/0 ): "  cidr
+
+    if [[ ! -z "${cidr}" ]]; then
+        CIDR=${cidr}
+    fi
 
     iptables -D INPUT -p tcp -m multiport --dport ${tcp_port} -j ACCEPT  >/dev/null 2>&1
-    iptables -I INPUT -p tcp -m multiport --dport ${tcp_port},${port} -j ACCEPT
+    iptables -I INPUT -p tcp  -s ${CIDR}  -m multiport --dport ${tcp_port},${port} -j ACCEPT
 
     RELATED_ESTABLISHED
     save_iptables
 }
 
 add_udp_chain(){
+    CIDR="0.0.0.0/0"
     echo -e "${GreenBG} 追加UDP端口段到 Chain INPUT ( multiport dports) ${Font}"
     read -p "请输入UDP端口段(示例: 7000,7500:7510 ): " port
+    read -p "请输入授权网段(按 <Enter> 默认: 0.0.0.0/0 ): "  cidr
+
+    if [[ ! -z "${cidr}" ]]; then
+        CIDR=${cidr}
+    fi
 
     iptables -D INPUT -p udp -m multiport --dport ${udp_port} -j ACCEPT  >/dev/null 2>&1
-    iptables -I INPUT -p udp -m multiport --dport ${udp_port},${port} -j ACCEPT
+    iptables -I INPUT -p udp -s ${CIDR}  -m multiport --dport ${udp_port},${port} -j ACCEPT
 
     RELATED_ESTABLISHED
     save_iptables
