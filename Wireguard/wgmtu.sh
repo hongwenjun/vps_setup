@@ -309,6 +309,8 @@ onekey_plus(){
     echo_Yellow  "  curl https://rclone.org/install.sh | sudo bash"
     echo_SkyBlue "  # 安装Docker软件一键脚本"
     echo_Yellow  "  curl -fsSLo- get.docker.com | /bin/sh"
+    echo_SkyBlue "  # 另一个Linux服务器基准脚本"
+    echo_Yellow  "  curl -sL yabs.sh | bash"
 }
 
 safe_iptables(){
@@ -545,7 +547,7 @@ start_menu(){
     echo
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
-    echo_SkyBlue                      "                    [ tr|qb | docker | rclone | ip | en ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
     echo
     read -p "请输入数字(1-8):" num
     case "$num" in
@@ -633,6 +635,9 @@ start_menu(){
         bench)
         wget -qO- git.io/superbench.sh | bash
         ;;
+	yabs)
+        curl -sL yabs.sh | bash
+        ;;
         trace)
         wget -qO- git.io/fp5lf | bash
         ;;
@@ -652,7 +657,7 @@ start_menu(){
 wgmtu_help(){
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
-    echo_SkyBlue                      "                    [ tr|qb | docker | rclone | ip | en ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
     echo
     echo_Yellow "[setup 惊喜 | remove 卸载 | vps 脚本 | bench 基准测试 | -U 更新]"
     echo_Yellow "[v2ray 你懂 | vnstat 流量 | log 信息 | trace 网络回程 | -h 帮助]"
