@@ -192,8 +192,8 @@ scp_conf(){
 #    wg-quick up wg0     >/dev/null 2>&1
 #    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
-    authorized_keys
     get_tools_conf
+    authorized_keys
 }
 
 # DEBIAN LOCALE LANGUAGE SETTINGS
