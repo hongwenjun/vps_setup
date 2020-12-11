@@ -52,6 +52,22 @@ https://www.ipip.net/ipquery.html
 ```
 apt install tmux fish  -y
 ```
+### GCP_AZ_AWS_Virmach等小内存优化，htop 或者  systemctl查看有的任务
+```
+systemctl | grep running
+
+systemctl disable   google-accounts-daemon.service
+systemctl disable   google-clock-skew-daemon.service
+systemctl disable   google-network-daemon.service 
+systemctl disable   google-osconfig-agent.service
+
+systemctl disable  unattended-upgrades.service 
+systemctl disable  fail2ban
+systemctl disable  rsyslog
+systemctl disable  cron
+systemctl disable  getty@tty2.service
+systemctl disable  console-getty.service
+```
 
 ### 在Android手机上安装Termux应用，测试学习10个秘密和酷命令!
 
