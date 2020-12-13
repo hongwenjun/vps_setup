@@ -72,12 +72,7 @@ systemctl disable  console-getty.service
 ### 微软B1ls 内存只给420M运行Docker崩溃只好开虚拟内存
 ```
 # WALinuxAgent (waagent) 卸载
-
-systemctl stop walinuxagent
 systemctl disable walinuxagent
-waagent -deprovision -force
-rm -rf /var/lib/waagent
-rm /etc/waagent.conf
 
 # Swap 交换空间
 
