@@ -69,6 +69,44 @@ systemctl disable  getty@tty2.service
 systemctl disable  console-getty.service
 ```
 
+### 微软B1ls 内存只给420M运行Docker崩溃只好开虚拟内存
+```
+# WALinuxAgent (waagent) 卸载
+
+systemctl stop walinuxagent
+systemctl disable walinuxagent
+waagent -deprovision -force
+rm -rf /var/lib/waagent
+rm /etc/waagent.conf
+
+# Swap 交换空间
+
+fallocate -l 1G /swapfile
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
+echo "/swapfile swap swap defaults 0 0"  >>  /etc/fstab
+
+
+# 其他优化设定
+vim /etc/sysctl.conf
+
+vm.min_free_kbytes = 18600
+vm.swappiness = 5
+
+sysctl -p
+
+
+网上找了文章  《Azure 乞丐版 B1ls 的正确使用姿势 压榨极致性能》
+先凑合着用吧，反正是备用机，续签的 99刀应该可以用一年
+----------------
+## crontab -l
+1   *   */7  *  *   reboot
+59  *    *   *  *    wget -qO- git.io/fxxlb | bash
+8  */8   *   *  *   docker run --rm  hostloc  用户 密码
+```
+
 ### 在Android手机上安装Termux应用，测试学习10个秘密和酷命令!
 
 ```
