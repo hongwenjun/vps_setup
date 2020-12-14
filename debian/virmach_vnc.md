@@ -21,4 +21,4 @@ bash InstallNET.sh -d 10 -v 64 -a
 # 最后 安装常用软件 和哪个软件，如图，系统盘占用不到1G
 apt install wget curl tmux vim htop 
 ```
-1[](https://i.loli.net/2020/12/14/H6AWcpK9yC1ftGi.png)
+![](https://i.loli.net/2020/12/14/H6AWcpK9yC1ftGi.png)
