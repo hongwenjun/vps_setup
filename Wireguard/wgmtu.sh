@@ -261,6 +261,15 @@ docker_qb(){
     echo -e ":: 请登陆配置Peer端口(59902)和密码, 重启命令: ${GreenBG} docker restart qbittorrent ${Font}"
 }
 
+# 安装tcping
+tcping_instll(){
+	wget https://github.com/cloverstd/tcping/releases/download/v0.1.1/tcping-linux-amd64-v0.1.1.tar.gz
+	tar xf tcping-linux-amd64-v0.1.1.tar.gz
+	mv tcping /usr/bin/tcping
+	tcping 1.1.1.1 53
+	rm tcping-linux-amd64-v0.1.1.tar.gz
+}
+
 # 定义文字颜色
 Green="\033[32m"  && Red="\033[31m" && GreenBG="\033[42;37m" && RedBG="\033[41;37m"
 Font="\033[0m"  && Yellow="\033[0;33m" && SkyBlue="\033[0;36m"
@@ -594,6 +603,9 @@ start_menu(){
         qb)
         docker_qb
         ;;
+        tcping)
+        tcping_instll
+        ;;
     # 菜单输入 管理命令 bash wgmtu 命令行参数
         setup)
         ss_kcp_udp2raw_wg_speed
@@ -702,6 +714,9 @@ if [[ $# > 0 ]]; then
         ;;
         docker)
         curl -fsSLo- get.docker.com | /bin/sh
+        ;;
+	tcping)
+        tcping_instll
         ;;
         rclone)
         curl https://rclone.org/install.sh | sudo bash
