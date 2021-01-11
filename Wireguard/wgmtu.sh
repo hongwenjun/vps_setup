@@ -163,8 +163,8 @@ ss_kcp_udp2raw_wg_speed(){
 
 # 常用工具和配置
 get_tools_conf(){
-    apt install -y htop tmux screen iperf3 fish net-tools >/dev/null 2>&1
-    yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
+    apt install -y htop tmux curl wget vim >/dev/null 2>&1
+  #  yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
     wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
@@ -633,7 +633,7 @@ start_menu(){
         curl -fsSLo- get.docker.com | /bin/sh
         ;;
         rclone)
-        curl https://rclone.org/install.sh | sudo bash
+        curl https://rclone.org/install.sh | bash
         ;;
         en)
         en_US
@@ -719,7 +719,7 @@ if [[ $# > 0 ]]; then
         tcping_instll
         ;;
         rclone)
-        curl https://rclone.org/install.sh | sudo bash
+        curl https://rclone.org/install.sh | bash
         ;;
         en)
         en_US
