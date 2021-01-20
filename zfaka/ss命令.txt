@@ -1,0 +1,102 @@
+ss命令
+
+ss用来显示处于活动状态的套接字信息。ss命令可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效，ss利用到了TCP协议栈中tcp_diag，tcp_diag是一个分析统计模块，直接从linux内核中获取信息
+
+参数：
+
+复制代码
+-h：显示帮助信息；
+
+-V：显示指令版本信息；
+
+-n：不解析服务名称，以数字方式显示；
+
+-a：显示所有的套接字；
+
+-l：显示处于监听状态的套接字；
+
+-o：显示计时器信息；
+
+-m：显示套接字的内存使用情况；
+
+-p：显示使用套接字的进程信息；
+
+-i：显示内部的TCP信息；
+
+-4：只显示ipv4的套接字；
+
+-6：只显示ipv6的套接字；
+
+-t：只显示tcp套接字；
+
+-u：只显示udp套接字；
+
+-d：只显示DCCP套接字；
+
+-w：仅显示RAW套接字；
+
+-x：仅显示UNIX域套接字。
+复制代码
+复制代码
+ss -l 显示本地打开的所有端口
+ss -pl 显示每个进程具体打开的socket
+ss -t -a 显示所有tcp socket
+ss -u -a 显示所有的UDP Socekt
+ss -o state established '( dport = :smtp or sport = :smtp )' 显示所有已建立的SMTP连接
+ss -o state established '( dport = :http or sport = :http )' 显示所有已建立的HTTP连接
+ss -x src /tmp/.X11-unix/* 找出所有连接X服务器的进程
+ss -s 列出当前socket详细信息:
+复制代码
+复制代码
+ss dport OP PORT
+OP:是运算符
+PORT：表示端口
+dport：表示过滤目标端口、相反的有sport
+
+
+OP运算符如下：
+<= or le : 小于等于 >= or ge : 大于等于
+== or eq : 等于
+!= or ne : 不等于端口
+< or lt : 小于这个端口 > or gt : 大于端口
+
+实例：
+
+ss sport = :http 也可以是 ss sport = :80
+ss dport = :http
+ss dport \> :1024
+ss sport \> :1024
+ss sport \< :32000
+ss sport eq :22
+ss dport != :22
+ss state connected sport = :http
+ss \( sport = :http or sport = :https \)
+ss -o state fin-wait-1 \( sport = :http or sport = :https \) dst 192.168.1/24
+复制代码
+实例：
+
+显示sockte连接： ss -s
+
+复制代码
+[root@174nhy1 ~]# ss -s
+Total: 956 (kernel 1154)
+TCP:   18211 (estab 547, closed 17652, orphaned 1, synrecv 0, timewait 17652/0), ports 13506
+
+Transport Total     IP        IPv6
+*      1154      -         -
+RAW      0         0         0
+UDP      2         2         0
+TCP      559       559       0
+INET      561       561       0
+FRAG      0         0         0
+复制代码
+复制代码
+[root@174nhy1 ~]# ss -pl
+State      Recv-Q Send-Q                                                                                                      Local Address:Port                                                                                                          Peer Address:Port
+LISTEN     0      511                                                                                                                     *:http                                                                                                                     *:*        users:(("nginx",3241,459),("nginx",3242,459),("nginx",3243,459),("nginx",3244,459),("nginx",3245,459),("nginx",3246,459),("nginx",3247,459),("nginx",3248,459),("nginx",20849,459))
+LISTEN     0      128                                                                                                                     *:ssh                                                                                                                      *:*        users:(("sshd",2481,3))
+LISTEN     0      1024                                                                                                            127.0.0.1:atmtcp                                                                                                                   *:*        users:(("monit",20197,5))
+LISTEN     0      128                                                                                                                     *:9090                                                                                                                     *:*        users:(("odin-agent",7241,7))
+LISTEN     0      128                                                                                                                     *:tr-rsrb-p2                                                                                                                  *:*        users:(("munin-agent",21407,3))
+LISTEN     0      128                                                                                                             127.0.0.1:smux                                                                                                                     *:*        users:(("snmpd",2666,8))
+LISTEN     0      30000                                 

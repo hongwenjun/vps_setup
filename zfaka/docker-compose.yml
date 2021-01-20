@@ -1,0 +1,59 @@
+    
+version: '3.1'
+services:
+    php:
+        image: baiyuetribe/zfaka 
+        restart: always   
+        volumes:
+            - /opt/zfaka/code:/var/www/html     
+        networks:
+            - frontend
+            - backend
+        depends_on:
+            - mysql
+    nginx:
+        image: nginx:1.17.1-alpine
+        restart: always
+        volumes:
+          - /opt/zfaka/code/default.conf:/etc/nginx/conf.d/default.conf
+          - /opt/zfaka/code:/var/www/html        
+        ports:
+            - "3002:80"
+        networks:
+            - frontend
+        depends_on:
+            - php            
+    mysql:
+        image: mysql:5.6
+        volumes:
+            - /opt/zfaka/mysql:/var/lib/mysql
+        environment:
+            TZ: 'Asia/Shanghai'
+            MYSQL_DATABASE: faka
+            MYSQL_ROOT_PASSWORD: baiyue.one
+        command: ['mysqld', '--character-set-server=utf8']
+        networks:
+            - backend
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - 8080:80
+        depends_on:
+            - nginx
+        environment:
+            PMA_HOST: mysql
+            TZ: 'Asia/Shanghai'
+        networks:
+            - backend
+    kodexplorer:
+        image: baiyuetribe/kodexplorer
+        volumes:
+            - /opt/zfaka:/code   
+        ports:
+            - 999:80
+        depends_on:
+            - nginx
+                 
+networks:
+    frontend:
+    backend:
