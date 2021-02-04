@@ -274,6 +274,19 @@ Filesystem      Size  Used Avail Use% Mounted on
 
 ```
 
+### linux 关闭swap
+
+```
+# 禁用swap
+ swapoff -a
+
+# 启用swap
+ swapon -a
+
+# 查看交换分区状态
+ free -m
+ ```
+
 ## debian 使用 ntfs-3g 挂载读取Windows NTFS系统文件
 ```
   apt search ntfs-3g     # 搜索工具在哪个安装包
