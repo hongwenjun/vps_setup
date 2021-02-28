@@ -384,6 +384,25 @@ start_menu
 #################################################
 ```
 
+### linux 中文乱码  
+- 乱码 '$'\351\243\236\345\210\251\
+
+```
+首先查看系统对中文的支持
+locale -a | grep zh_CN
+
+输出样例如下
+zh_CN.gbk
+zh_CN.utf8
+
+vim ~/.bash_profile
+
+文件末尾添加
+
+export LANG="zh_CN.UTF-8"
+export LC_ALL="zh_CN.UTF-8"
+```
+
 ### 将VirtualBox里安装的虚拟机在后台运行方法
 ```
 ::  将VirtualBox里安装的虚拟机在后台运行方法（在状态栏隐藏窗口）
