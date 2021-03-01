@@ -30,6 +30,13 @@ mp3_download(){
     rm *.m4a
 }
 
+m4a_download(){
+    while read -r line || [[ -n $line ]];do
+        youtube-dl -f 140 $line
+    done < $url_list
+
+    ls -1 *.m4a
+}
 
 url_list=url_list.txt
 if [[ $# > 1 ]];then
@@ -46,7 +53,7 @@ url_f(){
 }
 
 help_info(){
-echo -e "\e[1;33m Usage: $0  [install | mp3 | vod]  [url_list.txt | URL] \e[0m"
+echo -e "\e[1;33m Usage: $0  [install | mp3 | vod | m4a ]  [url_list.txt | URL] \e[0m"
 }
 
 url_f
@@ -63,7 +70,9 @@ if [[ $# > 0 ]];then
         vod)
 		vod_download
 		;;
-
+		m4a)
+		m4a_download
+		;;
 	esac
 else
     help_info
