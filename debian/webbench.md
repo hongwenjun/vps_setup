@@ -6,7 +6,7 @@
 apt install ctags
 
 2、安装 Webbench
-```
+
 wget http://blog.s135.com/soft/linux/webbench/webbench-1.5.tar.gz
 tar xf  webbench-1.5.tar.gz
 cd webbench-1.5
@@ -19,7 +19,6 @@ make && make install
 
 webbench -c 500  -t  30   http://127.0.0.1/phpionfo.php
 ```
-
 
 ### Install
 =============
