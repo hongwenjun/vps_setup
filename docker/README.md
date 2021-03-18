@@ -92,3 +92,65 @@ chown -R www-data:www-data  _files
 chmod 0777 _files/
 
 ```
+
+------
+# Docker 安装PT下载神器 QB 和 TR
+```
+# 脚本安装
+wget git.io/wgmtu
+
+# 安装Docker软件
+bash wgmtu docker
+
+# 安装qbittorrent软件
+bash wgmtu qb
+
+# 安装transmission软件(目前非docker安装)
+# docker 安装参考下面命令
+bash wgmtu tr
+```
+
+### 安装Docker软件
+curl -fsSLo- get.docker.com | /bin/sh
+
+### 测试运行
+docker run hello-world
+
+### 创建容器: qbittorrent
+```bash
+docker run --name=qbittorrent \
+-e PUID=1000 -e PGID=1000 \
+-e TZ=Asia/ShangHai \
+-e UMASK_SET=022 -e \
+WEBUI_PORT=8080 \
+-p 59902:59902 \
+-p 59902:59902/udp \
+-p 8080:8080 \
+-v /mnt/config:/config \
+-v /mnt/downloads:/downloads \
+--restart unless-stopped \
+-d linuxserver/qbittorrent
+```
+
+### 创建容器: transmission
+```bash 
+docker run --name=transmission \
+-e PUID=1000 -e PGID=1000 \
+-e TZ=Asia/ShangHai \
+-e TRANSMISSION_WEB_HOME=/transmission-web-control/  \
+-e USER=admin   -e PASS=password@2021 \
+-p 9091:9091 \
+-p 51413:51413 \
+-p 51413:51413/udp \
+-v /mnt/config:/config \
+-v /mnt/downloads:/downloads \
+-v /mnt/watch:/watch \
+--restart unless-stopped \
+-d linuxserver/transmission
+```
+
+### 登陆
+- 用默认用户名密码(admin/adminadmin)登录,端口8080,配置Peer端口(用于传入链接的端口)59902,配置完基本的东西之后重启QB.
+  docker restart qbittorrent
+
+
