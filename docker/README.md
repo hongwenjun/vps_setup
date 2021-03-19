@@ -92,9 +92,68 @@ chown -R www-data:www-data  _files
 chmod 0777 _files/
 
 ```
+-----
+## Docker 安装 WordPress 博客程序
+- 
+
+```
+#  wordpress 安装目录和程序下载
+
+mkdir /mnt/wordpress -p
+cd    /mnt/wordpress
+
+wget https://wordpress.org/latest.tar.gz
+tar xf  latest.tar.gz
+chown -R www-data:www-data wordpress
+mv  wordpress www
+
+#  容器 linuxserver/nginx 安装，已经包含php7.x支持
+
+docker run -d \
+  --name=nginx \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Europe/London \
+  -p 80:80 \
+  -p 443:443 \
+  -v /mnt/wordpress:/config \
+  --restart unless-stopped \
+  linuxserver/nginx
+  
+# 容器 linuxserver/mariadb  数据库程序安装
+
+docker run -d \
+  --name=mysql \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e MYSQL_ROOT_PASSWORD=密码  \
+  -e TZ=Europe/London \
+  -e MYSQL_DATABASE=wordpress    \
+  -e MYSQL_USER=wordpress     \
+  -e MYSQL_PASSWORD=密码  \
+  -p 3306:3306 \
+  -v /mnt/wordpress:/config \
+  --restart unless-stopped \
+  linuxserver/mariadb
+
+```
+
+### WordPress 博客程序 配置 
+- http://wp.262235.xyz/wp-admin/setup-config.php
+- 
+```
+数据库连接 配置
+
+数据库名	wordpress
+用户名	wordpress
+密码	密码
+数据库主机	localhost ( mysql容器IP 172.17.0.4 或者网关 172.17.0.1  )
+            有些模版 填 容器名称 mysql 也可以
+
+```
 
 ------
-# Docker 安装PT下载神器 QB 和 TR
+## Docker 安装PT下载神器 QB 和 TR
 ```
 # 脚本安装
 wget git.io/wgmtu
