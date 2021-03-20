@@ -92,10 +92,11 @@ chown -R www-data:www-data  _files
 chmod 0777 _files/
 
 ```
------
-## Docker 安装 WordPress 博客程序
-- 
 
+-----
+
+## Docker 安装 WordPress 博客程序
+ 
 ```
 #  wordpress 安装目录和程序下载
 
@@ -140,7 +141,7 @@ docker run -d \
 
 ### WordPress 博客程序 配置 
 - http://wp.262235.xyz/wp-admin/setup-config.php
-- 
+
 ```
 数据库连接 配置
 
@@ -150,6 +151,49 @@ docker run -d \
 数据库主机	localhost ( mysql容器IP 172.17.0.4 或者网关 172.17.0.1  )
             有些模版 填 容器名称 mysql 也可以
 
+```
+
+-----
+
+###  Typecho 简单博客框架 Docker 安装笔记
+
+```
+# Typecho 简单博客 程序下载和目录放置
+
+mkdir /mnt/typecho -p
+cd    /mnt/typecho
+
+wget https://typecho.org/downloads/1.1-17.10.30-release.tar.gz
+tar xf 1.1-17.10.30-release.tar.gz
+mv  build www
+
+# 容器 linuxserver/nginx 安装，已经包含php7.x支持
+
+docker run -d \
+  --name=nginx \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Europe/London \
+  -p 80:80 \
+  -p 443:443 \
+  -v /mnt/typecho:/config \
+  --restart unless-stopped \
+  linuxserver/nginx
+  
+# 安装按提示，数据库 先 Sqlite 3.0
+
+Nginx服务器无法登录后台，点击前台链接或者后台登录时出现"404, not found"
+=============================================================
+
+http://docs.typecho.org/faq
+
+一般的出现这种情况时,nginx.conf里的的location设置都是类似这样
+
+location ~ .*\.php$
+
+要支持pathinfo，要改成
+
+location ~ .*\.php(\/.*)*$
 ```
 
 ------
