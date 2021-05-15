@@ -163,7 +163,7 @@ ss_kcp_udp2raw_wg_speed(){
 
 # 常用工具和配置
 get_tools_conf(){
-    apt install -y htop tmux curl wget vim psmisc
+    apt install -y htop tmux curl wget vim psmisc bash-completion  ca-certificates locales
  #  yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
