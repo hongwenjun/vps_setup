@@ -1,0 +1,65 @@
+{
+  "dbserver": "mongodb+srv://username:password@cluster0.3cyul.mongodb.net/?retryWrites=true&w=majority", // (请在正式配置中不要包含此注释) => 数据库
+  "node": [
+    {
+      "source": "www.nicept.net",
+      "passkey": "21232f297a57a5a743894a0e4a801fc3",
+      "limit": 10,
+      "enable": true,
+      "rule": {
+        "seeder_time": 0,
+        "seeder_ratio": 0,
+        "speed_limit": 8.0
+      }
+    },
+    {
+      "source": "pt.btschool.club", // (请在正式配置中不要包含此注释) => 网站域名
+      "passkey": "21232f297a57a5a743894a0e4a801fc3", // (请在正式配置中不要包含此注释) => 密钥
+      "limit": 10, // (请在正式配置中不要包含此注释) => 每次抓取数量,过多可能会D挂PT站
+      "enable": true, // (请在正式配置中不要包含此注释) => 如果为false,则这个配置暂时不用
+      "rule": {
+        "seeder_time": 86400, // (请在正式配置中不要包含此注释) => 该站有HR,限制最小做种86400秒
+        "seeder_ratio": 1.2, // (请在正式配置中不要包含此注释) => 该站有HR,限制分享率1.2
+        "speed_limit": 10.0 // (请在正式配置中不要包含此注释) => 该站限速10.0MB/s
+      }
+    }
+  ],
+  "server": [
+    {
+      "endpoint": "http://173.82.120.1:8080", // (请在正式配置中不要包含此注释) => QB服务器地址
+      "username": "admin", // (请在正式配置中不要包含此注释) => QB用户名
+      "password": "adminadmin", // (请在正式配置中不要包含此注释) => QB密码
+      "remark": "Cloudcone (250G)", // (请在正式配置中不要包含此注释) => 服务器别名
+      "enable": false, // (请在正式配置中不要包含此注释) => 如果false则不使能
+      "rule": {
+        "concurrent_download": 1, // (请在正式配置中不要包含此注释) => 同时下载限制:1个
+        "disk_threshold": 10.0, // (请在正式配置中不要包含此注释) => 10GB
+        "disk_overcommit": true, // (请在正式配置中不要包含此注释) => 是否可超量安排任务(如果盘小推荐关闭)
+        "max_speed": 50.00, // (请在正式配置中不要包含此注释) => 当服务器当前速度大于50MB/s时不再安排任务,避免TOS.
+        "min_alivetime": 3600, // (请在正式配置中不要包含此注释) => 种子在服务器最短存活时间3600秒,小于这个时间即使空间不足也不会删除.
+        "max_alivetime": 86400, // (请在正式配置中不要包含此注释) => 种子在服务器最长存货时间86400秒,大于这个时间的不活跃内容会被自动删除.
+        "min_tasksize": 1.0, // (请在正式配置中不要包含此注释) => 添加的最小种子1GB,太小的话IO太密集.
+        "max_tasksize": 200.0,// (请在正式配置中不要包含此注释) => 添加的最大种子200GB,太大话刷的效率低.
+        "max_disklatency": 10000 // (请在正式配置中不要包含此注释) => 磁盘延迟大于10000就不要添加种子,添进去怕也下不动..
+      }
+    },
+    {
+      "endpoint": "http://173.82.120.2:8080",
+      "username": "admin",
+      "password": "TaterLi1024",
+      "remark": "Cloudcone (500G)",
+      "enable": false,
+      "rule": {
+        "concurrent_download": 1,
+        "disk_threshold": 10.0,
+        "disk_overcommit": true,
+        "max_speed": 50.00,
+        "min_alivetime": 3600,
+        "max_alivetime": 86400,
+        "min_tasksize": 0.0,
+        "max_tasksize": 400.0,
+        "max_disklatency": 10000
+      }
+    }
+  ]
+}
