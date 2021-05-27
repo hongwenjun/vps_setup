@@ -1,4 +1,6 @@
 #!/bin/bash
+# 自动PT autopt.sh 一键脚本    短网址: https://git.io/autopt.sh
+# Usage:  wget git.io/autopt.sh && bash autopt.sh
 
 SERVER_IP=172.17.0.1
 PORT=8080
@@ -150,16 +152,18 @@ start_menu(){
     echo -e ">  6. 查看 QB 服务器最新状态"
     echo    "------------------------------------------------------------"
     echo -e "${Green}>  7. 安装 Docker 容器引擎和 qBittorrent 软件"
-    echo -e ">  8. 检查 自动PT 推送信息,按 ${RedBG}<Enter> ${Font}"
+    echo -e ">  8. 检查 自动PT 推送信息, 可只按 ${RedBG}<Enter> ${Font}"
     echo
     echo -e "${GreenBG}:: autopt镜像:  https://hub.docker.com/r/hongwenjun/autopt  ${Font}"
     read -p "请输入数字(1-8):" num
     case "$num" in
         1)
         input_conf
+	start_menu
         ;;
         2)
         install
+	start_menu
         ;;
         3)
         docker restart autopt
@@ -180,10 +184,12 @@ start_menu(){
         bash wgmtu qb
         ;;
         8)
-        docker logs  autopt | grep -e 种子 -e 磁盘
+        docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
         ;;
+	*)
+	docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
+	;;
         esac
-        docker logs  autopt | grep -e 种子 -e 磁盘
 }
 
 system_def
