@@ -3,13 +3,15 @@
 # dhcpcd 启动后延迟 2秒 再添加一个静态IP
 sleep 2
 
-ip link set enp0s3 up
-ip addr add 192.168.1.111/24 dev enp0s3
+ni=$(ip addr | grep -E en[a-zA-Z0-9] | head -n 1 | awk -F ': '  '{print $2}')
+
+ip link set $ni up
+ip addr add 192.168.1.111/24 dev $ni
 ip route add default via 192.168.1.1
 
 
 help(){
-    echo -e "${SkyBlue}:: Source: ${Green} Arch Linux 添加 一个静态IP  add_ip.sh  ${Font}By 蘭雅sRGB"
+    echo -e "${SkyBlue}:: Source: ${Green} Debian or Arch Linux 添加 一个静态IP  add_ip.sh  ${Font}By 蘭雅sRGB"
     echo -e "${SkyBlue}:: Usage: ${GreenBG} bash add_ip.sh ${Yellow} [service] ${Font}"
     echo
 }
