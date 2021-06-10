@@ -192,8 +192,8 @@ scp_conf(){
 #    wg-quick up wg0     >/dev/null 2>&1
 #    echo -e "${RedBG}    我真不知道WG服务器端是否已经使用源vps的配置启动!    ${Font}"
 
-    get_tools_conf
     authorized_keys
+    get_tools_conf
 }
 
 # DEBIAN LOCALE LANGUAGE SETTINGS
@@ -262,12 +262,35 @@ docker_qb(){
 }
 
 # 安装tcping
-tcping_instll(){
+tcping_install(){
 	wget https://github.com/cloverstd/tcping/releases/download/v0.1.1/tcping-linux-amd64-v0.1.1.tar.gz
 	tar xf tcping-linux-amd64-v0.1.1.tar.gz
 	mv tcping /usr/bin/tcping
 	tcping 1.1.1.1 53
 	rm tcping-linux-amd64-v0.1.1.tar.gz
+}
+
+# 安装 autopt 自动PT
+autopt_install(){
+    wget git.io/autopt.sh && bash autopt.sh
+}
+
+#  一键 WordPress 博客安装脚本
+lnmp_install(){
+    wget git.io/lnmp.sh && bash lnmp.sh
+}
+
+# 安装Docker可视化界面Portainer
+portainer_install(){
+    docker run --name Portainer          \
+      --restart=always  -d -p 9000:9000  \
+      -v /var/run/docker.sock:/var/run/docker.sock  \
+      -v /opt/portainer_data:/data        \
+      portainer/portainer
+
+    #  浏览器中输入网址管理
+    echo -e "${GreenBG}:: Docker可视化界面Portainer 管理地址  ${Yellow}"
+    echo -e  http://$(cat /var/ip_addr):9000
 }
 
 # 定义文字颜色
@@ -557,6 +580,7 @@ start_menu(){
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
     echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
+    echo_SkyBlue                      "                    [ tcping| autopt | portainer | lnmp ] "
     echo
     read -p "请输入数字(1-8):" num
     case "$num" in
@@ -603,9 +627,19 @@ start_menu(){
         qb)
         docker_qb
         ;;
-        tcping)
-        tcping_instll
+        autopt)
+        autopt_install
         ;;
+        lnmp)
+        lnmp_install
+        ;;
+        portainer)
+        portainer_install
+        ;;
+        tcping)
+        tcping_install
+        ;;
+
     # 菜单输入 管理命令 bash wgmtu 命令行参数
         setup)
         ss_kcp_udp2raw_wg_speed
@@ -647,7 +681,7 @@ start_menu(){
         bench)
         wget -qO- git.io/superbench.sh | bash
         ;;
-	yabs)
+        yabs)
         curl -sL yabs.sh | bash
         ;;
         trace)
@@ -670,9 +704,13 @@ wgmtu_help(){
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
     echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
+    echo_SkyBlue                      "                    [ tcping| autopt | portainer | lnmp ] "
     echo
     echo_Yellow "[setup 惊喜 | remove 卸载 | vps 脚本 | bench 基准测试 | -U 更新]"
     echo_Yellow "[v2ray 你懂 | vnstat 流量 | log 信息 | trace 网络回程 | -h 帮助]"
+    echo_Yellow "[tr|qb PT下载 | docker 容器安装 | rclone G D网盘 | yabs    测试]"
+    echo_Yellow "[tcping 工具  | autopt 自动PT   | portainer 管理 | lnmp  wp博客]"
+
 }
 
 # WireGuard 管理命令 bash wgmtu 命令行参数
@@ -715,8 +753,17 @@ if [[ $# > 0 ]]; then
         docker)
         curl -fsSLo- get.docker.com | /bin/sh
         ;;
-	tcping)
-        tcping_instll
+        autopt)
+        autopt_install
+        ;;
+        lnmp)
+        lnmp_install
+        ;;
+        portainer)
+        portainer_install
+        ;;
+        tcping)
+        tcping_install
         ;;
         rclone)
         curl https://rclone.org/install.sh | bash
@@ -732,6 +779,9 @@ if [[ $# > 0 ]]; then
         ;;
         bench)
         wget -qO- git.io/superbench.sh | bash
+        ;;
+        yabs)
+        curl -sL yabs.sh | bash
         ;;
         trace)
         wget -qO- git.io/fp5lf | bash

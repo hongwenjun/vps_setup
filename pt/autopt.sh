@@ -138,6 +138,19 @@ install(){
     echo -e "${GreenBG}::   autopt镜像:   https://hub.docker.com/r/hongwenjun/autopt ${Font}"
 }
 
+# 安装Docker可视化界面Portainer
+portainer_install(){
+    docker run --name Portainer          \
+      --restart=always  -d -p 9000:9000  \
+      -v /var/run/docker.sock:/var/run/docker.sock  \
+      -v /opt/portainer_data:/data        \
+      portainer/portainer
+
+    #  浏览器中输入网址管理
+    echo -e "${GreenBG}:: Docker可视化界面Portainer 管理地址  ${Yellow}"
+    echo -e  http://$(cat /var/ip_addr):9000
+}
+
 # 设置菜单
 start_menu(){
     echo -e "${GreenBG}>     开源项目:  https://github.com/hongwenjun/vps_setup     "
@@ -151,6 +164,7 @@ start_menu(){
     echo    "------------------------------------------------------------"
     echo -e "${Green}>  7. 安装 Docker 容器引擎和 qBittorrent 软件"
     echo -e ">  8. 检查 自动PT 推送信息, 可只按 ${RedBG}<Enter> ${Font}"
+    echo -e "${Green}>  9. 安装Docker可视化界面 Portainer 工具 ${Font}"
     echo
     echo -e "${GreenBG}:: autopt镜像:  https://hub.docker.com/r/hongwenjun/autopt  ${Font}"
     read -p "请输入数字(1-8):" num
@@ -186,6 +200,9 @@ start_menu(){
         ;;
         *)
         docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
+        ;;
+        9)
+        portainer_install
         ;;
         esac
 }
