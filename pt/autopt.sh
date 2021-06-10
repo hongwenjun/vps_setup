@@ -198,11 +198,11 @@ start_menu(){
         8)
         docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
         ;;
-        *)
-        docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
-        ;;
         9)
         portainer_install
+        ;;
+        *)
+        docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
         ;;
         esac
 }
