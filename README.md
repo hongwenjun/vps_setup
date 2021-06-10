@@ -7,7 +7,7 @@
 
 - 欢迎加入编程语言群 Telegram 电报群：https://t.me/codeblocks
 - [![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/sRGB18/videos) &nbsp;&nbsp;www.youtube.com/sRGB18 &nbsp;&nbsp;[![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/paypal.png)赞赏支持!](https://paypal.me/sRGB18)&nbsp;&nbsp;https://paypal.me/sRGB18
-- 推荐新手两个性价比:100:很按时计费VPS: :+1: [vultr.com](https://www.vultr.com/?ref=7425413) :+1: [skysilk.com](https://www.skysilk.com/ref/Xmr9xL1Bnf) 　:+1:按需开启，不用不浪费！
+- 推荐新手两个性价比:100:好按时计费VPS: :+1: [vultr.com](https://www.vultr.com/?ref=7425413) :+1: [skysilk.com](https://www.skysilk.com/ref/Xmr9xL1Bnf) 　:+1:按需开启，不用不浪费！
 ----
 
 - :gift: 项目: https://git.io/vps.us 　　 https://git.io/winkcp 　　 https://git.io/vps.english
@@ -37,7 +37,7 @@ https://www.ipip.net/ipquery.html
 ```
 
 
-  
+
 #### 一些表情例子 EMOJI
 - :smile: :laughing: :dizzy_face: :sob: :cold_sweat: :sweat_smile:  :cry: :triumph: :heart_eyes: :relieved:
 - :+1: :-1: :100: :clap: :bell: :gift: :question: :bomb: :heart: :coffee: :cyclone: :bow: :kiss: :pray: :anger:
@@ -46,7 +46,7 @@ https://www.ipip.net/ipquery.html
 :smile: :laughing: :dizzy_face: :sob: :cold_sweat: :sweat_smile:  :cry: :triumph: :heart_eyes: :relieved:
 :+1: :-1: :100: :clap: :bell: :gift: :question: :bomb: :heart: :coffee: :cyclone: :bow: :kiss: :pray: :anger:
 ```
-  
+
 ### 安装工具 tmux 和 fish 等
 
 ```
@@ -58,10 +58,10 @@ systemctl | grep running
 
 systemctl disable   google-accounts-daemon.service
 systemctl disable   google-clock-skew-daemon.service
-systemctl disable   google-network-daemon.service 
+systemctl disable   google-network-daemon.service
 systemctl disable   google-osconfig-agent.service
 
-systemctl disable  unattended-upgrades.service 
+systemctl disable  unattended-upgrades.service
 systemctl disable  fail2ban
 systemctl disable  rsyslog
 systemctl disable  cron
@@ -107,27 +107,27 @@ sysctl -p
 ```
 1) apt install sl
      sl
-2) factor "Any Number" 
+2) factor "Any Number"
 3) apt install fish
      fish
 4) apt install figlet
-     figlet "Any Text" 
+     figlet "Any Text"
 5) apt install cmatrix
      cmatrix
 6) apt install fortune
-     fortune 
+     fortune
 7) apt install toilet
-     toilet "Any Text" 
-     toilet -f mono12 -F gay "Any Text" 
+     toilet "Any Text"
+     toilet -f mono12 -F gay "Any Text"
 8) apt install w3m
-     w3m "any websites" 
+     w3m "any websites"
      example:- w3m google.com
 9) ifconfig
 10) apt install cowsay
       cowsay "Any Text"
 ```
 
-### [acme协议从letsencrypt生成免费的证书](http://srgb.vicp.net/2018/11/05/acme_sh/) 
+### [acme协议从letsencrypt生成免费的证书](http://srgb.vicp.net/2018/11/05/acme_sh/)
 
 ```
 #!/usr/bin/env sh
@@ -181,11 +181,11 @@ $ chmod +x /usr/bin/brook
 $ curl -L https://github.com/txthinking/brook/releases/download/v20200909/brook_linux_386 -o /usr/bin/brook
 
 ```
-- Socks5 转 HTTP 代理      
+- Socks5 转 HTTP 代理
 ```
 $ brook socks5tohttp -s 127.0.0.1:1080  -l 127.0.0.1:8010
 ```
-	
+
 - 中继: 可以将地址中继到远程地址。 它可以中继任何tcp和udp服务器
 ```
 $ brook relay -f :9999 -t 1.2.3.4:9999
@@ -221,11 +221,9 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 
 </details>
 
-### Debian 10 Buster 管理员手册  [在线阅读](https://debian-handbook.info/browse/zh-CN/stable/)
-
-- Debian 开发者和 Debian 手册作者 Raphaël Hertzog 宣布面向 Debian 10 的最新版本 Debian 管理员手册已上线。
-
 ---
+### 群晖NAS部署自动PT工具 感谢大神TaterLi  [在线阅读](https://www.262235.xyz/index.php/archives/119/)
+### 一键 WordPress 博客安装脚本，同时也是 LNMP 套件 [在线阅读](https://www.262235.xyz/index.php/archives/124/)
 ### 宇宙第一大站 IPT 刷上传，守株待兔也能活 [在线阅读](https://www.262235.xyz/index.php/archives/86/)
 ### Typecho 自用博客笔记安装 [上篇](https://www.262235.xyz/index.php/archives/61/)  [下篇:Typecho-theme-DUX 主题安装](https://www.262235.xyz/index.php/archives/74/)
 ### Oracle VM VirtualBox  安装虚拟机 Debian 10  挖坑填坑笔记 [在线阅读](https://github.com/hongwenjun/vps_setup/tree/remove/debian)
@@ -236,6 +234,10 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 
 - 白话文档: [OpenWRT配置](https://git.io/wrt.wg) 　 [Nginx反代V2ray原理](https://git.io/v2ray.nginx) 　 [rclone使用教程](https://github.com/hongwenjun/vps_setup/blob/master/rclone/README.md) 　 [Debian 安装Transmission教程和一键脚本](https://github.com/hongwenjun/vps_setup/blob/master/rclone/transmission.md)
 - 网友视频: [三剑客](https://youtu.be/BHZhU8wxf9A) 　 [PC_MAC_手机客户端](https://youtu.be/dkXWicxak3w)
+
+### Debian 10 Buster 管理员手册  [在线阅读](https://debian-handbook.info/browse/zh-CN/stable/)
+
+- Debian 开发者和 Debian 手册作者 Raphaël Hertzog 宣布面向 Debian 10 的最新版本 Debian 管理员手册已上线。
 
 ---
 
