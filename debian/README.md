@@ -592,3 +592,13 @@ rsync -avzP --delete root@{remoteHost}:{remoteDir} {localDir}
 rsync -avzP --delete   root@us.myvps.xyz:/var/lib/emby   /var/lib/emby
 
 ```
+
+##  apt upgrade 更新 grub 会把引导信息损坏, 可以使用下面 GRUB引导修复
+```
+grub-mkconfig -o /boot/grub/grub.cfg
+
+grub-install /dev/sda
+
+update-grub
+
+```
