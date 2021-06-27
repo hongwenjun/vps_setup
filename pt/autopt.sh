@@ -151,6 +151,25 @@ portainer_install(){
     echo -e  http://$(cat /var/ip_addr):9000
 }
 
+# qBittorrent软件(Host模式支持IPV6)
+qbittorrent_install(){
+    docker run --name=qbittorrent \
+    -e PUID=1000 -e PGID=1000 \
+    -e TZ=Asia/ShangHai \
+    -e UMASK_SET=022 -e \
+    WEBUI_PORT=8080 \
+    --net=host \
+    -v /mnt/config:/config \
+    -v /mnt/downloads:/downloads \
+    --restart unless-stopped \
+    -d linuxserver/qbittorrent
+
+    #  浏览器中输入网址管理
+    echo -e "${GreenBG}:: qBittorrent软件 管理地址  ${Yellow}"
+    echo -e  http://$(cat /var/ip_addr):8080
+}
+
+
 # 设置菜单
 start_menu(){
     echo -e "${GreenBG}>     开源项目:  https://github.com/hongwenjun/vps_setup     "
@@ -162,7 +181,7 @@ start_menu(){
     echo -e ">  5. 卸载 autopt 自动PT容器"
     echo -e ">  6. 查看 QB 服务器最新状态"
     echo    "------------------------------------------------------------"
-    echo -e "${Green}>  7. 安装 Docker 容器引擎和 qBittorrent 软件"
+    echo -e "${Green}>  7. 安装Docker引擎和qBittorrent软件(Host模式支持IPV6)"
     echo -e ">  8. 检查 自动PT 推送信息, 可只按 ${RedBG}<Enter> ${Font}"
     echo -e "${Green}>  9. 安装Docker可视化界面 Portainer 工具 ${Font}"
     echo
@@ -191,9 +210,8 @@ start_menu(){
         docker  exec  -it autopt  gostat
         ;;
         7)
-        wget -O wgmtu git.io/wgmtu  >/dev/null 2>&1
-        bash wgmtu docker
-        bash wgmtu qb
+        curl -fsSLo- get.docker.com | /bin/sh
+        qbittorrent_install
         ;;
         8)
         docker logs  --tail=100 autopt | grep -e 种子 -e 磁盘
