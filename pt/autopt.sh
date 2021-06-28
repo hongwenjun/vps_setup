@@ -132,6 +132,7 @@ system_def(){
 
 install(){
   docker run -d  --name  autopt  \
+    --net=host \
     -v  /root/goseeder.conf:/goseeder.conf  \
     hongwenjun/autopt
 
