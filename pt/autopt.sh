@@ -211,7 +211,9 @@ start_menu(){
         docker  exec  -it autopt  gostat
         ;;
         7)
-        curl -fsSLo- get.docker.com | /bin/sh
+        ##  支持国内Docker安装，使用阿里云
+        wget get.docker.com -O get.docker.sh
+        bash  get.docker.sh  --mirror Aliyun
         qbittorrent_install
         ;;
         8)
