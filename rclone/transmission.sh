@@ -29,7 +29,7 @@ fi
 
 
 # 程序安装
-apt update && apt -y install transmission transmission-daemon git 
+apt update -y && apt -y install transmission transmission-daemon git 
 
 # 停止服务
 systemctl stop  transmission-daemon
@@ -125,8 +125,6 @@ git clone https://github.com/ronggang/transmission-web-control.git
 cp -r transmission-web-control/src/*   $TransmissionWeb
 rm transmission-web-control -rf
 
-# 安装流量统计
-bash <(curl -L -s https://git.io/fxxlb) setup
 
 # 浏览器中输入网址管理
 echo -e    http://$(curl -4 ip.sb):9091
