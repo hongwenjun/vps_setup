@@ -222,10 +222,12 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 </details>
 
 ---
-### 群晖NAS部署自动PT工具 感谢大神TaterLi  [在线阅读](https://www.262235.xyz/index.php/archives/119/)
-### 一键 WordPress 博客安装脚本，同时也是 LNMP 套件 [在线阅读](https://www.262235.xyz/index.php/archives/124/)
-### 宇宙第一大站 IPT 刷上传，守株待兔也能活 [在线阅读](https://www.262235.xyz/index.php/archives/86/)
-### Typecho 自用博客笔记安装 [上篇](https://www.262235.xyz/index.php/archives/61/)  [下篇:Typecho-theme-DUX 主题安装](https://www.262235.xyz/index.php/archives/74/)
+### 公益中小学教学视频 - 免费观看  [在线阅读](https://262235.xyz/index.php/archives/216/)
+### 旧手机烂手机不要换锈钢脸盆，安装Linux Deploy做移动服务器  [在线阅读](https://262235.xyz/index.php/archives/193/)
+### 群晖NAS部署自动PT工具 感谢大神TaterLi  [在线阅读](https://262235.xyz/index.php/archives/119/)
+### 一键 WordPress 博客安装脚本，同时也是 LNMP 套件 [在线阅读](https://262235.xyz/index.php/archives/124/)
+### 宇宙第一大站 IPT 刷上传，守株待兔也能活 [在线阅读](https://262235.xyz/index.php/archives/86/)
+### Typecho 自用博客笔记安装 [上篇](https://262235.xyz/index.php/archives/61/)  [下篇:Typecho-theme-DUX 主题安装](https://262235.xyz/index.php/archives/74/)
 ### Oracle VM VirtualBox  安装虚拟机 Debian 10  挖坑填坑笔记 [在线阅读](https://github.com/hongwenjun/vps_setup/tree/remove/debian)
 ### Arch Linux 安装简易版 For VirtualBox 安装虚拟机 填坑笔记 [在线阅读](https://github.com/hongwenjun/vps_setup/blob/remove/Arch/README.md)
 ### 黑五变态机有救，可以用NFS挂载一个僚机 [在线阅读](https://github.com/hongwenjun/vps_setup/blob/remove/debian/nfsdir.md)
