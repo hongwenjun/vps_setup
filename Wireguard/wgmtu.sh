@@ -165,6 +165,7 @@ ss_kcp_udp2raw_wg_speed(){
 get_tools_conf(){
     apt install -y htop tmux curl wget vim psmisc bash-completion  ca-certificates locales
  #  yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
+    cd ~
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
     wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
@@ -218,7 +219,6 @@ EOF
 }
 
 ipinfo(){
-
     echo_GreenBG ":: 统计自己电信服务商IP动态变化 ::"
     echo -e "${Green}"
 # 应用: 统计自己电信服务商IP动态变化
