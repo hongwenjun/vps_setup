@@ -32,8 +32,8 @@ printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' > /etc/apt/pref
 # 更新一下软件包源
 apt update
 
-# 开始安装 WireGuard ，和辅助库 resolvconf
-apt install wireguard resolvconf -y
+# 开始安装 WireGuard ，和辅助库 resolvconf  Debian 11默认没装 iptables
+apt install wireguard resolvconf  iptables -y
 
 # 验证是否安装成功
 modprobe wireguard && lsmod | grep wireguard
