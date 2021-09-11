@@ -222,6 +222,7 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 </details>
 
 ---
+### Xshell 7 操作 Docker Python3 学习编程 [在线阅读](https://www.262235.xyz/index.php/archives/431/)
 ### Linux Command 命令大全 [命令列表 离线包](https://262235.xyz/index.php/archives/313/)
 ### 公益中小学教学视频 - 免费观看  [在线阅读](https://262235.xyz/index.php/archives/216/)
 ### 旧手机烂手机不要换锈钢脸盆，安装Linux Deploy做移动服务器  [在线阅读](https://262235.xyz/index.php/archives/193/)
