@@ -84,7 +84,7 @@ ipv6_QRcode(){
 
 get_serverip(){
     if [ ! -e '/var/ip_addr' ]; then
-       echo -n $(curl -4 ip.sb) > /var/ip_addr
+       echo -n $(curl -s https://262235.xyz/ip/) > /var/ip_addr
     fi
     serverip=$(cat /var/ip_addr)
     ipv6_range="fd08:620c:4df0:65eb::"
@@ -255,7 +255,7 @@ docker_qb(){
     -d linuxserver/qbittorrent
 
     #  浏览器中输入网址管理
-    echo -e    http://$(curl -4 ip.sb):8080
+    echo -e http://$(curl -s https://262235.xyz/ip/):8080
     echo -e "${GreenBG}:: qbittorrent 网页管理地址和密码   ${Yellow}"
     echo -e "${SkyBlue}:: 默认用户名  ${RedBG} admin ${SkyBlue} 密码  ${RedBG} adminadmin ${Font} "
     echo -e ":: 请登陆配置Peer端口(59902)和密码, 重启命令: ${GreenBG} docker restart qbittorrent ${Font}"
@@ -290,7 +290,26 @@ portainer_install(){
 
     #  浏览器中输入网址管理
     echo -e "${GreenBG}:: Docker可视化界面Portainer 管理地址  ${Yellow}"
-    echo -e  http://$(cat /var/ip_addr):9000
+    echo -e  http://$(curl -s https://262235.xyz/ip/):9000
+}
+
+# 部署 nginx-php 和 php 相册
+photo_install(){
+	downloads=/mnt/downloads
+
+	docker run -d -p 80:80 -p 443:443  \
+	    --cpus 0.6   --restart=always   \
+	    -v ${downloads}:/var/www/html  \
+	    --name  nginx-php      \
+	    hongwenjun/nginx-php
+
+	cd  ${downloads}
+	wget https://github.com/hongwenjun/srgb/raw/master/files.photo.gallery/index.php
+	mkdir -p _files
+	chown -R www-data:www-data  _files
+	chmod 0777 _files/
+	echo -e "${GreenBG}:: 部署nginx-php和php相册,挂载目录: ${SkyBlue} ${downloads} ${Font}"
+	echo -e  http://$(curl -s https://262235.xyz/ip/)
 }
 
 # 定义文字颜色
@@ -579,8 +598,8 @@ start_menu(){
     echo
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
-    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
-    echo_SkyBlue                      "                    [ tcping| autopt | portainer | lnmp ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en |yabs] "
+    echo_SkyBlue                      "                    [ tcping|autopt|portainer|photo|lnmp] "
     echo
     read -p "请输入数字(1-8):" num
     case "$num" in
@@ -635,6 +654,9 @@ start_menu(){
         ;;
         portainer)
         portainer_install
+        ;;
+        photo)
+        photo_install
         ;;
         tcping)
         tcping_install
@@ -703,14 +725,13 @@ start_menu(){
 wgmtu_help(){
     echo_SkyBlue  "Usage: ${GreenBG} bash wgmtu ${SkyBlue} [ setup | remove | vps | bench | -U ] "
     echo_SkyBlue                      "                    [ v2ray | vnstat | log | trace | -h ] "
-    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en|yabs ] "
-    echo_SkyBlue                      "                    [ tcping| autopt | portainer | lnmp ] "
+    echo_SkyBlue                      "                    [ tr|qb | docker |rclone|ip|en |yabs] "
+    echo_SkyBlue                      "                    [ tcping|autopt|portainer|photo|lnmp] "
     echo
     echo_Yellow "[setup 惊喜 | remove 卸载 | vps 脚本 | bench 基准测试 | -U 更新]"
     echo_Yellow "[v2ray 你懂 | vnstat 流量 | log 信息 | trace 网络回程 | -h 帮助]"
     echo_Yellow "[tr|qb PT下载 | docker 容器安装 | rclone G D网盘 | yabs    测试]"
-    echo_Yellow "[tcping 工具  | autopt 自动PT   | portainer 管理 | lnmp  wp博客]"
-
+    echo_Yellow "[tcping工具|autopt 自动PT|portainer 管理|photo相册 |lnmp wp博客]"
 }
 
 # WireGuard 管理命令 bash wgmtu 命令行参数
@@ -761,6 +782,9 @@ if [[ $# > 0 ]]; then
         ;;
         portainer)
         portainer_install
+        ;;
+        photo)
+        photo_install
         ;;
         tcping)
         tcping_install
