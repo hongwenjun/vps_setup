@@ -41,5 +41,6 @@ def info():
     print( Green   + ':: Function:  cls()  ls()  cd(path)  cat(file)  pwd()  bash()  info() ')
     pwd()
 
+cls()
 info()
 
