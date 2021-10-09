@@ -161,14 +161,21 @@ ss_kcp_udp2raw_wg_speed(){
     rm ~/ss_wg_set_raw
 }
 
-# 常用工具和配置
+# 常用工具和配置   IP中国地区识别判断
 get_tools_conf(){
-    apt install -y htop tmux curl wget vim psmisc bash-completion  ca-certificates locales
+    apt install -y htop tmux curl wget vim psmisc bash-completion  ca-certificates locales locate
  #  yum install -y vim htop tmux screen iperf3  >/dev/null 2>&1
-    cd ~
+    cd ~   
+    china=$(curl -s https://262235.xyz/ip/$(curl -s https://262235.xyz/ip/) | grep 中国)
+  if [[ ! -z "${china}" ]]; then
+    wget -O .vimrc      --no-check-certificate https://262235.xyz/_vimrc
+    wget -O .bashrc     --no-check-certificate https://262235.xyz/_bashrc
+    wget -O .tmux.conf  --no-check-certificate https://262235.xyz/_tmux.conf
+  else
     wget -O .vimrc      --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_vimrc
     wget -O .bashrc     --no-check-certificate https://raw.githubusercontent.com/hongwenjun/srgb/master/vim/_bashrc
     wget -O .tmux.conf  --no-check-certificate https://raw.githubusercontent.com/hongwenjun/tmux_for_windows/master/.tmux.conf
+  fi
 }
 
 # 慎用 authorized_keys
