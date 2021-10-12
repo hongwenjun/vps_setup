@@ -1,0 +1,11 @@
+# 进入引导目录或者分区
+cd /boot
+
+# 下载 netboot.xyz 内核到 /boot 目录
+wget https://boot.netboot.xyz/ipxe/netboot.xyz.lkrn
+
+# 替换 netboot 引导
+sed -i s/'initrd	\/boot\/initrd.img/linux16 \'/'boot\/netboot.xyz.lkrn #'/g  /boot/grub/grub.cfg
+
+# 重启
+reboot
