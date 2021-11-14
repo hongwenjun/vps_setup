@@ -1,21 +1,17 @@
 #-*- coding: UTF-8 -*- 
-
 import sys, os, readline
 
 # define Color
-Green = '\033[32m'
-Red = '\033[31m'
-GreenBG = '\033[42;37m'
-RedBG = '\033[41;37m'
-Yellow = '\033[0;33m'
-SkyBlue = '\033[0;36m'
-Font = '\033[0m'
+Green = '\033[32m'; Red = '\033[31m'
+GreenBG = '\033[42;37m'; RedBG = '\033[41;37m'
+Yellow = '\033[0;33m'; SkyBlue = '\033[0;36m'; Font = '\033[0m'
 
 sys.ps1 = Red + '>' + Yellow + '>' + SkyBlue + '> ' + Font
 sys.ps2 = SkyBlue + '... ' + Font
 
 def cls():
-    print('\x1bc')
+    # print('\x1bc')
+    os.system('clear')
 
 def pwd():
     print( SkyBlue + os.getcwd(), end = ' ')
@@ -46,4 +42,4 @@ def info():
     print( Green   + ':: Function:  cls()  ls()  cd(path)  cat(file)  pwd()  bash()  info()  history()')
     pwd()
 
-info()
+info(); c = cls; h = history
