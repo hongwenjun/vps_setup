@@ -1,29 +1,30 @@
 #-*- coding: UTF-8 -*- 
 import sys, os, readline
-
-# define Color
-Green = '\033[32m'; Red = '\033[31m'
-GreenBG = '\033[42;37m'; RedBG = '\033[41;37m'
+# Windows Usage:  python -m pip install pyreadline
+# https://git.io/me.py              # define Color 
+Green = '\033[32m'; Red = '\033[31m'; GreenBG = '\033[42;37m'; RedBG = '\033[41;37m'
 Yellow = '\033[0;33m'; SkyBlue = '\033[0;36m'; Font = '\033[0m'
-
 sys.ps1 = Red + '>' + Yellow + '>' + SkyBlue + '> ' + Font
 sys.ps2 = SkyBlue + '... ' + Font
 
+if (os.sep != '/'):   # Is Not Linux
+    Green = Red = GreenBG = RedBG = Yellow = SkyBlue = Font = ''
+
 def cls():
-    # print('\x1bc')
-    os.system('clear')
+    if (os.sep == '/'): os.system('clear')
+    else: os.system('cls')
 
 def pwd():
     print( SkyBlue + os.getcwd(), end = ' ')
 
 def ls():
     cur_path = os.getcwd()
-    os.system('ls -l ' + cur_path)
+    if (os.sep == '/'): os.system('ls -l ' + cur_path)
+    else: os.system('dir ' + cur_path)
     pwd()
 
 def cd(path = '.'):
-    os.chdir(path)
-    pwd()
+    os.chdir(path); pwd()
 
 def cat(file = 'me.py'):
     with open(file, 'r') as f:
