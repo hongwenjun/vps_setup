@@ -1,9 +1,13 @@
 #-*- coding: UTF-8 -*- 
 import sys, os, readline
+
+# https://git.io/me.py
 # Windows Usage:  python -m pip install pyreadline
-# https://git.io/me.py              # define Color 
+
+# define Color 
 Green = '\033[32m'; Red = '\033[31m'; GreenBG = '\033[42;37m'; RedBG = '\033[41;37m'
 Yellow = '\033[0;33m'; SkyBlue = '\033[0;36m'; Font = '\033[0m'
+
 sys.ps1 = Red + '>' + Yellow + '>' + SkyBlue + '> ' + Font
 sys.ps2 = SkyBlue + '... ' + Font
 
@@ -43,4 +47,4 @@ def info():
     print( Green   + ':: Function:  cls()  ls()  cd(path)  cat(file)  pwd()  bash()  info()  history()')
     pwd()
 
-info(); c = cls; h = history
+cls(); info(); c = cls; h = history
