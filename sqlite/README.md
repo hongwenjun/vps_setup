@@ -142,6 +142,15 @@ conn.close()
 f.close()
 ```
 
+---------------------
+## 更多文章:
+### Python使用SQLite数据库，建立增加和删除数据实现，调用数据生成实用的Shell脚本
+### https://262235.xyz/index.php/archives/766/
+
+### Python使用MySQL数据库，建立增加和删除数据实现，调用数据生成实用的Shell脚本
+### https://262235.xyz/index.php/archives/769/
+
+
   [1]: https://262235.xyz/usr/uploads/2021/12/564091663.png
   [2]: https://262235.xyz/usr/uploads/2021/12/230470055.png
   [3]: https://262235.xyz/usr/uploads/2021/12/890574423.png
