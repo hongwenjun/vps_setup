@@ -1,8 +1,9 @@
 import mysql.connector
+import conf
 conn = mysql.connector.connect(
-    host="127.0.0.1",
-    user="user",  passwd="passwd",
-    database="vps2022",  buffered = True  )
+    host=conf.host, user=conf.user,  
+    passwd=conf.passwd, port=conf.port,
+    database="vps2022",  buffered = True)
 c = conn.cursor()
 
 sql = 'SELECT * FROM text ORDER BY name'
@@ -17,6 +18,6 @@ for i in range(len(text)):
   file=text[i][0]
   file_str = text[i][1]
   makefile(file, file_str)
-  print(file, "\t�������!")
+  print(file, "\t保存完成!")
 
 conn.close()

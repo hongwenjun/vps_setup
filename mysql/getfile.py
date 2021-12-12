@@ -1,8 +1,9 @@
 import mysql.connector
+import conf
 conn = mysql.connector.connect(
-    host="127.0.0.1",
-    user="user",  passwd="passwd",
-    database="vps2022",  buffered = True  )
+    host=conf.host, user=conf.user,  
+    passwd=conf.passwd, port=conf.port,
+    database="vps2022",  buffered = True)
 c = conn.cursor()
 
 sql = 'SELECT name FROM text'
@@ -31,3 +32,4 @@ for i in range(len(text)):
     print('FontName:', file, "\t保存完成!")
 
 conn.close()
+
