@@ -1,0 +1,13 @@
+// VS Code settings.json
+{
+
+    "code-runner.executorMap": {
+        "php": "php",
+        "python": "set PYTHONIOENCODING=utf8  && python -u",
+    },
+    "editor.fontFamily": "'Fixedsys Excelsior 3.01',Consolas, 'Courier New', monospace",
+    "editor.fontSize": 16,
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "terminal.integrated.fontFamily": "宋体",
+    "editor.lineHeight": 16
+}
