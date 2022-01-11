@@ -1,9 +1,8 @@
 ![bb.jpg][1]
 
+# 数字货币学习文章 https://262235.xyz/index.php/tag/xmr/
+
 ## 使用Linux虚拟机(或VNC)建立数字货币冷钱包
-### https://262235.xyz/index.php/archives/883/
-
-
 ![11.png][2]
 
     GRUB 菜单 按键 e 编辑菜单
