@@ -1,4 +1,5 @@
 from monero.seed import Seed
+from monero import wordlists
 
 # define Color 
 Green = '\033[32m'; Red = '\033[31m'; GreenBG = '\033[42;37m'; RedBG = '\033[41;37m'
@@ -16,15 +17,40 @@ def display_info():
     print(SkyBlue + s[4] + Font , seed.secret_spend_key())
     print()
 
-info = GreenBG + '是否制作个性Seed种子助记词?(y/n)' + Font
+def fix_seed(s):
+    s = s.replace(' ', '')
+    if len(s) == 64 or len(s) < 1 :
+        return s
+    elif len(s) < 12 or len(s) > 25:
+        print(s, error)
+        exit()
+    elif 13 < len(s) < 23 :
+        print(s, error)
+        exit()
+
+    cn = wordlists.ChineseSimplified()
+    lst = list();  error_flag = ''
+    for c in s:
+        lst.append(c)
+        if c not in cn.word_list :
+            print(c, Red +'Not In Seed字典!' + Font)
+            error_flag = 'error_flag'
+
+    if error_flag == 'error_flag' :
+        exit()
+    s = ' '.join(lst)
+    return s
+
+info = GreenBG + '是否制作个性 Seed 种子汉字助记词?(y/n)' + Font
 info1 = Yellow + '请输入12或24个汉字, 程序帮你计算第13或25个校验汉字! 也可以输入 Seed.Hex 计算 Seed 种子助记词. 直接输入 <Enter> 键将新建随机种子。\n'
-info2 = Red + 'Seed 种子(空格间隔): ' + Font
+info2 = Red + 'Seed 种子(汉字/Hex): ' + Font
+error = Red +'\t错误-检查字数!' + Font
 
 print(info, end = '')
 yes = input()
 if yes == 'y' or yes == 'Y' :
     print(info1 + info2, end = '')
-    XM_XMR = input()
+    XM_XMR = fix_seed(input())
     seed = Seed(XM_XMR, "Chinese (simplified)")
     seed = Seed(seed.hex, "Chinese (simplified)")
 
