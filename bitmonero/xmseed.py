@@ -41,13 +41,13 @@ def fix_seed(s):
     s = ' '.join(lst)
     return s
 
-info = GreenBG + '是否制作个性 Seed 种子汉字助记词?(y/n)' + Font
+info = GreenBG + '本脚本用来给门罗币数字钱包 制作个性 Seed 种子汉字助记词\n' + Font
 info1 = Yellow + '请输入12或24个汉字, 程序帮你计算第13或25个校验汉字! 也可以输入 Seed.Hex 计算 Seed 种子助记词. 直接输入 <Enter> 键将新建随机种子。\n'
 info2 = Red + 'Seed 种子(汉字/Hex): ' + Font
 error = Red +'\t错误-检查字数!' + Font
 
 print(info, end = '')
-yes = input()
+yes = 'y' # yes = input()
 if yes == 'y' or yes == 'Y' :
     print(info1 + info2, end = '')
     XM_XMR = fix_seed(input())

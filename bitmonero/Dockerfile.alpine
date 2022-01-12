@@ -1,4 +1,4 @@
-FROM python:alpine3.15  AS builder
+FROM python:3.6.15-alpine3.15  AS builder
 RUN  sed -i s/#http/http/g  /etc/apk/repositories && \
 	 apk add --no-cache wget unzip bash gcc g++ make python3-dev openssl-dev libffi-dev
 
@@ -12,7 +12,7 @@ RUN  wget -O master.zip  --no-check-certificate  \
 	      | base64 -d >  py-venv.sh  && \
 	 bash py-venv.sh
 ##################################################################
-FROM python:alpine3.15  AS  Release
+FROM python:3.6.15-alpine3.15  AS  Release
 COPY --from=builder  /app  /app
 ADD  ./xmseed.py  /app/xmseed.py
 
@@ -22,13 +22,14 @@ RUN  apk add --no-cache bash  && \
 	    | base64 -d > run.sh  && \
 	 chmod +x  run.sh
 
-RUN  rm  /app/tests -rf  && \
+RUN  find / -depth -name '__pycache__' -type d -exec rm -rf {} \;  && \
+	 rm  /app/tests -rf  && \
 	 rm  /app/.venv/share/python-wheels/* -rf  && \
-	 rm  /app/.venv/lib/python3.10/site-packages/pip*  -rf && \
-	 rm  /app/.venv/lib/python3.10/site-packages/setuptools* -rf && \
-	 rm  /usr/local/include/python3.10  -rf  && \
+	 rm  /app/.venv/lib/python3.6/site-packages/pip*  -rf && \
+	 rm  /app/.venv/lib/python3.6/site-packages/setuptools* -rf && \
+	 rm  /usr/local/include/python3.6  -rf  && \
  	 rm  /usr/share/zoneinfo  /etc/ssl  /tmp -rf  && \
- 	 cd  /usr/local/lib/python3.10/site-packages  && \
+ 	 cd  /usr/local/lib/python3.6/site-packages  && \
 	 rm  pip  setuptools  pkg_resources  -rf
 ##################################################################
 
