@@ -163,7 +163,7 @@ qbittorrent_install(){
     -v /mnt/config:/config \
     -v /mnt/downloads:/downloads \
     --restart unless-stopped \
-    -d linuxserver/qbittorrent
+    -d linuxserver/qbittorrent:4.5.1
 
     #  浏览器中输入网址管理
     echo -e "${GreenBG}:: qBittorrent软件 管理地址  ${Yellow}"
