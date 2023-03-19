@@ -5,7 +5,6 @@
 ## :bell: 我們雖然窮，但是不能說謊，也不能打人；不是我們的東西，我們不能拿；
 ## :100: 要好好讀書，長大要做個對社會有用的人。
 
-- 欢迎加入编程语言群 Telegram 电报群：https://t.me/codeblocks
 - [![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/youtube.png)频道](https://www.youtube.com/sRGB18/videos) &nbsp;&nbsp;www.youtube.com/sRGB18 &nbsp;&nbsp;[![](https://raw.githubusercontent.com/hongwenjun/vps_setup/master/img/paypal.png)赞赏支持!](https://paypal.me/sRGB18)&nbsp;&nbsp;https://paypal.me/sRGB18
 - 推荐新手两个性价比:100:好按时计费VPS: :+1: [vultr.com](https://www.vultr.com/?ref=7425413) :+1: [skysilk.com](https://www.skysilk.com/ref/Xmr9xL1Bnf) 　:+1:按需开启，不用不浪费！
 ----
@@ -31,187 +30,6 @@
   
 /html/body[@class='home  pace-done']/section[@class='container']/div[@class='content-wrap']/div[@class='content']/article[@class='excerpt']/header/h2/a/@href
 ```
-https://262235.xyz/index.php/archives/691/
-https://262235.xyz/index.php/archives/687/
-https://262235.xyz/index.php/archives/681/
-https://262235.xyz/index.php/archives/674/
-https://262235.xyz/index.php/archives/669/
-https://262235.xyz/index.php/archives/664/
-https://262235.xyz/index.php/archives/658/
-https://262235.xyz/index.php/archives/654/
-https://262235.xyz/index.php/archives/652/
-https://262235.xyz/index.php/archives/651/
-https://262235.xyz/index.php/archives/645/
-https://262235.xyz/index.php/archives/643/
-https://262235.xyz/index.php/archives/637/
-https://262235.xyz/index.php/archives/628/
-https://262235.xyz/index.php/archives/625/
-https://262235.xyz/index.php/archives/617/
-https://262235.xyz/index.php/archives/611/
-https://262235.xyz/index.php/archives/603/
-https://262235.xyz/index.php/archives/602/
-https://262235.xyz/index.php/archives/599/
-https://262235.xyz/index.php/archives/596/
-https://262235.xyz/index.php/archives/594/
-https://262235.xyz/index.php/archives/593/
-https://262235.xyz/index.php/archives/589/
-https://262235.xyz/index.php/archives/588/
-https://262235.xyz/index.php/archives/584/
-https://262235.xyz/index.php/archives/578/
-https://262235.xyz/index.php/archives/573/
-https://262235.xyz/index.php/archives/570/
-https://262235.xyz/index.php/archives/568/
-https://262235.xyz/index.php/archives/563/
-https://262235.xyz/index.php/archives/554/
-https://262235.xyz/index.php/archives/550/
-https://262235.xyz/index.php/archives/542/
-https://262235.xyz/index.php/archives/540/
-https://262235.xyz/index.php/archives/537/
-https://262235.xyz/index.php/archives/536/
-https://262235.xyz/index.php/archives/532/
-https://262235.xyz/index.php/archives/528/
-https://262235.xyz/index.php/archives/522/
-https://262235.xyz/index.php/archives/516/
-https://262235.xyz/index.php/archives/513/
-https://262235.xyz/index.php/archives/510/
-https://262235.xyz/index.php/archives/507/
-https://262235.xyz/index.php/archives/504/
-https://262235.xyz/index.php/archives/496/
-https://262235.xyz/index.php/archives/494/
-https://262235.xyz/index.php/archives/486/
-https://262235.xyz/index.php/archives/482/
-https://262235.xyz/index.php/archives/478/
-https://262235.xyz/index.php/archives/473/
-https://262235.xyz/index.php/archives/468/
-https://262235.xyz/index.php/archives/462/
-https://262235.xyz/index.php/archives/460/
-https://262235.xyz/index.php/archives/453/
-https://262235.xyz/index.php/archives/451/
-https://262235.xyz/index.php/archives/448/
-https://262235.xyz/index.php/archives/446/
-https://262235.xyz/index.php/archives/440/
-https://262235.xyz/index.php/archives/438/
-https://262235.xyz/index.php/archives/434/
-https://262235.xyz/index.php/archives/431/
-https://262235.xyz/index.php/archives/425/
-https://262235.xyz/index.php/archives/423/
-https://262235.xyz/index.php/archives/416/
-https://262235.xyz/index.php/archives/415/
-https://262235.xyz/index.php/archives/411/
-https://262235.xyz/index.php/archives/409/
-https://262235.xyz/index.php/archives/408/
-https://262235.xyz/index.php/archives/401/
-https://262235.xyz/index.php/archives/400/
-https://262235.xyz/index.php/archives/397/
-https://262235.xyz/index.php/archives/396/
-https://262235.xyz/index.php/archives/394/
-https://262235.xyz/index.php/archives/391/
-https://262235.xyz/index.php/archives/385/
-https://262235.xyz/index.php/archives/380/
-https://262235.xyz/index.php/archives/375/
-https://262235.xyz/index.php/archives/373/
-https://262235.xyz/index.php/archives/372/
-https://262235.xyz/index.php/archives/371/
-https://262235.xyz/index.php/archives/370/
-https://262235.xyz/index.php/archives/369/
-https://262235.xyz/index.php/archives/366/
-https://262235.xyz/index.php/archives/362/
-https://262235.xyz/index.php/archives/351/
-https://262235.xyz/index.php/archives/342/
-https://262235.xyz/index.php/archives/336/
-https://262235.xyz/index.php/archives/326/
-https://262235.xyz/index.php/archives/321/
-https://262235.xyz/index.php/archives/315/
-https://262235.xyz/index.php/archives/313/
-https://262235.xyz/index.php/archives/311/
-https://262235.xyz/index.php/archives/309/
-https://262235.xyz/index.php/archives/301/
-https://262235.xyz/index.php/archives/299/
-https://262235.xyz/index.php/archives/298/
-https://262235.xyz/index.php/archives/291/
-https://262235.xyz/index.php/archives/287/
-https://262235.xyz/index.php/archives/285/
-https://262235.xyz/index.php/archives/284/
-https://262235.xyz/index.php/archives/280/
-https://262235.xyz/index.php/archives/277/
-https://262235.xyz/index.php/archives/274/
-https://262235.xyz/index.php/archives/273/
-https://262235.xyz/index.php/archives/272/
-https://262235.xyz/index.php/archives/271/
-https://262235.xyz/index.php/archives/262/
-https://262235.xyz/index.php/archives/257/
-https://262235.xyz/index.php/archives/252/
-https://262235.xyz/index.php/archives/250/
-https://262235.xyz/index.php/archives/249/
-https://262235.xyz/index.php/archives/245/
-https://262235.xyz/index.php/archives/243/
-https://262235.xyz/index.php/archives/242/
-https://262235.xyz/index.php/archives/240/
-https://262235.xyz/index.php/archives/237/
-https://262235.xyz/index.php/archives/235/
-https://262235.xyz/index.php/archives/233/
-https://262235.xyz/index.php/archives/231/
-https://262235.xyz/index.php/archives/228/
-https://262235.xyz/index.php/archives/226/
-https://262235.xyz/index.php/archives/220/
-https://262235.xyz/index.php/archives/217/
-https://262235.xyz/index.php/archives/216/
-https://262235.xyz/index.php/archives/214/
-https://262235.xyz/index.php/archives/211/
-https://262235.xyz/index.php/archives/205/
-https://262235.xyz/index.php/archives/203/
-https://262235.xyz/index.php/archives/193/
-https://262235.xyz/index.php/archives/191/
-https://262235.xyz/index.php/archives/187/
-https://262235.xyz/index.php/archives/179/
-https://262235.xyz/index.php/archives/177/
-https://262235.xyz/index.php/archives/164/
-https://262235.xyz/index.php/archives/161/
-https://262235.xyz/index.php/archives/159/
-https://262235.xyz/index.php/archives/155/
-https://262235.xyz/index.php/archives/148/
-https://262235.xyz/index.php/archives/141/
-https://262235.xyz/index.php/archives/135/
-https://262235.xyz/index.php/archives/134/
-https://262235.xyz/index.php/archives/132/
-https://262235.xyz/index.php/archives/130/
-https://262235.xyz/index.php/archives/128/
-https://262235.xyz/index.php/archives/124/
-https://262235.xyz/index.php/archives/119/
-https://262235.xyz/index.php/archives/112/
-https://262235.xyz/index.php/archives/107/
-https://262235.xyz/index.php/archives/104/
-https://262235.xyz/index.php/archives/101/
-https://262235.xyz/index.php/archives/97/
-https://262235.xyz/index.php/archives/93/
-https://262235.xyz/index.php/archives/86/
-https://262235.xyz/index.php/archives/83/
-https://262235.xyz/index.php/archives/74/
-https://262235.xyz/index.php/archives/73/
-https://262235.xyz/index.php/archives/70/
-https://262235.xyz/index.php/archives/61/
-https://262235.xyz/index.php/archives/53/
-https://262235.xyz/index.php/archives/46/
-https://262235.xyz/index.php/archives/44/
-https://262235.xyz/index.php/archives/41/
-https://262235.xyz/index.php/archives/39/
-https://262235.xyz/index.php/archives/37/
-https://262235.xyz/index.php/archives/33/
-https://262235.xyz/index.php/archives/32/
-https://262235.xyz/index.php/archives/28/
-https://262235.xyz/index.php/archives/27/
-https://262235.xyz/index.php/archives/25/
-https://262235.xyz/index.php/archives/23/
-https://262235.xyz/index.php/archives/22/
-https://262235.xyz/index.php/archives/20/
-https://262235.xyz/index.php/archives/18/
-https://262235.xyz/index.php/archives/16/
-https://262235.xyz/index.php/archives/11/
-https://262235.xyz/index.php/archives/8/
-https://262235.xyz/index.php/archives/6/
-https://262235.xyz/index.php/archives/3/
-https://262235.xyz/index.php/archives/1/
-  
 
 ## grep ip 并计数
 ```
@@ -415,6 +233,8 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 </details>
 
 ---
+### Docker 版 RISC-V 交叉编译器和执行 riscv-pke 的环境 [在线阅读](https://262235.xyz/index.php/archives/1250/)
+### Hugo编译 C语言入门教程文档 Html静态网站制作 [在线阅读](https://262235.xyz/index.php/archives/1247/)
 ### Xshell 7 操作 Docker Python3 学习编程 [在线阅读](https://www.262235.xyz/index.php/archives/431/)
 ### Linux Command 命令大全 [命令列表 离线包](https://262235.xyz/index.php/archives/313/)
 ### 公益中小学教学视频 - 免费观看  [在线阅读](https://262235.xyz/index.php/archives/216/)
@@ -434,7 +254,7 @@ ServerAliveCountMax 3  ＃client发出请求后，服务器端没有响应得次
 
 ### Debian 10 Buster 管理员手册  [在线阅读](https://debian-handbook.info/browse/zh-CN/stable/)
 
-- Debian 开发者和 Debian 手册作者 Raphaël Hertzog 宣布面向 Debian 10 的最新版本 Debian 管理员手册已上线。
+- Debian 开发者和 Debian 手册作者 Raphaël Hertzog 宣布面向 Debian 11 的最新版本 Debian 管理员手册已上线。
 
 ---
 
