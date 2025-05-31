@@ -178,12 +178,11 @@ get_tools_conf(){
   fi
 }
 
-# 慎用 authorized_keys
+# 慎用 authorized_keys  # Debian Linux 建立 SSH 证书登录 生成 SSH 密钥对命令  ssh-keygen -t ed25519 -C  lyvba.com
 authorized_keys(){
 mkdir -p ~/.ssh  && cd ~/.ssh
 cat <<EOF >>  authorized_keys
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDm5IXhVxCp317F3X+VEKmLPNiIGigbX4eot3EPIizbHHVURVOEXbxlN5tqQPmFt62qex4GhXmOfcMmLcaDwrkci7A3dPlnjRukYBDK3jQtzjVexTvNqcblTKj2aEpZg5Z8Z5vCOVrOfCdXOngqi/NkItvsid2DLzqi7KTpdFpgZGSwpV2h3E3U0N18uBLQwDj3ag2mUT7X2kx4t4DYbQDWyGt+bbivnTHV0k/BZJPwqnPD2tpyH19lKWvL3fm3gjoMkTtxDzEXHpTmTe95Z1AKzOfY1reEZ+dHAWy0wHmCA1by1XJtagoeTVqa+IS1wfOimwJE/oIofhDjSNjsMk63 root
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDB1yzgEUtS0t5GUW2lVeZpWEn6YDI8x3nIMzjQscIL3Z9QDvyONohC58t6kHQtgj7+/5pQnzaPOz0qFuDolqQOp9D8tiUJIEYHc8PA7WGxRKwS7L2j0ia7FleGAKyhi9tR6TqY4T9Vny9g8VetRBzaMz+WAv8FHYDLfQq+Wcrx1GJgYiiNp0UWEMWrY50K1vub6rtk7xNUhiDGlfEsLxgKTaDUwQ/sEcyu/ZTEIlaaSPLsIuaWKJvIrnicmYIP7jZ3S4k7De/UZo87EXo6PQGhyJCDBYWXPd0Ng7XavXbm8MoRb5+Go9zn04f8oBHuqLJhSyrLFIFhPmEogKvpJ/Xd  vip@cloudshell
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOHnIrfVws0HM6ILIJGMzYeqckqWTxB7/wKiPHhTbhO lyvba.com
 EOF
 }
 
