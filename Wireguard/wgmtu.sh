@@ -410,11 +410,8 @@ udp2raw_update()
     rm version.txt
 
     # 下载 KCPTUN
-    kcp_ver=$(wget --no-check-certificate -qO- https://api.github.com/repos/xtaci/kcptun/releases/latest | grep 'tag_name' | cut -d\" -f4)
-    kcp_gz_ver=${kcp_ver:1:8}
-
-    kcptun_tar_gz=kcptun-linux-amd64-${kcp_gz_ver}.tar.gz
-    wget https://github.com/xtaci/kcptun/releases/download/${kcp_ver}/$kcptun_tar_gz
+    kcptun_tar_gz=kcptun-linux-amd64-20230811.tar.gz
+    wget https://raw.githubusercontent.com/hongwenjun/img/master/bin/$kcptun_tar_gz
     tar xf $kcptun_tar_gz
     mv server_linux_amd64 /usr/bin/kcp-server
     rm $kcptun_tar_gz
